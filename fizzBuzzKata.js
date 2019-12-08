@@ -10,28 +10,28 @@
 // 7
 // etc.
 
-const fizzBuzz = (i) => {
-	let toPrint
-	if(i%3===0){
-			if(i%5===0){
-				toPrint = 'FizzBuzz'
-			}else{
-				toPrint = 'Fizz'
-			}
-		}else{
-			if(i%5===0){
-				toPrint = 'Buzz'
-		}else{
-			toPrint = i
+const toPrintFizzBuzz = (i) => {
+	let toPrintFizzBuzz
+	if (i % 3 === 0) {
+		if (i % 5 === 0) {
+			toPrintFizzBuzz = 'FizzBuzz'
+		} else {
+			toPrintFizzBuzz = 'Fizz'
+		}
+	} else {
+		if (i % 5 === 0) {
+			toPrintFizzBuzz = 'Buzz'
+		} else {
+			toPrintFizzBuzz = i
 		}
 	}
-	return toPrint
+	return toPrintFizzBuzz
 }
 
 const printer = () => {
 	let i = 1
-	while(i<101){
-		let print = fizzBuzz(i)
+	while (i < 101) {
+		let print = toPrintFizzBuzz(i)
 		console.log(print)
 		i++
 	}
@@ -39,10 +39,10 @@ const printer = () => {
 
 const tester = () => {
 	let testT1, testT2, testT3, testT4
-	fizzBuzz(6) === 'Fizz' ?  testT1 = 'Fizz test case Succeded' :  testT1 = 'Fizz test case Failed'
-	fizzBuzz(10) === 'Buzz' ?  testT2 = 'Buzz test case Succeded' :  testT2 = 'Buzz test case Failed'
-	fizzBuzz(30) === 'FizzBuzz' ?  testT3 = 'FizzBuzz test case Succeded' :  testT3 = 'FizzBuzz test case Failed'
-	fizzBuzz(1) === '1' ?  testT4 = 'No mult of 3 nor 5 test case Succeded' :  testT4 = 'No mult of 3 nor 5 test case Failed'
+	toPrintFizzBuzz(6) === 'Fizz' ? testT1 = 'Fizz test case Succeded' : testT1 = 'Fizz test case Failed'
+	toPrintFizzBuzz(10) === 'Buzz' ? testT2 = 'Buzz test case Succeded' : testT2 = 'Buzz test case Failed'
+	toPrintFizzBuzz(30) === 'FizzBuzz' ? testT3 = 'FizzBuzz test case Succeded' : testT3 = 'FizzBuzz test case Failed'
+	toPrintFizzBuzz(1) === 1 ? testT4 = 'No mult of 3 nor 5 test case Succeded' : testT4 = 'No multiple of 3 nor 5 test case Failed'
 	console.log(`Test cases Results: ${testT1} - ${testT2} - ${testT3} - ${testT4}`)
 }
 
