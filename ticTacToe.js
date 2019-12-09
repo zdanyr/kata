@@ -88,22 +88,39 @@ class ticTacToeGame {
 
     takeInput(){
       let input = prompt("Player 1 enter a coord x,y to place your X or enter 'q' to give up:")
-      manageInput(input,"X")
+      this.manageInput(input,"X")
     }
 
-    const manageInput = (input, player) => {
-      let print
+    manageInput (input, player) {
+      let redo = false
       switch (input) {
         case "1,1":
-          validateIfValidImput(this.t1) ? this.t1 = player : print = "Oh no, a piece is already at this place! Try again..."
+          if(this.validateIfValidImput(this.t1)){
+             this.t1 = player
+             this.drawingGame()
+             break;
+          }else{
+            redo = true
+          }
+          case "1,2":
+            if(this.validateIfValidImput(this.t2)){
+               this.t2 = player
+               this.drawingGame()
+               break;
+            }else{
+              redo = true
+            }
 
-          break;
-        default: print = "default"
-
+        default: redo = true
+      }
+      if(redo){
+        console.log(`Oh no, a piece is already at this place! Try again...`)
+        this.takeInput()
       }
     }
 
     validateIfValidImput(input){
+      //todo validate if not a valid entry like a letter
       let isValid
       input != "." ? isValid = false : isValid = true
       return isValid
