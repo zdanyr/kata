@@ -119,10 +119,8 @@ class ticTacToeGame {
       return input.match(regex) ? true : false
     }
 
-    validateIfAlreadyTaken(ti){
-      let isAlreadyTaken
-      ti == "." ? isAlreadyTaken = false : isAlreadyTaken = true
-      return isAlreadyTaken
+    validateIfItIsAvailable(ti){
+      return ti == "." ?  true :  false
     }
 }
 
@@ -141,7 +139,28 @@ const testerValidateIfValidImput = () => {
     ${testT4}`)
 }
 testerValidateIfValidImput()
-
+const mockTicTacToeObject = {
+  t1: ".",
+  t2: "X",
+  t3: "O",
+  t4: ".",
+  t5: ".",
+  t6: ".",
+  t7: ".",
+  t8: ".",
+  t9: "."
+}
+const testerValidateIfItIsAvailable = () => {
+  let testT1, testT2, testT3
+  ticTac.validateIfItIsAvailable(mockTicTacToeObject.t1) ? testT1 = 'is available test case sucedded' : testT1 = 'is available test case Failed'
+  !ticTac.validateIfItIsAvailable(mockTicTacToeObject.t2) ? testT2 = 'is not available x test case sucedded' : testT2 = 'is not available x test case Failed'
+  !ticTac.validateIfItIsAvailable(mockTicTacToeObject.t3) ? testT3 = 'is not available o test case sucedded' : testT3 = 'is not available o test case Failed'
+  console.log(`validateIfAlreadyTaken - Test cases Results:
+      ${testT1}
+      ${testT2}
+      ${testT3}`)
+}
+testerValidateIfItIsAvailable()
 
 
 
