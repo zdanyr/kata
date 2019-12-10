@@ -58,7 +58,7 @@ The system should display appropriate messages for incorrect coordinates and a d
 //input
 //dibujar
 //loop for input
-//validation
+//validation -- done
 //rules
 
 class ticTacToeGame {
@@ -122,9 +122,72 @@ class ticTacToeGame {
     validateIfItIsAvailable(ti){
       return ti == "." ?  true :  false
     }
+
+    rulesConditionsToWin(ticTacToeGame, player){
+     return (this.allInARow(ticTacToeGame, player) || this.allInAColumn(ticTacToeGame, player) || this.allInADiagonal(ticTacToeGame, player)) ? true : false
+    }
+
+    allInARow(ticTacToeGame, player){
+      return ((ticTacToeGame.t1 == player & ticTacToeGame.t2 == player & ticTacToeGame.t3 == player) ||
+         (ticTacToeGame.t4 == player & ticTacToeGame.t5 == player & ticTacToeGame.t6 == player) ||
+         (ticTacToeGame.t7 == player & ticTacToeGame.t8 == player & ticTacToeGame.t9 == player)) ? true : false
+    }
+    allInAColumn(ticTacToeGame, player){
+      return ((ticTacToeGame.t1 == player & ticTacToeGame.t4 == player & ticTacToeGame.t7 == player) ||
+         (ticTacToeGame.t2 == player & ticTacToeGame.t5 == player & ticTacToeGame.t8 == player) ||
+         (ticTacToeGame.t3 == player & ticTacToeGame.t6 == player & ticTacToeGame.t9 == player)) ? true : false
+    }
+    allInADiagonal(ticTacToeGame, player){
+      return ((ticTacToeGame.t1 == player & ticTacToeGame.t5 == player & ticTacToeGame.t9 == player) ||
+         (ticTacToeGame.t3 == player & ticTacToeGame.t5 == player & ticTacToeGame.t7 == player)) ? true : false
+    }
 }
 
 let ticTac = new ticTacToeGame ()
+const mockTicTacToeObject = {
+  t1: ".",
+  t2: "O",
+  t3: "O",
+  t4: "X",
+  t5: "X",
+  t6: "X",
+  t7: ".",
+  t8: ".",
+  t9: "."
+}
+const mockTicTacToeObjectColumn = {
+  t1: "X",
+  t2: "O",
+  t3: "O",
+  t4: "X",
+  t5: ".",
+  t6: "O",
+  t7: "X",
+  t8: ".",
+  t9: "."
+}
+const mockTicTacToeObjectDiagonal = {
+  t1: "X",
+  t2: "O",
+  t3: "O",
+  t4: "X",
+  t5: "X",
+  t6: "O",
+  t7: "X",
+  t8: ".",
+  t9: "X"
+}
+const mockTicTacToeObjectNoWinner = {
+  t1: "X",
+  t2: "O",
+  t3: "O",
+  t4: "X",
+  t5: ".",
+  t6: "O",
+  t7: "O",
+  t8: ".",
+  t9: "X"
+}
 
 const testerValidateIfValidImput = () => {
 	let testT1, testT2, testT3, testT4
@@ -138,18 +201,7 @@ const testerValidateIfValidImput = () => {
     ${testT3}
     ${testT4}`)
 }
-testerValidateIfValidImput()
-const mockTicTacToeObject = {
-  t1: ".",
-  t2: "X",
-  t3: "O",
-  t4: ".",
-  t5: ".",
-  t6: ".",
-  t7: ".",
-  t8: ".",
-  t9: "."
-}
+//testerValidateIfValidImput()
 const testerValidateIfItIsAvailable = () => {
   let testT1, testT2, testT3
   ticTac.validateIfItIsAvailable(mockTicTacToeObject.t1) ? testT1 = 'is available test case sucedded' : testT1 = 'is available test case Failed'
@@ -160,9 +212,46 @@ const testerValidateIfItIsAvailable = () => {
       ${testT2}
       ${testT3}`)
 }
-testerValidateIfItIsAvailable()
-
-
-
+//testerValidateIfItIsAvailable()
+const testerAllInARow = (ticTacToeObject,player) => {
+  let testT1, testT2
+	ticTac.allInARow(ticTacToeObject,player) ? testT1 = 'X second row test case Sucedded' : testT1 = 'X second row test case Failed'
+	ticTac.allInARow(mockTicTacToeObjectDiagonal,player) ? testT2 = 'no row winner test case Failed' : testT2 = 'no row winner test case Sucedded'
+console.log(`testerAllInARow - Test cases Results:
+  ${testT1}
+  ${testT2}`)
+}
+//testerAllInARow(mockTicTacToeObject,"X")
+const testerAllInAColumn = (ticTacToeObject,player) => {
+  let testT1, testT2
+	ticTac.allInAColumn(mockTicTacToeObjectColumn,player) ? testT1 = 'column test case Sucedded' : testT1 = 'column test case Failed'
+	ticTac.allInAColumn(mockTicTacToeObject,player) ? testT2 = 'no column winner test case Failed' : testT2 = 'no column winner test case Succeded'
+console.log(`testerAllInAColumn - Test cases Results:
+  ${testT1}
+  ${testT2}`)
+}
+//testerAllInAColumn(mockTicTacToeObjectColumn,"X")
+const testerAllInADiagonal = (ticTacToeObject,player) => {
+  let testT1, testT2
+	ticTac.allInADiagonal(mockTicTacToeObjectDiagonal,player) ? testT1 = 'diagonal test case Sucedded' : testT1 = 'diagonal test case Failed'
+	ticTac.allInADiagonal(mockTicTacToeObject,player) ? testT2 = 'no diagonal winner test case Failed' : testT2 = 'no diagonal winner test case Succeded'
+console.log(`testerAllInADiagonal - Test cases Results:
+  ${testT1}
+  ${testT2}`)
+}
+//testerAllInADiagonal(mockTicTacToeObjectDiagonal,"X")
+const testerRulesConditionsToWin = (ticTacToeGame, player) => {
+  let testT1, testT2, testT3, testT4
+  ticTac.rulesConditionsToWin(mockTicTacToeObject,player) ? testT1 = 'row test case Sucedded' : testT1 = 'row test case Failed'
+  ticTac.rulesConditionsToWin(mockTicTacToeObjectColumn,player) ? testT2 = 'column test case Sucedded' : testT2 = 'column test case test case Succeded'
+  ticTac.rulesConditionsToWin(mockTicTacToeObjectDiagonal,player) ? testT3 = 'digagonal test case Sucedded' : testT3 = 'digagonal test case Failed'
+  ticTac.rulesConditionsToWin(mockTicTacToeObjectNoWinner,player) ? testT4 = 'no winner test case Failed' : testT4 = 'no winner test case Succeded'
+console.log(`testerRulesConditionsToWin - Test cases Results:
+  ${testT1}
+  ${testT2}
+  ${testT3}
+  ${testT4}`)
+}
+//testerRulesConditionsToWin(mockTicTacToeObject,"X")
 //ticTac.drawingGame()
 //ticTac.takeInput()
