@@ -93,38 +93,30 @@ class ticTacToeGame {
 
     manageInput (input, player) {
       let redo = false
-      switch (input) {
-        case "1,1":
-          if(this.validateIfValidImput(this.t1)){
-             this.t1 = player
-             this.drawingGame()
-             break;
-          }else{
-            redo = true
-          }
-          case "1,2":
-
-            if(this.validateIfAlreadyTaken(this.t2)){
-               this.t2 = player
+      if (validateIfValidImput(input)){
+        switch (input) {
+          case "1,1":
+            if(this.validateIfAlreadyTaken(this.t1)){
+               this.t1 = player
                this.drawingGame()
                break;
             }else{
               redo = true
             }
-
-        default: redo = true
+          default: redo = true
+        }
+        if(redo){
+          console.log(`Oh no, a piece is already at this place! Try again...`)
+          this.takeInput()
+        }
+      }else{
+        console.log(`invalid input format. Try again.`)
       }
-      if(redo){
-        console.log(`Oh no, a piece is already at this place! Try again...`)
-        this.takeInput()
       }
-    }
 
     validateIfValidImput(input){
-      let regex = ^[1-8](,[1-8])+$
-      let isValidInput
-      input.match(regex) ? isValidInput = true : isValidInput = false
-      return isValidInput
+      let regex = new RegExp('^[1-8](,[1-8])+$')
+      return input.match(regex) ? true : false
     }
 
     validateIfAlreadyTaken(ti){
@@ -135,5 +127,23 @@ class ticTacToeGame {
 }
 
 let ticTac = new ticTacToeGame ()
-ticTac.drawingGame()
-ticTac.takeInput()
+
+const testerValidateIfValidImput = () => {
+	let testT1, testT2, testT3, testT4
+	ticTac.validateIfValidImput("1,2") ? testT1 = '(1,2) test case sucedded' : testT1 = '1,2 test case Failed'
+	!ticTac.validateIfValidImput("1") ? testT2 = '(1) test case Succeded' : testT2 = '1 test case Failed'
+	!ticTac.validateIfValidImput("a") ? testT3 = '(a) test case Succeded' : testT3 = 'a test case Failed'
+	!ticTac.validateIfValidImput("1 2") ? testT4 = '(1 2) test case Succeded' : testT4 = '1 2 test case Failed'
+	console.log(`testerValidateIfValidImput - Test cases Results:
+    ${testT1}
+    ${testT2}
+    ${testT3}
+    ${testT4}`)
+}
+testerValidateIfValidImput()
+
+
+
+
+//ticTac.drawingGame()
+//ticTac.takeInput()
