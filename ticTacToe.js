@@ -103,7 +103,8 @@ class ticTacToeGame {
             redo = true
           }
           case "1,2":
-            if(this.validateIfValidImput(this.t2)){
+
+            if(this.validateIfAlreadyTaken(this.t2)){
                this.t2 = player
                this.drawingGame()
                break;
@@ -120,10 +121,16 @@ class ticTacToeGame {
     }
 
     validateIfValidImput(input){
-      //todo validate if not a valid entry like a letter
-      let isValid
-      input != "." ? isValid = false : isValid = true
-      return isValid
+      let regex = ^[1-8](,[1-8])+$
+      let isValidInput
+      input.match(regex) ? isValidInput = true : isValidInput = false
+      return isValidInput
+    }
+
+    validateIfAlreadyTaken(ti){
+      let isAlreadyTaken
+      ti == "." ? isAlreadyTaken = false : isAlreadyTaken = true
+      return isAlreadyTaken
     }
 }
 
