@@ -143,19 +143,20 @@ class ticTacToeGame {
          (ticTacToeGame.t3 == player & ticTacToeGame.t5 == player & ticTacToeGame.t7 == player)) ? true : false
     }
 
-    rulesConditionsToDraw(ticTacToeGame, player){
-      //The game is drawn when all fields are taken on the board.
-
+    isGameFinished(ticTacToeGame){
       let ticTacToeGameAsArray = Object.values(ticTacToeGame)
       let print = (ticTacToeGameAsArray.find(this.isNotTaken))
-      if(print) { printThis = true }else{ printThis=false}
-
+      let gameFinished
+      print ? gameFinished = false : gameFinished = true
+      return gameFinished
     }
 
     isNotTaken(a) {
       return (a === ".") ? true:false
     }
-
+    rulesConditionsToDraw(ticTacToeGame, player){
+      //The game is drawn when all fields are taken on the board.
+    }
 
     // isCherries(fruit) {
     //   return fruit.name === 'cherries';
@@ -170,7 +171,7 @@ let ticTac = new ticTacToeGame ()
 const mockTicTacToeObject = {
   t1: ".",
   t2: "O",
-  t3: "O",
+  t3: ".",
   t4: "X",
   t5: "X",
   t6: "X",
@@ -200,15 +201,15 @@ const mockTicTacToeObjectDiagonal = {
   t8: ".",
   t9: "X"
 }
-const mockTicTacToeObjectNoWinner = {
+const mockTicTacToeObjectNoWinnerDraw = {
   t1: "X",
   t2: "O",
   t3: "O",
   t4: "X",
-  t5: ".",
+  t5: "O",
   t6: "O",
   t7: "O",
-  t8: ".",
+  t8: "X",
   t9: "X"
 }
 
@@ -268,7 +269,7 @@ const testerRulesConditionsToWin = (ticTacToeGame, player) => {
   ticTac.rulesConditionsToWin(mockTicTacToeObject,player) ? testT1 = 'row test case Sucedded' : testT1 = 'row test case Failed'
   ticTac.rulesConditionsToWin(mockTicTacToeObjectColumn,player) ? testT2 = 'column test case Sucedded' : testT2 = 'column test case test case Succeded'
   ticTac.rulesConditionsToWin(mockTicTacToeObjectDiagonal,player) ? testT3 = 'digagonal test case Sucedded' : testT3 = 'digagonal test case Failed'
-  ticTac.rulesConditionsToWin(mockTicTacToeObjectNoWinner,player) ? testT4 = 'no winner test case Failed' : testT4 = 'no winner test case Succeded'
+  ticTac.rulesConditionsToWin(mockTicTacToeObjectNoWinnerDraw,player) ? testT4 = 'no winner test case Failed' : testT4 = 'no winner test case Succeded'
 console.log(`testerRulesConditionsToWin - Test cases Results:
   ${testT1}
   ${testT2}
@@ -276,15 +277,15 @@ console.log(`testerRulesConditionsToWin - Test cases Results:
   ${testT4}`)
 }
 //testerRulesConditionsToWin(mockTicTacToeObject,"X")
-const testerRulesConditionsToDraw = (ticTacToeGame, player) => {
+const testerIsGameFinished = (ticTacToeGame, player) => {
   let testT1, testT2
-  ticTac.rulesConditionsToDraw(mockTicTacToeObject,player) ? testT1 = 'true' : testT1 = 'false'
-  //ticTac.rulesConditionsToDraw(mockTicTacToeObjectColumn,player) //? testT2 = 'column test case Sucedded' : testT2 = 'column test case test case Succeded'
-// console.log(`testerRulesConditionsToDraw - Test cases Results:
-//    ${testT1}`)
-//   ${testT2}`)
+  ticTac.isGameFinished(mockTicTacToeObjectNoWinnerDraw) ? testT1 = 'game finished test case Sucedded' : testT1 = 'game finished test case test case Failed'
+  ticTac.isGameFinished(mockTicTacToeObjectColumn) ? testT2 = 'game not finished test case Failed' : testT2 = 'game not finished test case test case Sucedded'
+  console.log(`testertesterisGameFinished - Test cases Results:
+   ${testT1}
+   ${testT2}`)
 }
-testerRulesConditionsToDraw(mockTicTacToeObject,"X")
+testerIsGameFinished(mockTicTacToeObject)
 
 //ticTac.drawingGame()
 //ticTac.takeInput()
