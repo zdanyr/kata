@@ -59,7 +59,8 @@ The system should display appropriate messages for incorrect coordinates and a d
 //dibujar
 //loop for input
 //validation -- done
-//rules
+//rules to win -- done
+//rules to draw
 
 class ticTacToeGame {
     constructor(){
@@ -141,7 +142,29 @@ class ticTacToeGame {
       return ((ticTacToeGame.t1 == player & ticTacToeGame.t5 == player & ticTacToeGame.t9 == player) ||
          (ticTacToeGame.t3 == player & ticTacToeGame.t5 == player & ticTacToeGame.t7 == player)) ? true : false
     }
+
+    rulesConditionsToDraw(ticTacToeGame, player){
+      //The game is drawn when all fields are taken on the board.
+
+      let ticTacToeGameAsArray = Object.values(ticTacToeGame)
+      let print = (ticTacToeGameAsArray.find(this.isNotTaken))
+      if(print) { printThis = true }else{ printThis=false}
+
+    }
+
+    isNotTaken(a) {
+      return (a === ".") ? true:false
+    }
+
+
+    // isCherries(fruit) {
+    //   return fruit.name === 'cherries';
+    // }
+    // inventory.find(isCherries)
+
+
 }
+
 
 let ticTac = new ticTacToeGame ()
 const mockTicTacToeObject = {
@@ -253,5 +276,15 @@ console.log(`testerRulesConditionsToWin - Test cases Results:
   ${testT4}`)
 }
 //testerRulesConditionsToWin(mockTicTacToeObject,"X")
+const testerRulesConditionsToDraw = (ticTacToeGame, player) => {
+  let testT1, testT2
+  ticTac.rulesConditionsToDraw(mockTicTacToeObject,player) ? testT1 = 'true' : testT1 = 'false'
+  //ticTac.rulesConditionsToDraw(mockTicTacToeObjectColumn,player) //? testT2 = 'column test case Sucedded' : testT2 = 'column test case test case Succeded'
+// console.log(`testerRulesConditionsToDraw - Test cases Results:
+//    ${testT1}`)
+//   ${testT2}`)
+}
+testerRulesConditionsToDraw(mockTicTacToeObject,"X")
+
 //ticTac.drawingGame()
 //ticTac.takeInput()
