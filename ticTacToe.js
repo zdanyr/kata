@@ -145,10 +145,13 @@ class ticTacToeGame {
 
     isGameFinished(ticTacToeGame){
       let ticTacToeGameAsArray = Object.values(ticTacToeGame)
-      let print = (ticTacToeGameAsArray.find(this.isNotTaken))
-      let gameFinished
-      print ? gameFinished = false : gameFinished = true
-      return gameFinished
+      // let print = (ticTacToeGameAsArray.find(this.isNotTaken))
+      // let gameFinished
+      // print ? gameFinished = false : gameFinished = true
+      // return gameFinished
+      //let gameFinished
+      return !(ticTacToeGameAsArray.find(this.isNotTaken)) //? gameFinished = false : gameFinished = true
+    //  return gameFinished
     }
 
     isNotTaken(a) {
