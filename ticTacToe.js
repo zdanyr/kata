@@ -60,7 +60,7 @@ The system should display appropriate messages for incorrect coordinates and a d
 //loop for input
 //validation -- done
 //rules to win -- done
-//rules to draw
+//rules to draw -- done
 
 class ticTacToeGame {
     constructor(){
@@ -117,7 +117,7 @@ class ticTacToeGame {
 
     validateIfValidImput(input){
       let regex = new RegExp('^[1-8](,[1-8])+$')
-      return input.match(regex) ? true : false
+      return input.match(regex)
     }
 
     validateIfItIsAvailable(ti){
@@ -151,7 +151,7 @@ class ticTacToeGame {
     isNotTaken(a) {
       return (a === ".") ? true : false
     }
-    
+
     rulesConditionsToDraw(ticTacToeGame, player){
        return (this.isGameFinished(ticTacToeGame) & !this.rulesConditionsToWin(ticTacToeGame,player))
     }
@@ -239,7 +239,7 @@ const testerValidateIfValidImput = () => {
     ${testT3}
     ${testT4}`)
 }
-//testerValidateIfValidImput()
+testerValidateIfValidImput()
 const testerValidateIfItIsAvailable = () => {
   let testT1, testT2, testT3
   ticTac.validateIfItIsAvailable(mockTicTacToeObject.t1) ? testT1 = 'is available test case sucedded' : testT1 = 'is available test case Failed'
@@ -312,6 +312,6 @@ const testerRulesConditionsToDraw = (ticTacToeGame, player) => {
    ${testT3}
    ${testT4}`)
 }
-testerRulesConditionsToDraw(mockTicTacToeObject)
+//testerRulesConditionsToDraw(mockTicTacToeObject)
 //ticTac.drawingGame()
 //ticTac.takeInput()
