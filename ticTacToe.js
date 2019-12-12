@@ -75,29 +75,28 @@ class ticTacToeGame {
          this.t9 = "."
     }
 
-    drawingGame(){
-        console.log(
-            `
-            Welcome to Tic Tac Toe!
-            Here's the current board:
-            ${this.t1} ${this.t2} ${this.t3}
-            ${this.t4} ${this.t5} ${this.t6}
-            ${this.t7} ${this.t8} ${this.t9}
-            `
-        )
-    }
+    takeInput(player){
+      let message = "Enter a coord x,y to place your X or enter 'q' to give up:"
+      let input = prompt(message)
+        if (this.validateIfValidImput(input)){
 
-    takeInput(){
-      let input = prompt("Player 1 enter a coord x,y to place your X or enter 'q' to give up:")
-      this.manageInput(input,"X")
+            //this.manageInput(input,player)
+        } else if (input === "q") {
+          console.log("Game terminated. Thank you for playing :)")
+        } else {
+          console.log(`
+            Invalid input format. Please try again.
+            ${message}`)
+          this.takeInput(player)
+        }
     }
 
     manageInput (input, player) {
       let redo = false
-      if (validateIfValidImput(input)){
+
         switch (input) {
           case "1,1":
-            if(this.validateIfAlreadyTaken(this.t1)){
+            if(this.validateIfItIsAvailable(this.t1)){
                this.t1 = player
                this.drawingGame()
                break;
@@ -110,9 +109,19 @@ class ticTacToeGame {
           console.log(`Oh no, a piece is already at this place! Try again...`)
           this.takeInput()
         }
-      }else{
-        console.log(`invalid input format. Try again.`)
+
       }
+
+    drawingGame(){
+          console.log(
+              `
+              Welcome to Tic Tac Toe!
+              Here's the current board:
+              ${this.t1} ${this.t2} ${this.t3}
+              ${this.t4} ${this.t5} ${this.t6}
+              ${this.t7} ${this.t8} ${this.t9}
+              `
+          )
       }
 
     validateIfValidImput(input){
@@ -121,7 +130,7 @@ class ticTacToeGame {
     }
 
     validateIfItIsAvailable(ti){
-      return ti === "."
+      return !(ti === ".")
     }
 
     rulesConditionsToWin(ticTacToeGame, player){
@@ -158,8 +167,10 @@ class ticTacToeGame {
 
 }
 
+let ticTacPlayer1 = new ticTacToeGame ()
+let player1 = "X"
+ticTacPlayer1.takeInput(player1)
 
-let ticTac = new ticTacToeGame ()
 const mockTicTacToeObject = {
   t1: ".",
   t2: "O",
@@ -227,12 +238,13 @@ const mockTicTacToeObjectNoWinnerNoDraw = {
   t9: "X"
 }
 
+let ticTacTester = new ticTacToeGame ()
 const testerValidateIfValidImput = () => {
 	let testT1, testT2, testT3, testT4
-	ticTac.validateIfValidImput("1,2") ? testT1 = '(1,2) test case sucedded' : testT1 = '1,2 test case Failed'
-	!ticTac.validateIfValidImput("1") ? testT2 = '(1) test case Succeded' : testT2 = '1 test case Failed'
-	!ticTac.validateIfValidImput("a") ? testT3 = '(a) test case Succeded' : testT3 = 'a test case Failed'
-	!ticTac.validateIfValidImput("1 2") ? testT4 = '(1 2) test case Succeded' : testT4 = '1 2 test case Failed'
+	ticTacTester.validateIfValidImput("1,2") ? testT1 = '(1,2) test case sucedded' : testT1 = '1,2 test case Failed'
+	!ticTacTester.validateIfValidImput("1") ? testT2 = '(1) test case Succeded' : testT2 = '1 test case Failed'
+	!ticTacTester.validateIfValidImput("a") ? testT3 = '(a) test case Succeded' : testT3 = 'a test case Failed'
+	!ticTacTester.validateIfValidImput("1 2") ? testT4 = '(1 2) test case Succeded' : testT4 = '1 2 test case Failed'
 	console.log(`testerValidateIfValidImput - Test cases Results:
     ${testT1}
     ${testT2}
@@ -242,10 +254,10 @@ const testerValidateIfValidImput = () => {
 //testerValidateIfValidImput()
 const testerValidateIfItIsAvailable = () => {
   let testT1, testT2, testT3
-  ticTac.validateIfItIsAvailable(mockTicTacToeObject.t1) ? testT1 = 'is available test case sucedded' : testT1 = 'is available test case Failed'
-  !ticTac.validateIfItIsAvailable(mockTicTacToeObject.t2) ? testT2 = 'is not available x test case sucedded' : testT2 = 'is not available x test case Failed'
-  !ticTac.validateIfItIsAvailable(mockTicTacToeObject.t3) ? testT3 = 'is not available o test case sucedded' : testT3 = 'is not available o test case Failed'
-  console.log(`validateIfAlreadyTaken - Test cases Results:
+  ticTacTester.validateIfItIsAvailable(mockTicTacToeObject.t1) ? testT1 = 'is available test case Failed' : testT1 = 'is available test case Sucedded'
+  ticTacTester.validateIfItIsAvailable(mockTicTacToeObject.t2) ? testT2 = 'is not available x test case Sucedded' : testT2 = 'is not available x test case Sucedded'
+  ticTacTester.validateIfItIsAvailable(mockTicTacToeObject.t3) ? testT3 = 'is not available o test case Sucedded' : testT3 = 'is not available o test case Sucedded'
+  console.log(`validateIfItIsAvailable - Test cases Results:
       ${testT1}
       ${testT2}
       ${testT3}`)
@@ -253,8 +265,8 @@ const testerValidateIfItIsAvailable = () => {
 //testerValidateIfItIsAvailable()
 const testerAllInARow = (ticTacToeObject,player) => {
   let testT1, testT2
-	ticTac.allInARow(ticTacToeObject,player) ? testT1 = 'X second row test case Sucedded' : testT1 = 'X second row test case Failed'
-	ticTac.allInARow(mockTicTacToeObjectDiagonal,player) ? testT2 = 'no row winner test case Failed' : testT2 = 'no row winner test case Sucedded'
+	ticTacTester.allInARow(ticTacToeObject,player) ? testT1 = 'X second row test case Sucedded' : testT1 = 'X second row test case Failed'
+	ticTacTester.allInARow(mockTicTacToeObjectDiagonal,player) ? testT2 = 'no row winner test case Failed' : testT2 = 'no row winner test case Sucedded'
 console.log(`testerAllInARow - Test cases Results:
   ${testT1}
   ${testT2}`)
@@ -262,8 +274,8 @@ console.log(`testerAllInARow - Test cases Results:
 //testerAllInARow(mockTicTacToeObject,"X")
 const testerAllInAColumn = (ticTacToeObject,player) => {
   let testT1, testT2
-	ticTac.allInAColumn(mockTicTacToeObjectColumn,player) ? testT1 = 'column test case Sucedded' : testT1 = 'column test case Failed'
-	ticTac.allInAColumn(mockTicTacToeObject,player) ? testT2 = 'no column winner test case Failed' : testT2 = 'no column winner test case Succeded'
+	ticTacTester.allInAColumn(mockTicTacToeObjectColumn,player) ? testT1 = 'column test case Sucedded' : testT1 = 'column test case Failed'
+	ticTacTester.allInAColumn(mockTicTacToeObject,player) ? testT2 = 'no column winner test case Failed' : testT2 = 'no column winner test case Succeded'
 console.log(`testerAllInAColumn - Test cases Results:
   ${testT1}
   ${testT2}`)
@@ -271,8 +283,8 @@ console.log(`testerAllInAColumn - Test cases Results:
 //testerAllInAColumn(mockTicTacToeObjectColumn,"X")
 const testerAllInADiagonal = (ticTacToeObject,player) => {
   let testT1, testT2
-	ticTac.allInADiagonal(mockTicTacToeObjectDiagonal,player) ? testT1 = 'diagonal test case Sucedded' : testT1 = 'diagonal test case Failed'
-	ticTac.allInADiagonal(mockTicTacToeObject,player) ? testT2 = 'no diagonal winner test case Failed' : testT2 = 'no diagonal winner test case Succeded'
+	ticTacTester.allInADiagonal(mockTicTacToeObjectDiagonal,player) ? testT1 = 'diagonal test case Sucedded' : testT1 = 'diagonal test case Failed'
+	ticTacTester.allInADiagonal(mockTicTacToeObject,player) ? testT2 = 'no diagonal winner test case Failed' : testT2 = 'no diagonal winner test case Succeded'
 console.log(`testerAllInADiagonal - Test cases Results:
   ${testT1}
   ${testT2}`)
@@ -280,10 +292,10 @@ console.log(`testerAllInADiagonal - Test cases Results:
 //testerAllInADiagonal(mockTicTacToeObjectDiagonal,"X")
 const testerRulesConditionsToWin = (ticTacToeGame, player) => {
   let testT1, testT2, testT3, testT4
-  ticTac.rulesConditionsToWin(mockTicTacToeObject,player) ? testT1 = 'row test case Sucedded' : testT1 = 'row test case Failed'
-  ticTac.rulesConditionsToWin(mockTicTacToeObjectColumn,player) ? testT2 = 'column test case Sucedded' : testT2 = 'column test case test case Succeded'
-  ticTac.rulesConditionsToWin(mockTicTacToeObjectDiagonal,player) ? testT3 = 'digagonal test case Sucedded' : testT3 = 'digagonal test case Failed'
-  ticTac.rulesConditionsToWin(mockTicTacToeObjectNoWinnerDraw,player) ? testT4 = 'no winner test case Failed' : testT4 = 'no winner test case Succeded'
+  ticTacTester.rulesConditionsToWin(mockTicTacToeObject,player) ? testT1 = 'row test case Sucedded' : testT1 = 'row test case Failed'
+  ticTacTester.rulesConditionsToWin(mockTicTacToeObjectColumn,player) ? testT2 = 'column test case Sucedded' : testT2 = 'column test case test case Succeded'
+  ticTacTester.rulesConditionsToWin(mockTicTacToeObjectDiagonal,player) ? testT3 = 'digagonal test case Sucedded' : testT3 = 'digagonal test case Failed'
+  ticTacTester.rulesConditionsToWin(mockTicTacToeObjectNoWinnerDraw,player) ? testT4 = 'no winner test case Failed' : testT4 = 'no winner test case Succeded'
 console.log(`testerRulesConditionsToWin - Test cases Results:
   ${testT1}
   ${testT2}
@@ -293,8 +305,8 @@ console.log(`testerRulesConditionsToWin - Test cases Results:
 //testerRulesConditionsToWin(mockTicTacToeObject,"X")
 const testerIsGameFinished = (ticTacToeGame, player) => {
   let testT1, testT2
-  ticTac.isGameFinished(mockTicTacToeObjectNoWinnerDraw) ? testT1 = 'game finished test case Sucedded' : testT1 = 'game finished test case test case Failed'
-  ticTac.isGameFinished(mockTicTacToeObjectColumn) ? testT2 = 'game not finished test case Failed' : testT2 = 'game not finished test case test case Sucedded'
+  ticTacTester.isGameFinished(mockTicTacToeObjectNoWinnerDraw) ? testT1 = 'game finished test case Sucedded' : testT1 = 'game finished test case test case Failed'
+  ticTacTester.isGameFinished(mockTicTacToeObjectColumn) ? testT2 = 'game not finished test case Failed' : testT2 = 'game not finished test case test case Sucedded'
   console.log(`testertesterisGameFinished - Test cases Results:
    ${testT1}
    ${testT2}`)
@@ -302,10 +314,10 @@ const testerIsGameFinished = (ticTacToeGame, player) => {
 //testerIsGameFinished(mockTicTacToeObject)
 const testerRulesConditionsToDraw = (ticTacToeGame, player) => {
   let testT1, testT2, testT3, testT4
-  ticTac.rulesConditionsToDraw(mockTicTacToeObjectNoWinnerDraw) ? testT1 = 'draw with no winner test case Sucedded' : testT1 = 'draw with no winner test case Failed'
-  ticTac.rulesConditionsToDraw(mockTicTacToeObjectWithWinnerDraw) ? testT2 = 'draw with winner test case Sucedded' : testT2 = 'draw with winner test case test case Failed'
-  ticTac.rulesConditionsToDraw(mockTicTacToeObjectColumn) ? testT3 = 'no draw with winner test case Failed' : testT3 = 'no draw with winner test case test case Sucedded'
-  ticTac.rulesConditionsToDraw(mockTicTacToeObjectNoWinnerNoDraw) ? testT4 = 'no draw with no winner test case Failed' : testT4 = 'no draw with no winner test case test case Sucedded'
+  ticTacTester.rulesConditionsToDraw(mockTicTacToeObjectNoWinnerDraw) ? testT1 = 'draw with no winner test case Sucedded' : testT1 = 'draw with no winner test case Failed'
+  ticTacTester.rulesConditionsToDraw(mockTicTacToeObjectWithWinnerDraw) ? testT2 = 'draw with winner test case Sucedded' : testT2 = 'draw with winner test case test case Failed'
+  ticTacTester.rulesConditionsToDraw(mockTicTacToeObjectColumn) ? testT3 = 'no draw with winner test case Failed' : testT3 = 'no draw with winner test case test case Sucedded'
+  ticTacTester.rulesConditionsToDraw(mockTicTacToeObjectNoWinnerNoDraw) ? testT4 = 'no draw with no winner test case Failed' : testT4 = 'no draw with no winner test case test case Sucedded'
   console.log(`testerRulesConditionsToDraw - Test cases Results:
    ${testT1}
    ${testT2}
@@ -313,5 +325,3 @@ const testerRulesConditionsToDraw = (ticTacToeGame, player) => {
    ${testT4}`)
 }
 //testerRulesConditionsToDraw(mockTicTacToeObject)
-//ticTac.drawingGame()
-//ticTac.takeInput()
