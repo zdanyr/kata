@@ -151,22 +151,10 @@ class ticTacToeGame {
     isNotTaken(a) {
       return (a === ".") ? true : false
     }
+    
     rulesConditionsToDraw(ticTacToeGame, player){
-      //The game is drawn when all fields are taken on the board.
-      let isDraw
-      if(this.isGameFinished(ticTacToeGame) & !this.rulesConditionsToWin(ticTacToeGame,player)) {
-        isDraw = true
-      }else{
-        isDraw = false
-      }
-      return isDraw
+       return (this.isGameFinished(ticTacToeGame) & !this.rulesConditionsToWin(ticTacToeGame,player))
     }
-
-    // isCherries(fruit) {
-    //   return fruit.name === 'cherries';
-    // }
-    // inventory.find(isCherries)
-
 
 }
 
