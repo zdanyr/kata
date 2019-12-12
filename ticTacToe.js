@@ -131,16 +131,16 @@ class ticTacToeGame {
     allInARow(ticTacToeGame, player){
       return ((ticTacToeGame.t1 == player & ticTacToeGame.t2 == player & ticTacToeGame.t3 == player) ||
          (ticTacToeGame.t4 == player & ticTacToeGame.t5 == player & ticTacToeGame.t6 == player) ||
-         (ticTacToeGame.t7 == player & ticTacToeGame.t8 == player & ticTacToeGame.t9 == player)) ? true : false
+         (ticTacToeGame.t7 == player & ticTacToeGame.t8 == player & ticTacToeGame.t9 == player))
     }
     allInAColumn(ticTacToeGame, player){
       return ((ticTacToeGame.t1 == player & ticTacToeGame.t4 == player & ticTacToeGame.t7 == player) ||
          (ticTacToeGame.t2 == player & ticTacToeGame.t5 == player & ticTacToeGame.t8 == player) ||
-         (ticTacToeGame.t3 == player & ticTacToeGame.t6 == player & ticTacToeGame.t9 == player)) ? true : false
+         (ticTacToeGame.t3 == player & ticTacToeGame.t6 == player & ticTacToeGame.t9 == player))
     }
     allInADiagonal(ticTacToeGame, player){
       return ((ticTacToeGame.t1 == player & ticTacToeGame.t5 == player & ticTacToeGame.t9 == player) ||
-         (ticTacToeGame.t3 == player & ticTacToeGame.t5 == player & ticTacToeGame.t7 == player)) ? true : false
+         (ticTacToeGame.t3 == player & ticTacToeGame.t5 == player & ticTacToeGame.t7 == player))
     }
 
     isGameFinished(ticTacToeGame){
@@ -149,7 +149,7 @@ class ticTacToeGame {
     }
 
     isNotTaken(a) {
-      return (a === ".") ? true : false
+      return (a === ".")
     }
 
     rulesConditionsToDraw(ticTacToeGame, player){
@@ -290,7 +290,7 @@ console.log(`testerRulesConditionsToWin - Test cases Results:
   ${testT3}
   ${testT4}`)
 }
-testerRulesConditionsToWin(mockTicTacToeObject,"X")
+//testerRulesConditionsToWin(mockTicTacToeObject,"X")
 const testerIsGameFinished = (ticTacToeGame, player) => {
   let testT1, testT2
   ticTac.isGameFinished(mockTicTacToeObjectNoWinnerDraw) ? testT1 = 'game finished test case Sucedded' : testT1 = 'game finished test case test case Failed'
