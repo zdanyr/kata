@@ -125,7 +125,7 @@ class ticTacToeGame {
     }
 
     rulesConditionsToWin(ticTacToeGame, player){
-     return (this.allInARow(ticTacToeGame, player) || this.allInAColumn(ticTacToeGame, player) || this.allInADiagonal(ticTacToeGame, player)) ? true : false
+     return (this.allInARow(ticTacToeGame, player) || this.allInAColumn(ticTacToeGame, player) || this.allInADiagonal(ticTacToeGame, player))
     }
 
     allInARow(ticTacToeGame, player){
@@ -250,7 +250,7 @@ const testerValidateIfItIsAvailable = () => {
       ${testT2}
       ${testT3}`)
 }
-testerValidateIfItIsAvailable()
+//testerValidateIfItIsAvailable()
 const testerAllInARow = (ticTacToeObject,player) => {
   let testT1, testT2
 	ticTac.allInARow(ticTacToeObject,player) ? testT1 = 'X second row test case Sucedded' : testT1 = 'X second row test case Failed'
@@ -290,7 +290,7 @@ console.log(`testerRulesConditionsToWin - Test cases Results:
   ${testT3}
   ${testT4}`)
 }
-//testerRulesConditionsToWin(mockTicTacToeObject,"X")
+testerRulesConditionsToWin(mockTicTacToeObject,"X")
 const testerIsGameFinished = (ticTacToeGame, player) => {
   let testT1, testT2
   ticTac.isGameFinished(mockTicTacToeObjectNoWinnerDraw) ? testT1 = 'game finished test case Sucedded' : testT1 = 'game finished test case test case Failed'
