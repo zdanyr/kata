@@ -121,7 +121,7 @@ class ticTacToeGame {
     }
 
     validateIfItIsAvailable(ti){
-      return ti == "." ?  true :  false
+      return ti === "."
     }
 
     rulesConditionsToWin(ticTacToeGame, player){
@@ -163,7 +163,7 @@ let ticTac = new ticTacToeGame ()
 const mockTicTacToeObject = {
   t1: ".",
   t2: "O",
-  t3: ".",
+  t3: "O",
   t4: "X",
   t5: "X",
   t6: "X",
@@ -239,7 +239,7 @@ const testerValidateIfValidImput = () => {
     ${testT3}
     ${testT4}`)
 }
-testerValidateIfValidImput()
+//testerValidateIfValidImput()
 const testerValidateIfItIsAvailable = () => {
   let testT1, testT2, testT3
   ticTac.validateIfItIsAvailable(mockTicTacToeObject.t1) ? testT1 = 'is available test case sucedded' : testT1 = 'is available test case Failed'
@@ -250,7 +250,7 @@ const testerValidateIfItIsAvailable = () => {
       ${testT2}
       ${testT3}`)
 }
-//testerValidateIfItIsAvailable()
+testerValidateIfItIsAvailable()
 const testerAllInARow = (ticTacToeObject,player) => {
   let testT1, testT2
 	ticTac.allInARow(ticTacToeObject,player) ? testT1 = 'X second row test case Sucedded' : testT1 = 'X second row test case Failed'
