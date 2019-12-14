@@ -63,24 +63,23 @@ The system should display appropriate messages for incorrect coordinates and a d
 //rules to draw -- done
 
 class ticTacToeGame {
-    constructor(){
-         this.t1 = "."
-         this.t2 = "."
-         this.t3 = "."
-         this.t4 = "."
-         this.t5 = "."
-         this.t6 = "."
-         this.t7 = "."
-         this.t8 = "."
-         this.t9 = "."
+    constructor(t1, t2, t3, t4, t5, t6, t7, t8, t9){
+         this.t1 = t1
+         this.t2 = t2
+         this.t3 = t3
+         this.t4 = t4
+         this.t5 = t5
+         this.t6 = t6
+         this.t7 = t7
+         this.t8 = t8
+         this.t9 = t9
     }
 
     takeInput(player){
       let message = "Enter a coord x,y to place your X or enter 'q' to give up:"
       let input = prompt(message)
         if (this.validateIfValidImput(input)){
-
-            //this.manageInput(input,player)
+          this.manageInput(input,player)
         } else if (input === "q") {
           console.log("Game terminated. Thank you for playing :)")
         } else {
@@ -93,17 +92,80 @@ class ticTacToeGame {
 
     manageInput (input, player) {
       let redo = false
-
-        switch (input) {
+      switch (input) {
           case "1,1":
             if(this.validateIfItIsAvailable(this.t1)){
                this.t1 = player
                this.drawingGame()
-               break;
             }else{
               redo = true
             }
-          default: redo = true
+            break;
+          case "1,2":
+              if(this.validateIfItIsAvailable(this.t2)){
+                 this.t2 = player
+                 this.drawingGame()
+              }else{
+                redo = true
+              }
+              break;
+            case "1,3":
+              if(this.validateIfItIsAvailable(this.t3)){
+                this.t3 = player
+                this.drawingGame()
+                }else{
+                  redo = true
+                }
+            break;
+            case "2,1":
+              if(this.validateIfItIsAvailable(this.t4)){
+                this.t4 = player
+                this.drawingGame()
+                }else{
+                  redo = true
+                }
+            break;
+            case "2,2":
+              if(this.validateIfItIsAvailable(this.t5)){
+                this.t5 = player
+                this.drawingGame()
+                }else{
+                  redo = true
+                }
+            break;
+            case "2,3":
+              if(this.validateIfItIsAvailable(this.t6)){
+                this.t6 = player
+                this.drawingGame()
+                }else{
+                  redo = true
+                }
+            break;
+            case "3,1":
+              if(this.validateIfItIsAvailable(this.t7)){
+                this.t7 = player
+                this.drawingGame()
+                }else{
+                  redo = true
+                }
+            break;
+            case "3,2":
+              if(this.validateIfItIsAvailable(this.t8)){
+                this.t8 = player
+                this.drawingGame()
+                }else{
+                  redo = true
+                }
+            break;
+            case "3,3":
+              if(this.validateIfItIsAvailable(this.t9)){
+                this.t9 = player
+                this.drawingGame()
+                }else{
+                  redo = true
+                }
+            break;
+            default: redo = true
         }
         if(redo){
           console.log(`Oh no, a piece is already at this place! Try again...`)
@@ -130,17 +192,18 @@ class ticTacToeGame {
     }
 
     validateIfItIsAvailable(ti){
-      return !(ti === ".")
+      console.log(`this.${ti} - ${this.ti}`)
+      return (this.ti === ".")
     }
 
-    rulesConditionsToWin(ticTacToeGame, player){
-     return (this.allInARow(ticTacToeGame, player) || this.allInAColumn(ticTacToeGame, player) || this.allInADiagonal(ticTacToeGame, player))
+    rulesConditionsToWin(player){
+     return (this.allInARow(this, player) || this.allInAColumn(this, player) || this.allInADiagonal(this, player))
     }
 
-    allInARow(ticTacToeGame, player){
-      return ((ticTacToeGame.t1 == player & ticTacToeGame.t2 == player & ticTacToeGame.t3 == player) ||
-         (ticTacToeGame.t4 == player & ticTacToeGame.t5 == player & ticTacToeGame.t6 == player) ||
-         (ticTacToeGame.t7 == player & ticTacToeGame.t8 == player & ticTacToeGame.t9 == player))
+    allInARow (player){
+      return ((this.t1 === player & this.t2 === player & this.t3 === player) ||
+         (this.t4 === player & this.t5 === player & this.t6 === player) ||
+         (this.t7 === player & this.t8 === player & this.t9 === player))
     }
     allInAColumn(ticTacToeGame, player){
       return ((ticTacToeGame.t1 == player & ticTacToeGame.t4 == player & ticTacToeGame.t7 == player) ||
@@ -169,109 +232,50 @@ class ticTacToeGame {
 
 let ticTacPlayer1 = new ticTacToeGame ()
 let player1 = "X"
-ticTacPlayer1.takeInput(player1)
+//ticTacPlayer1.takeInput(player1)
+//ticTacPlayer1.rulesConditionsToWin
 
-const mockTicTacToeObject = {
-  t1: ".",
-  t2: "O",
-  t3: "O",
-  t4: "X",
-  t5: "X",
-  t6: "X",
-  t7: ".",
-  t8: ".",
-  t9: "."
-}
-const mockTicTacToeObjectColumn = {
-  t1: "X",
-  t2: "O",
-  t3: "O",
-  t4: "X",
-  t5: ".",
-  t6: "O",
-  t7: "X",
-  t8: ".",
-  t9: "."
-}
-const mockTicTacToeObjectDiagonal = {
-  t1: "X",
-  t2: "O",
-  t3: "O",
-  t4: "X",
-  t5: "X",
-  t6: "O",
-  t7: "X",
-  t8: ".",
-  t9: "X"
-}
-const mockTicTacToeObjectNoWinnerDraw = {
-  t1: "X",
-  t2: "O",
-  t3: "X",
-  t4: "X",
-  t5: "O",
-  t6: "O",
-  t7: "O",
-  t8: "X",
-  t9: "X"
-}
-const mockTicTacToeObjectWithWinnerDraw = {
-  t1: "X",
-  t2: "X",
-  t3: "X",
-  t4: "X",
-  t5: "O",
-  t6: "O",
-  t7: "O",
-  t8: "X",
-  t9: "X"
-}
-const mockTicTacToeObjectNoWinnerNoDraw = {
-  t1: "X",
-  t2: ".",
-  t3: ".",
-  t4: "X",
-  t5: "O",
-  t6: ".",
-  t7: "O",
-  t8: ".",
-  t9: "X"
-}
-
-let ticTacTester = new ticTacToeGame ()
-const testerValidateIfValidImput = () => {
+let mockTicTacToeObject = new ticTacToeGame(".","O","O","X","X","X",".",".",".")
+let mockTicTacToeObjectColumn = new ticTacToeGame("X","O","O","X",".","O","X",".",".")
+let mockTicTacToeObjectDiagonal = new ticTacToeGame("X","O","O","X","X","O","X",".","X")
+let mockTicTacToeObjectNoWinnerDraw = new ticTacToeGame("X","O","X","X","O","O","O","X","X")
+let mockTicTacToeObjectWithWinnerDraw = new ticTacToeGame("X","X","X","X","O","O","O","X","X")
+let mockTicTacToeObjectNoWinnerNoDraw = new ticTacToeGame("X",".",".","X","O",".","O",".","X")
+let input
+const testerValidateIfValidImput = (input) => {
 	let testT1, testT2, testT3, testT4
-	ticTacTester.validateIfValidImput("1,2") ? testT1 = '(1,2) test case sucedded' : testT1 = '1,2 test case Failed'
-	!ticTacTester.validateIfValidImput("1") ? testT2 = '(1) test case Succeded' : testT2 = '1 test case Failed'
-	!ticTacTester.validateIfValidImput("a") ? testT3 = '(a) test case Succeded' : testT3 = 'a test case Failed'
-	!ticTacTester.validateIfValidImput("1 2") ? testT4 = '(1 2) test case Succeded' : testT4 = '1 2 test case Failed'
+	mockTicTacToeObject.validateIfValidImput("1,2") ? testT1 = '(1,2) test case Sucedded' : testT1 = '1,2 test case Failed'
+	mockTicTacToeObject.validateIfValidImput("1") ? testT2 = '(1) test case Failed' : testT2 = '1 test case Sucedded'
+	mockTicTacToeObject.validateIfValidImput("a") ? testT3 = '(a) test case Failed' : testT3 = 'a test case Sucedded'
+	mockTicTacToeObject.validateIfValidImput("1 2") ? testT4 = '(1 2) test case Failed' : testT4 = '1 2 test case Sucedded'
 	console.log(`testerValidateIfValidImput - Test cases Results:
     ${testT1}
     ${testT2}
     ${testT3}
     ${testT4}`)
 }
-//testerValidateIfValidImput()
-const testerValidateIfItIsAvailable = () => {
+//testerValidateIfValidImput(input)
+const testerValidateIfItIsAvailable = (input) => {
   let testT1, testT2, testT3
-  ticTacTester.validateIfItIsAvailable(mockTicTacToeObject.t1) ? testT1 = 'is available test case Failed' : testT1 = 'is available test case Sucedded'
-  ticTacTester.validateIfItIsAvailable(mockTicTacToeObject.t2) ? testT2 = 'is not available x test case Sucedded' : testT2 = 'is not available x test case Sucedded'
-  ticTacTester.validateIfItIsAvailable(mockTicTacToeObject.t3) ? testT3 = 'is not available o test case Sucedded' : testT3 = 'is not available o test case Sucedded'
+  mockTicTacToeObject.validateIfItIsAvailable("t1") ? testT1 = 'is available test case Sucedded' : testT1 = 'is available test case Failed'
+  mockTicTacToeObject.validateIfItIsAvailable("t2") ? testT2 = 'is not available x test case Failed' : testT2 = 'is not available x test case Sucedded'
+  mockTicTacToeObject.validateIfItIsAvailable("t3") ? testT3 = 'is not available o test case Failed' : testT3 = 'is not available o test case Sucedded'
   console.log(`validateIfItIsAvailable - Test cases Results:
+    ${mockTicTacToeObject.validateIfItIsAvailable("t1")}
       ${testT1}
       ${testT2}
       ${testT3}`)
 }
-//testerValidateIfItIsAvailable()
-const testerAllInARow = (ticTacToeObject,player) => {
+testerValidateIfItIsAvailable()
+const testerAllInARow = (player) => {
   let testT1, testT2
-	ticTacTester.allInARow(ticTacToeObject,player) ? testT1 = 'X second row test case Sucedded' : testT1 = 'X second row test case Failed'
-	ticTacTester.allInARow(mockTicTacToeObjectDiagonal,player) ? testT2 = 'no row winner test case Failed' : testT2 = 'no row winner test case Sucedded'
+	mockTicTacToeObject.allInARow(player) ? testT1 = 'X second row test case Sucedded' : testT1 = 'X second row test case Failed'
+  mockTicTacToeObjectNoWinnerDraw.allInARow(player) ? testT2 = 'no  winner test case Failed' : testT2 = 'no row winner test case Sucedded'
 console.log(`testerAllInARow - Test cases Results:
-  ${testT1}
-  ${testT2}`)
+ ${testT1}
+ ${testT2}`)
 }
-//testerAllInARow(mockTicTacToeObject,"X")
+//testerAllInARow("X")
 const testerAllInAColumn = (ticTacToeObject,player) => {
   let testT1, testT2
 	ticTacTester.allInAColumn(mockTicTacToeObjectColumn,player) ? testT1 = 'column test case Sucedded' : testT1 = 'column test case Failed'
