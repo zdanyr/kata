@@ -74,6 +74,7 @@ class ticTacToeGame {
          this.t8 = t8
          this.t9 = t9
     }
+    keepPlaying = true
 
     playGame(){
       let i = 0
@@ -83,7 +84,7 @@ class ticTacToeGame {
       Here's the current board:
       `)
       this.drawingGame()
-      while(i<100){
+      while(this.keepPlaying){
         if(i % 2 === 0){
           player = "X"
         }else{
@@ -106,6 +107,7 @@ class ticTacToeGame {
       if (this.validateIfValidImput(input)){
         this.manageInput(input,player)
         } else if (input === "q") {
+          this.keepPlaying = false
           console.log("Game terminated. Thank you for playing :)")
         } else {
           console.log(`
@@ -121,7 +123,7 @@ class ticTacToeGame {
           case "1,1":
             if(this.validateIfItIsAvailable(this.t1)){
                this.t1 = player
-               this.drawingGame()
+               this.drawAndCheckWinDraw(player)
             }else{
               redo = true
             }
@@ -129,7 +131,7 @@ class ticTacToeGame {
           case "1,2":
               if(this.validateIfItIsAvailable(this.t2)){
                  this.t2 = player
-                 this.drawingGame()
+                 this.drawAndCheckWinDraw(player)
               }else{
                 redo = true
               }
@@ -137,7 +139,7 @@ class ticTacToeGame {
             case "1,3":
               if(this.validateIfItIsAvailable(this.t3)){
                 this.t3 = player
-                this.drawingGame()
+                this.drawAndCheckWinDraw(player)
                 }else{
                   redo = true
                 }
@@ -145,7 +147,7 @@ class ticTacToeGame {
             case "2,1":
               if(this.validateIfItIsAvailable(this.t4)){
                 this.t4 = player
-                this.drawingGame()
+                this.drawAndCheckWinDraw(player)
                 }else{
                   redo = true
                 }
@@ -153,7 +155,7 @@ class ticTacToeGame {
             case "2,2":
               if(this.validateIfItIsAvailable(this.t5)){
                 this.t5 = player
-                this.drawingGame()
+                this.drawAndCheckWinDraw(player)
                 }else{
                   redo = true
                 }
@@ -161,7 +163,7 @@ class ticTacToeGame {
             case "2,3":
               if(this.validateIfItIsAvailable(this.t6)){
                 this.t6 = player
-                this.drawingGame()
+                this.drawAndCheckWinDraw(player)
                 }else{
                   redo = true
                 }
@@ -169,7 +171,7 @@ class ticTacToeGame {
             case "3,1":
               if(this.validateIfItIsAvailable(this.t7)){
                 this.t7 = player
-                this.drawingGame()
+                this.drawAndCheckWinDraw(player)
                 }else{
                   redo = true
                 }
@@ -177,7 +179,7 @@ class ticTacToeGame {
             case "3,2":
               if(this.validateIfItIsAvailable(this.t8)){
                 this.t8 = player
-                this.drawingGame()
+                this.drawAndCheckWinDraw(player)
                 }else{
                   redo = true
                 }
@@ -185,7 +187,7 @@ class ticTacToeGame {
             case "3,3":
               if(this.validateIfItIsAvailable(this.t9)){
                 this.t9 = player
-                this.drawingGame()
+                this.drawAndCheckWinDraw(player)
                 }else{
                   redo = true
                 }
@@ -194,10 +196,24 @@ class ticTacToeGame {
         }
         if(redo){
           console.log(`Oh no, a piece is already at this place! Try again...`)
-          this.takeInput()
+          this.takeInput(player)
         }
 
       }
+
+    drawAndCheckWinDraw(player){
+      this.drawingGame()
+      if(this.rulesConditionsToWin(player)){
+        let winner
+        player === "X" ? winner = "player 1" : winner = "player 2"
+        this.keepPlaying = false
+
+        console.log(`well done ${winner} you've won the game!`)
+      }else if(this.rulesConditionsToDraw()){
+        this.keepPlaying = false
+        console.log("Draw! No winner this time.")
+      }
+    }
 
     drawingGame(){
           console.log(`
@@ -209,7 +225,7 @@ class ticTacToeGame {
       }
 
     validateIfValidImput(input){
-      let regex = new RegExp('^[1-8](,[1-8])+$')
+      let regex = new RegExp('^[1-3](,[1-3])+$')
       return input.match(regex)
     }
 
@@ -218,7 +234,7 @@ class ticTacToeGame {
     }
 
     rulesConditionsToWin(player){
-     return (this.allInARow(player) || this.allInAColumn(player) || this.allInADiagonal(player))
+       return (this.allInARow(player) || this.allInAColumn(player) || this.allInADiagonal(player))
     }
 
     allInARow (player){
@@ -256,7 +272,7 @@ ticTacToe.playGame()
 
 let mockTicTacToeObject = new ticTacToeGame(".","O","O","X","X","X",".",".",".")
 let mockTicTacToeObjectColumn = new ticTacToeGame("X","O","O","X",".","O","X",".",".")
-let mockTicTacToeObjectDiagonal = new ticTacToeGame("X","O","O","X","X","O","X",".","X")
+let mockTicTacToeObjectDiagonal = new ticTacToeGame("X","O","O","X","X","O",".",".","X")
 let mockTicTacToeObjectNoWinnerDraw = new ticTacToeGame("X","O","X","X","O","O","O","X","X")
 let mockTicTacToeObjectWithWinnerDraw = new ticTacToeGame("X","X","X","X","O","O","O","X","X")
 let mockTicTacToeObjectNoWinnerNoDraw = new ticTacToeGame("X",".",".","X","O",".","O",".","X")
@@ -315,7 +331,7 @@ console.log(`testerAllInADiagonal - Test cases Results:
 const testerRulesConditionsToWin = (player) => {
   let testT1, testT2, testT3, testT4
   mockTicTacToeObject.rulesConditionsToWin(player) ? testT1 = 'row test case Sucedded' : testT1 = 'row test case Failed'
-  mockTicTacToeObjectColumn.rulesConditionsToWin(player) ? testT2 = 'column test case Sucedded' : testT2 = 'column test case test case Succeded'
+  mockTicTacToeObjectColumn.rulesConditionsToWin(player) ? testT2 = 'column test case Sucedded' : testT2 = 'column test case test case Failed'
   mockTicTacToeObjectDiagonal.rulesConditionsToWin(player) ? testT3 = 'digagonal test case Sucedded' : testT3 = 'digagonal test case Failed'
   mockTicTacToeObjectNoWinnerDraw.rulesConditionsToWin(player) ? testT4 = 'no winner test case Failed' : testT4 = 'no winner test case Succeded'
 console.log(`testerRulesConditionsToWin - Test cases Results:
