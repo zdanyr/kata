@@ -55,13 +55,6 @@ X . .
 The system should display appropriate messages for incorrect coordinates and a draw.
 */
 
-//input
-//dibujar
-//loop for input
-//validation -- done
-//rules to win -- done
-//rules to draw -- done
-
 class ticTacToeGame {
     constructor(t1, t2, t3, t4, t5, t6, t7, t8, t9){
          this.t1 = t1
@@ -81,15 +74,10 @@ class ticTacToeGame {
       let player
       console.log(`
       Welcome to Tic Tac Toe!
-      Here's the current board:
-      `)
+      Here's the current board:`)
       this.drawingGame()
       while(this.keepPlaying){
-        if(i % 2 === 0){
-          player = "X"
-        }else{
-          player ="O"
-        }
+        (i % 2 === 0) ? player = "X" : player ="O"
         this.takeInput(player)
         i++
       }
@@ -98,14 +86,11 @@ class ticTacToeGame {
     takeInput(player){
       let message
       let input
-      if(player === "X"){
-        message = "Player 1 enter a coord x,y to place your X or enter 'q' to give up"
-      }else{
-          message = "Player 2 enter a coord x,y to place your O or enter 'q' to give up"
-      }
+      player === "X" ? message = "Player 1 enter a coord x,y to place your X or enter 'q' to give up" :
+      message = "Player 2 enter a coord x,y to place your O or enter 'q' to give up"
       input = prompt(message)
       if (this.validateIfValidImput(input)){
-        this.manageInput(input,player)
+        this.manageInput(input, player)
         } else if (input === "q") {
           this.keepPlaying = false
           console.log("Game terminated. Thank you for playing :)")
@@ -202,17 +187,18 @@ class ticTacToeGame {
       }
 
     drawAndCheckWinDraw(player){
-      this.drawingGame()
       if(this.rulesConditionsToWin(player)){
         let winner
         player === "X" ? winner = "player 1" : winner = "player 2"
         this.keepPlaying = false
-
-        console.log(`well done ${winner} you've won the game!`)
+        console.log(`Move accepted, well done ${winner} you've won the game!`)
       }else if(this.rulesConditionsToDraw()){
         this.keepPlaying = false
         console.log("Draw! No winner this time.")
+      }else {
+        console.log(`Move accepted, here's the current board:`)
       }
+      this.drawingGame()
     }
 
     drawingGame(){
@@ -229,9 +215,7 @@ class ticTacToeGame {
       return input.match(regex)
     }
 
-    validateIfItIsAvailable(ti){
-      return (ti === ".")
-    }
+    validateIfItIsAvailable(ti){return (ti === ".")}
 
     rulesConditionsToWin(player){
        return (this.allInARow(player) || this.allInAColumn(player) || this.allInADiagonal(player))
@@ -257,9 +241,7 @@ class ticTacToeGame {
       return !(ticTacToeGameAsArray.find(this.isNotTaken))
     }
 
-    isNotTaken(a) {
-      return (a === ".")
-    }
+    isNotTaken(a) {return (a === ".")}
 
     rulesConditionsToDraw(){
        return (this.isGameFinished() & (!this.rulesConditionsToWin("X") || !this.rulesConditionsToWin("O")))
@@ -280,7 +262,7 @@ let input
 const testerValidateIfValidImput = (input) => {
 	let testT1, testT2, testT3, testT4
 	mockTicTacToeObject.validateIfValidImput("1,2") ? testT1 = '(1,2) test case Sucedded' : testT1 = '1,2 test case Failed'
-	mockTicTacToeObject.validateIfValidImput("1") ? testT2 = '(1) test case Failed' : testT2 = '1 test case Sucedded'
+	mockTicTacToeObject.validateIfValidImput("4,1") ? testT2 = '(4,1) test case Failed' : testT2 = '4,1 test case Sucedded'
 	mockTicTacToeObject.validateIfValidImput("a") ? testT3 = '(a) test case Failed' : testT3 = 'a test case Sucedded'
 	mockTicTacToeObject.validateIfValidImput("1 2") ? testT4 = '(1 2) test case Failed' : testT4 = '1 2 test case Sucedded'
 	console.log(`testerValidateIfValidImput - Test cases Results:
