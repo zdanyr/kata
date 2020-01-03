@@ -174,11 +174,23 @@ class ticTacToeGame {
   }
 
   allInARow(player) {
-    return (
-      (this.game[0][0] === player & this.game[0][1] === player & this.game[0][2] === player) ||
-      (this.game[1][0] === player & this.game[1][1] === player & this.game[1][2] === player) ||
-      (this.game[2][0] === player & this.game[2][1] === player & this.game[2][2] === player)
-    )
+
+    for (let x = 0; x < 3; x++) {
+      for (let y = 0; y < 3; y++) {
+        if (this.game[x][y] != player) {
+          break
+        }
+        if (y === 2) {
+          return true
+        }
+      }
+    }
+
+    //return (
+    // (this.game[0][0] === player & this.game[0][1] === player & this.game[0][2] === player) ||
+    // (this.game[1][0] === player & this.game[1][1] === player & this.game[1][2] === player) ||
+    // (this.game[2][0] === player & this.game[2][1] === player & this.game[2][2] === player))
+
   }
   allInAColumn(player) {
     return (
@@ -241,9 +253,17 @@ const testerAllInARow = (player) => {
   mockTicTacToeObject.allInARow(player) ? testT1 = 'no row winner test case Failed' : testT1 = 'no row winner test case Sucedded'
   mockTicTacToeObject.game[0][0] = mockTicTacToeObject.game[0][1] = mockTicTacToeObject.game[0][2] = "X"
   mockTicTacToeObject.allInARow(player) ? testT2 = 'X row winner test case Sucedded' : testT2 = 'X row winner test case Failed'
+  resetMockTicTacToeObject()
+  mockTicTacToeObject.game[1][0] = mockTicTacToeObject.game[1][1] = mockTicTacToeObject.game[1][2] = "X"
+  mockTicTacToeObject.allInARow(player) ? testT3 = 'X row winner test case Sucedded' : testT3 = 'X row winner test case Failed'
+  resetMockTicTacToeObject()
+  mockTicTacToeObject.game[2][0] = mockTicTacToeObject.game[2][1] = mockTicTacToeObject.game[2][2] = "X"
+  mockTicTacToeObject.allInARow(player) ? testT4 = 'X row winner test case Sucedded' : testT4 = 'X row winner test case Failed'
   console.log(`testerAllInARow - Test cases Results:
             ${testT1}
-            ${testT2}`)
+            ${testT2}
+            ${testT3}
+            ${testT4}`)
 }
 
 const testerAllInAColumn = (player) => {
@@ -288,9 +308,9 @@ const testerThereAreNotFreePositions = (player) => {
   resetMockTicTacToeObject()
   mockTicTacToeObject.thereAreFreePositions() ? testT1 = 'free positions test case Failed' : testT1 = 'free positions test case Sucedded'
   resetMockTicTacToeObject()
-  mockTicTacToeObject.game[0][0] = mockTicTacToeObject.game[0][1] = mockTicTacToeObject.game[0][2] = 
-  mockTicTacToeObject.game[1][0] = mockTicTacToeObject.game[1][1] = mockTicTacToeObject.game[1][2] =
-  mockTicTacToeObject.game[2][0] = mockTicTacToeObject.game[2][1] = mockTicTacToeObject.game[2][2] = "X"
+  mockTicTacToeObject.game[0][0] = mockTicTacToeObject.game[0][1] = mockTicTacToeObject.game[0][2] =
+    mockTicTacToeObject.game[1][0] = mockTicTacToeObject.game[1][1] = mockTicTacToeObject.game[1][2] =
+    mockTicTacToeObject.game[2][0] = mockTicTacToeObject.game[2][1] = mockTicTacToeObject.game[2][2] = "X"
   mockTicTacToeObject.thereAreFreePositions() ? testT2 = 'No free positions test case Sucedded' : testT2 = 'No free positions test case Failed'
   console.log(`testerIsGameFinished - Test cases Results:
                     ${testT1}
@@ -326,15 +346,15 @@ const choseWhatToRun = () => {
     testerValidateIfValidInput(input)
     return
   }
-  if(run === "2"){
+  if (run === "2") {
     let ticTacToe = new ticTacToeGame()
     ticTacToe.playGame()
     return
   }
 }
 
-choseWhatToRun()
-
+//choseWhatToRun()
+testerAllInARow("X")
 
 
 
