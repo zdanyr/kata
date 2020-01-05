@@ -203,6 +203,23 @@ class ticTacToeGame {
   }
 
   allInADiagonal(player) {
+    // for (let y = 0; y < this.n; y++) {
+    //   for (let x = 0; x < this.n; x++) {
+    //     if (x === y & this.game[x][y] != player) {
+    //       break
+    //     }
+    //     // console.log(`
+    //     //   x: ${x}
+    //     //   y: ${y}
+    //     //   this.n - 1: ${this.n - 1}`)
+
+    //     if (y === this.n - 1 === player) {
+    //       console.log(`x: ${x}
+    //       y: ${y}`)
+    //       return true
+    //     }
+    //   }
+    // }
     return (
       (this.game[0][0] === player & this.game[1][1] === player & this.game[2][2] === player) ||
       (this.game[2][0] === player & this.game[1][1] === player & this.game[0][2] === player)
@@ -211,8 +228,9 @@ class ticTacToeGame {
 
   thereAreNotFreePositions() {
     for (let x = 0; x < this.n; x++) {
-      return (!this.game[x].some(this.validateIfOnePositionIsAvailable))
+      if (this.game[x].some(this.validateIfOnePositionIsAvailable)) { return false }
     }
+    return true
   }
 
   rulesConditionsToDraw() {
@@ -231,7 +249,7 @@ class ticTacToeGame {
 
 let mockTicTacToeObject = new ticTacToeGame()
 let input
-let testT1, testT2, testT3, testT4
+let testT1, testT2, testT3, testT4, test5
 
 
 
@@ -326,33 +344,36 @@ const testerRulesConditionsToWin = (player) => {
 
 const testerThereAreNotFreePositions = (player) => {
   mockTicTacToeObject.resetMockTicTacToeObject()
-  mockTicTacToeObject.thereAreNotFreePositions() ? testT1 = 'free positions test case Failed' : testT1 = 'free positions test case Sucedded'
+  mockTicTacToeObject.thereAreNotFreePositions() ? testT1 = 'All free positions test case Failed' : testT1 = 'All free positions test case Sucedded'
   mockTicTacToeObject.resetMockTicTacToeObject()
   mockTicTacToeObject.game[2][0] = mockTicTacToeObject.game[2][1] = mockTicTacToeObject.game[2][2] = "X"
-  mockTicTacToeObject.thereAreNotFreePositions() ? testT2 = 'No free positions test case Failed' : testT2 = 'No free positions test case Sucedded'
+  mockTicTacToeObject.thereAreNotFreePositions() ? testT2 = 'Last row filled - No free positions test case Failed' : testT2 = 'Last row filled - No free positions test case Sucedded'
   mockTicTacToeObject.resetMockTicTacToeObject()
-  mockTicTacToeObject.game[0][0] = mockTicTacToeObject.game[0][1] = mockTicTacToeObject.game[0][2] =
-    mockTicTacToeObject.game[1][0] = mockTicTacToeObject.game[1][1] = mockTicTacToeObject.game[1][2] =
-    mockTicTacToeObject.game[2][0] = mockTicTacToeObject.game[2][1] = mockTicTacToeObject.game[2][2] = "X"
-  mockTicTacToeObject.thereAreNotFreePositions() ? testT3 = 'No free positions test case Sucedded' : testT3 = 'No free positions test case Failed'
+  mockTicTacToeObject.game[0][0] = mockTicTacToeObject.game[1][1] = "X"
+  mockTicTacToeObject.game[0][1] = mockTicTacToeObject.game[0][2] = "O"
+  mockTicTacToeObject.thereAreNotFreePositions() ? testT3 = 'First row filled - free positions test case Failed' : testT3 = 'First row filled - free positions test case Sucedded'
+  mockTicTacToeObject.resetMockTicTacToeObject()
+  mockTicTacToeObject.game[0][0] = mockTicTacToeObject.game[0][1] = mockTicTacToeObject.game[0][2] = mockTicTacToeObject.game[1][0] = mockTicTacToeObject.game[1][1] = mockTicTacToeObject.game[1][2] = mockTicTacToeObject.game[2][0] = mockTicTacToeObject.game[2][1] = mockTicTacToeObject.game[2][2] = "X"
+  mockTicTacToeObject.thereAreNotFreePositions() ? testT4 = 'No free positions test case Sucedded' : testT4 = 'No free positions test case Failed'
   console.log(`testerThereAreNotFreePositions - Test cases Results:
                     ${testT1}
                     ${testT2}
-                    ${testT3}`)
+                    ${testT3}
+                    ${testT4}`)
 }
 
 const testerRulesConditionsToDraw = () => {
-  mockTicTacToeObject.resetMockTicTacToeObject()
-  mockTicTacToeObject.rulesConditionsToDraw() ? testT1 = 'game not finished test case Failed' : testT1 = 'game not finished test case Sucedded'
-  mockTicTacToeObject.game[0][0] = mockTicTacToeObject.game[0][2] = mockTicTacToeObject.game[1][2] = mockTicTacToeObject.game[2][2] = mockTicTacToeObject.game[1][1] = mockTicTacToeObject.game[2][1] = "X"
-  mockTicTacToeObject.game[0][1] = mockTicTacToeObject.game[1][0] = mockTicTacToeObject.game[2][0] = "O"
-  mockTicTacToeObject.rulesConditionsToDraw() ? testT2 = 'no empty with X winner test case Failed' : testT2 = 'no empty with X winner test case Sucedded'
-  mockTicTacToeObject.resetMockTicTacToeObject()
-  mockTicTacToeObject.game[0][2] = mockTicTacToeObject.game[1][2] = mockTicTacToeObject.game[0][0] = mockTicTacToeObject.game[1][1] = mockTicTacToeObject.game[2][1] = "X"
-  mockTicTacToeObject.game[0][1] = mockTicTacToeObject.game[1][0] = mockTicTacToeObject.game[2][0] = mockTicTacToeObject.game[2][2] = "O"
-  mockTicTacToeObject.rulesConditionsToDraw() ? testT3 = 'draw with no winner test case Sucedded' : testT3 = 'draw with no winner test case Failed'
+  // mockTicTacToeObject.resetMockTicTacToeObject()
+  // mockTicTacToeObject.rulesConditionsToDraw() ? testT1 = 'game not finished test case Failed' : testT1 = 'game not finished test case Sucedded'
+  // mockTicTacToeObject.game[0][0] = mockTicTacToeObject.game[0][2] = mockTicTacToeObject.game[1][2] = mockTicTacToeObject.game[2][2] = mockTicTacToeObject.game[1][1] = mockTicTacToeObject.game[2][1] = "X"
+  // mockTicTacToeObject.game[0][1] = mockTicTacToeObject.game[1][0] = mockTicTacToeObject.game[2][0] = "O"
+  // mockTicTacToeObject.rulesConditionsToDraw() ? testT2 = 'no empty with X winner test case Failed' : testT2 = 'no empty with X winner test case Sucedded'
+  // mockTicTacToeObject.resetMockTicTacToeObject()
+  // mockTicTacToeObject.game[0][2] = mockTicTacToeObject.game[1][2] = mockTicTacToeObject.game[0][0] = mockTicTacToeObject.game[1][1] = mockTicTacToeObject.game[2][1] = "X"
+  // mockTicTacToeObject.game[0][1] = mockTicTacToeObject.game[1][0] = mockTicTacToeObject.game[2][0] = mockTicTacToeObject.game[2][2] = "O"
+  // mockTicTacToeObject.rulesConditionsToDraw() ? testT3 = 'draw with no winner test case Sucedded' : testT3 = 'draw with no winner test case Failed'
   console.log(`testerRulesConditionsToDraw - Test cases Results:
-                      ${testT1}
+                     ${testT1}
                      ${testT2}
                      ${testT3}
                       `)
@@ -378,6 +399,7 @@ const choseWhatToRun = () => {
   }
 }
 
-choseWhatToRun()
+//choseWhatToRun()
+testerThereAreNotFreePositions()
 
 
