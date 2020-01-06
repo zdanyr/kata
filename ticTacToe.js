@@ -59,16 +59,11 @@ class ticTacToeGame {
 
   n = 3; //dimension of the matrix
   game = new Array(this.n);
-  inverseGame = new Array(this.n);
   keepPlaying = true;
 
   constructor() {
     for (let z = 0; z < this.n; z++) {
       this.game[z] = new Array(this.n);
-    }
-
-    for (let z = 0; z < this.n; z++) {
-      this.inverseGame[z] = new Array(this.n);
     }
 
     for (let x = 0; x < this.n; x++) {
@@ -215,7 +210,7 @@ class ticTacToeGame {
         if (x === y && this.game[x][y] === player) {
           i++
         }
-        if (i === (this.n - 1)) { return true }
+        if (i === (this.n)) { return true }
       }
     }
 
@@ -226,10 +221,10 @@ class ticTacToeGame {
     let i = 0
     for (let y = 0; y < this.n; y++) {
       for (let x = 0; x < this.n; x++) {
-        if (this.game[x][y] === this.game[y][x] && this.game[y][x] === player) {
+        if (this.game[x][y] === this.game[y][x] && this.game[y][x] === player && (x + y === this.n - 1)) {
           i++
         }
-        if (i === (this.n - 1)) { return true }
+        if (i === (this.n)) { return true }
       }
     }
 
@@ -237,18 +232,18 @@ class ticTacToeGame {
   }
 
   allInADiagonal(player) {
-    return(this.allInDirectDiagonal(player) || this.allInInverseDiagonal(player))
+    return (this.allInDirectDiagonal(player) || this.allInInverseDiagonal(player))
   }
 
-  thereAreNotFreePositions() {
+  thereAreFreePositions() {
     for (let x = 0; x < this.n; x++) {
-      if (this.game[x].some(this.validateIfOnePositionIsAvailable)) { return false }
+      if (this.game[x].some(this.validateIfOnePositionIsAvailable)) { return true }
     }
-    return true
+    return false
   }
 
   rulesConditionsToDraw() {
-    return (this.thereAreNotFreePositions() & !this.rulesConditionsToWin("X") & !this.rulesConditionsToWin("O"))
+    return (!this.thereAreFreePositions() && !this.rulesConditionsToWin("X") && !this.rulesConditionsToWin("O"))
   }
 
   resetMockTicTacToeObject = () => {
@@ -334,7 +329,7 @@ const testerAllInADiagonal = (player) => {
   mockTicTacToeObject.game[0][2] = mockTicTacToeObject.game[1][1] = mockTicTacToeObject.game[2][0] = "O"
   mockTicTacToeObject.allInADiagonal(player) ? testT2 = 'Inverse diagonal winner test case Sucedded' : testT2 = 'Inverse diagonal winner test case Failed'
   mockTicTacToeObject.resetMockTicTacToeObject()
-  mockTicTacToeObject.game[0][2] = mockTicTacToeObject.game[1][1] = mockTicTacToeObject.game[2][2] = "O"
+  mockTicTacToeObject.game[0][0] = mockTicTacToeObject.game[1][1] = mockTicTacToeObject.game[2][2] = "O"
   mockTicTacToeObject.allInADiagonal(player) ? testT3 = 'Direct diagonal winner test case Sucedded' : testT3 = 'Direct diagonal winner test case Failed'
   console.log(`testerAllInADiagonal - Test cases Results:
                 ${testT1}
@@ -346,7 +341,6 @@ const testerAllInInverseDiagonal = (player) => {
   mockTicTacToeObject.resetMockTicTacToeObject()
   mockTicTacToeObject.allInInverseDiagonal(player) ? testT1 = 'no inverse winner test case Failed' : testT1 = 'no inverse winner test case Sucedded'
   mockTicTacToeObject.game[0][2] = mockTicTacToeObject.game[1][1] = mockTicTacToeObject.game[2][0] = "O"
-  mockTicTacToeObject.drawingGame()
   mockTicTacToeObject.allInInverseDiagonal(player) ? testT2 = 'Inverse diagonal winner test case Sucedded' : testT2 = 'Inverse diagonal winner test case Failed'
   mockTicTacToeObject.resetMockTicTacToeObject()
   mockTicTacToeObject.game[0][2] = "O"
@@ -355,33 +349,39 @@ const testerAllInInverseDiagonal = (player) => {
   mockTicTacToeObject.game[2][0] = "O"
   mockTicTacToeObject.allInInverseDiagonal(player) ? testT4 = 'Only 20 test case Failed' : testT4 = 'Only 20 test case Sucedded'
   mockTicTacToeObject.resetMockTicTacToeObject()
-  mockTicTacToeObject.game[1][1] = "O"
-  mockTicTacToeObject.allInInverseDiagonal(player) ? testT5 = 'Only 11 test case Failed' : testT5 = 'Only 11 test case Sucedded'
+  mockTicTacToeObject.game[0][2] = mockTicTacToeObject.game[1][2] = mockTicTacToeObject.game[0][0] = mockTicTacToeObject.game[1][1] = mockTicTacToeObject.game[2][1] = "X"
+  mockTicTacToeObject.game[0][1] = mockTicTacToeObject.game[1][0] = mockTicTacToeObject.game[2][0] = mockTicTacToeObject.game[2][2] = "O"
+  mockTicTacToeObject.allInInverseDiagonal(player) ? testT5 = 'Random test case Failed' : testT5 = 'Random test case Sucedded'
   console.log(`testerAllInInverseDiagonal - Test cases Results:
                 ${testT1}
                 ${testT2}
                 ${testT3}
                 ${testT4}
-                ${testT5}}`)
+                ${testT5}`)
 }
 
 const testerAllInDirectDiagonal = (player) => {
   mockTicTacToeObject.resetMockTicTacToeObject()
   mockTicTacToeObject.allInDirectDiagonal(player) ? testT1 = 'No direct diagonal winner test case Failed' : testT1 = 'No direct diagonal winner test case Sucedded'
   mockTicTacToeObject.resetMockTicTacToeObject()
-  mockTicTacToeObject.game[0][0] = "O"
-  mockTicTacToeObject.allInDirectDiagonal(player) ? testT2 = 'Only 00 test case Failed' : testT2 = 'Only 00 test case Sucedded'
+  mockTicTacToeObject.game[0][0] = mockTicTacToeObject.game[2][2] = "O"
+  mockTicTacToeObject.allInDirectDiagonal(player) ? testT2 = '00 and 22 test case Failed' : testT2 = '00 and 22 test case Sucedded'
   mockTicTacToeObject.resetMockTicTacToeObject()
   mockTicTacToeObject.game[2][2] = "O"
   mockTicTacToeObject.allInDirectDiagonal(player) ? testT3 = 'Only 22 test case Failed' : testT3 = 'Only 22 test case Sucedded'
   mockTicTacToeObject.resetMockTicTacToeObject()
+  mockTicTacToeObject.game[0][2] = mockTicTacToeObject.game[1][2] = mockTicTacToeObject.game[0][0] = mockTicTacToeObject.game[1][1] = mockTicTacToeObject.game[2][1] = "X"
+  mockTicTacToeObject.game[0][1] = mockTicTacToeObject.game[1][0] = mockTicTacToeObject.game[2][0] = mockTicTacToeObject.game[2][2] = "O"
+  mockTicTacToeObject.allInDirectDiagonal() ? testT4 = 'Random test case Failed' : testT4 = 'Random test case Sucedded'
+  mockTicTacToeObject.resetMockTicTacToeObject()
   mockTicTacToeObject.game[0][0] = mockTicTacToeObject.game[1][1] = mockTicTacToeObject.game[2][2] = "O"
-  mockTicTacToeObject.allInDirectDiagonal(player) ? testT4 = 'Direct diagonal winner test case Sucedded' : testT4 = 'Direct diagonal winner test case Failed'
-  console.log(`testerAllInADiagonal - Test cases Results:
+  mockTicTacToeObject.allInDirectDiagonal(player) ? testT5 = 'Direct diagonal winner test case Sucedded' : testT5 = 'Direct diagonal winner test case Failed'
+  console.log(`testerAllInDirectDiagonal - Test cases Results:
                 ${testT1}
                 ${testT2}
                 ${testT3}
-                ${testT4}`)
+                ${testT4}
+                ${testT5}`)
 }
 
 const testerRulesConditionsToWin = (player) => {
@@ -402,20 +402,20 @@ const testerRulesConditionsToWin = (player) => {
                   ${testT4}`)
 }
 
-const testerThereAreNotFreePositions = (player) => {
+const testerThereAreFreePositions = (player) => {
   mockTicTacToeObject.resetMockTicTacToeObject()
-  mockTicTacToeObject.thereAreNotFreePositions() ? testT1 = 'All free positions test case Failed' : testT1 = 'All free positions test case Sucedded'
+  mockTicTacToeObject.thereAreFreePositions() ? testT1 = 'All free positions test case Sucedded' : testT1 = 'All free positions test case Failed'
   mockTicTacToeObject.resetMockTicTacToeObject()
   mockTicTacToeObject.game[2][0] = mockTicTacToeObject.game[2][1] = mockTicTacToeObject.game[2][2] = "X"
-  mockTicTacToeObject.thereAreNotFreePositions() ? testT2 = 'Last row filled - No free positions test case Failed' : testT2 = 'Last row filled - No free positions test case Sucedded'
+  mockTicTacToeObject.thereAreFreePositions() ? testT2 = 'Last row filled - No free positions test case Sucedded' : testT2 = 'Last row filled - No free positions test case Failed'
   mockTicTacToeObject.resetMockTicTacToeObject()
   mockTicTacToeObject.game[0][0] = mockTicTacToeObject.game[1][1] = "X"
   mockTicTacToeObject.game[0][1] = mockTicTacToeObject.game[0][2] = "O"
-  mockTicTacToeObject.thereAreNotFreePositions() ? testT3 = 'First row filled - free positions test case Failed' : testT3 = 'First row filled - free positions test case Sucedded'
+  mockTicTacToeObject.thereAreFreePositions() ? testT3 = 'First row filled - free positions test case Sucedded' : testT3 = 'First row filled - free positions test case Failed'
   mockTicTacToeObject.resetMockTicTacToeObject()
   mockTicTacToeObject.game[0][0] = mockTicTacToeObject.game[0][1] = mockTicTacToeObject.game[0][2] = mockTicTacToeObject.game[1][0] = mockTicTacToeObject.game[1][1] = mockTicTacToeObject.game[1][2] = mockTicTacToeObject.game[2][0] = mockTicTacToeObject.game[2][1] = mockTicTacToeObject.game[2][2] = "X"
-  mockTicTacToeObject.thereAreNotFreePositions() ? testT4 = 'No free positions test case Sucedded' : testT4 = 'No free positions test case Failed'
-  console.log(`testerThereAreNotFreePositions - Test cases Results:
+  mockTicTacToeObject.thereAreFreePositions() ? testT4 = 'No free positions test case Failed' : testT4 = 'No free positions test case Sucedded'
+  console.log(`testerThereAreFreePositions - Test cases Results:
                     ${testT1}
                     ${testT2}
                     ${testT3}
@@ -443,9 +443,10 @@ const choseWhatToRun = () => {
   let run = prompt("Enter 1 to run the test cases or enter 2 to play TicTacToe game.")
   if (run === "1") {
     testerRulesConditionsToDraw()
-    testerThereAreNotFreePositions()
+    testerThereAreFreePositions()
     testerRulesConditionsToWin("X")
     testerAllInDirectDiagonal("O")
+    testerAllInInverseDiagonal("O")
     testerAllInADiagonal("O")
     testerAllInAColumn("O")
     testerAllInARow("X")
@@ -460,9 +461,11 @@ const choseWhatToRun = () => {
   }
 }
 
-//choseWhatToRun()
+choseWhatToRun()
 //testerAllInInverseDiagonal("O")
-testerAllInADiagonal("O")
-
+//testerAllInADiagonal("O")
+//testerRulesConditionsToDraw()
+//testerAllInDirectDiagonal("O")
+//testerThereAreFreePositions()
 
 
