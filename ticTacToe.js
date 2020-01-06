@@ -168,7 +168,7 @@ class ticTacToeGame {
   }
 
   validateIfValidInput(input) {
-    let regex = new RegExp('^[1-3](,[1-3])+$')
+    let regex = new RegExp(`^[1-${this.n}](,[1-${this.n}])+$`)
     return input.match(regex)
   }
 
