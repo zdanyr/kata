@@ -71,8 +71,8 @@ class ticTacToeGame {
         this.game[x][y] = "."
       }
     }
-
   }
+
   playGame() {
     let i = 0
     let player
@@ -119,7 +119,7 @@ class ticTacToeGame {
 
     if (this.validateIfOnePositionIsAvailable(this.game[x][y])) {
       this.game[x][y] = player
-      this.drawAndCheckWinDraw(player)
+      this.drawingAndCheckWinDraw(player)
       return
     }
 
@@ -128,12 +128,12 @@ class ticTacToeGame {
 
   }
 
-  drawAndCheckWinDraw(player) {
+  drawingAndCheckWinDraw(player) {
 
     if (this.rulesConditionsToWin(player)) {
+      this.keepPlaying = false
       let winner
       player === "X" ? winner = "player 1" : winner = "player 2"
-      this.keepPlaying = false
       console.log(`Move accepted, well done ${winner} you've won the game!`)
       this.drawingGame()
       return
@@ -151,20 +151,14 @@ class ticTacToeGame {
   }
 
   drawingGame() {
-
-    // for (let x = 0; x < 3; x++) {
-    //   for (let y = 0; y < 3; y++) {
-    //     console.log(`${this.game[x][y]}`)
-    //   }
-    //   console.log(" ")
-    // }
-
-    console.log(`
-          ${this.game[0][0]} ${this.game[0][1]} ${this.game[0][2]}
-          ${this.game[1][0]} ${this.game[1][1]} ${this.game[1][2]}
-          ${this.game[2][0]} ${this.game[2][1]} ${this.game[2][2]}
-          `
-    )
+    let a = ""
+    for (let x = 0; x < this.n; x++) {
+      for (let y = 0; y < this.n; y++) {
+        a = `${a}${this.game[x][y]} `
+      }
+      a = `${a}\n`
+    }
+    console.log(a)
   }
 
   validateIfValidInput(input) {
@@ -210,7 +204,7 @@ class ticTacToeGame {
         if (x === y && this.game[x][y] === player) {
           i++
         }
-        if (i === (this.n)) { return true }
+        if (i === this.n) { return true }
       }
     }
 
@@ -224,7 +218,7 @@ class ticTacToeGame {
         if (this.game[x][y] === this.game[y][x] && this.game[y][x] === player && (x + y === this.n - 1)) {
           i++
         }
-        if (i === (this.n)) { return true }
+        if (i === this.n) { return true }
       }
     }
 
@@ -461,11 +455,14 @@ const choseWhatToRun = () => {
   }
 }
 
-choseWhatToRun()
+//choseWhatToRun()
 //testerAllInInverseDiagonal("O")
 //testerAllInADiagonal("O")
 //testerRulesConditionsToDraw()
 //testerAllInDirectDiagonal("O")
 //testerThereAreFreePositions()
+
+let ticTacToe = new ticTacToeGame()
+ticTacToe.playGame()
 
 
