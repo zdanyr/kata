@@ -456,11 +456,6 @@ const choseWhatToRun = () => {
 }
 
 //choseWhatToRun()
-//testerAllInInverseDiagonal("O")
-//testerAllInADiagonal("O")
-//testerRulesConditionsToDraw()
-//testerAllInDirectDiagonal("O")
-//testerThereAreFreePositions()
 
 let ticTacToe = new ticTacToeGame()
 ticTacToe.playGame()
