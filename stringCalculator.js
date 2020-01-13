@@ -100,20 +100,33 @@ class stringCalculator {
 Create a simple string calculator with a method that takes a string and returns a number.  
 ~~~
 Add("") > Returns 0
+### Step 2 
+A single number returns that number.  
+~~~
+Add("1") > Returns 1
+Add("3") > Returns 3
+~~~
 */
-    Add(input){
-        return input.length;
+    Add(input) {
+        if (input === "") { return 0 }
+        if (input.length === 1) {
+            return parseInt(input)
+        }
     }
 
 }
 
 
 
-var test1, test2
+var test1, test2, test3
 const testerAdd = () => {
     toTestStringCalculator.Add("") === 0 ? test1 = "empty string returns cero test case succeeded" : test1 = "empty string returns cero test case failed";
+    toTestStringCalculator.Add("1") === 1 ? test2 = "string 1 returns 1 test case succeeded" : test2 = "string 1 returns 1 test case failed";
+    toTestStringCalculator.Add("3") === 3 ? test3 = "string 3 returns integer 3 test case succeeded" : test3 = "string 3 returns integer 3 test case failed";
     console.log(`testerAdd test cases results:
     Test1: ${test1}
+    Test2: ${test2}
+    Test3: ${test3}
     `)
 }
 
