@@ -101,30 +101,22 @@ Create a simple string calculator with a method that takes a string and returns 
 ~~~
 Add("") > Returns 0
 */
-    takesStringReturnsNumber(input){
+    Add(input){
         return input.length;
     }
-    /*
-### Step 2 
-A single number returns that number.  
-~~~
-Add("1") > Returns 1
-Add("3") > Returns 3
-~~~
-*/
+
 }
 
 
 
 var test1, test2
-const testerTakesStringReturnsNumber = () => {
-    toTestStringCalculator.takesStringReturnsNumber("") === 0 ? test1 = "empty string test case succeeded" : test1 = "empty string test case failed";
-    toTestStringCalculator.takesStringReturnsNumber("a") === 1 ? test2 = "a string test case succeeded" : test2 = "a string test case failed";
-    console.log(`testerTakesStringReturnsNumber test cases results:
+const testerAdd = () => {
+    toTestStringCalculator.Add("") === 0 ? test1 = "empty string returns cero test case succeeded" : test1 = "empty string returns cero test case failed";
+    console.log(`testerAdd test cases results:
     Test1: ${test1}
-    Test2: ${test2}
     `)
 }
 
+
 let toTestStringCalculator = new stringCalculator()
-testerTakesStringReturnsNumber()
+testerAdd()
