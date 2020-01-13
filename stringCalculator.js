@@ -113,8 +113,15 @@ Add("1,2") > Returns 3
 Add("3,5") > Returns 8
 */
     Add(input) {
+        let numberCommaNumber = new RegExp(`[0-9],[0-9]`)
+    
         if (input === "") { return 0 }
         if (input.length === 1) { return parseInt(input) }
+        if(input.match(numberCommaNumber)) {
+            var x = parseInt(input.substring(0, 1));
+            var y = parseInt(input.substring(2, 3));
+            return x + y;
+        }
     }
 
 }
