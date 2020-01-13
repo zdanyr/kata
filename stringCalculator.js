@@ -106,27 +106,34 @@ A single number returns that number.
 Add("1") > Returns 1
 Add("3") > Returns 3
 ~~~
+### Step 3 
+Two numbers return the sum of the numbers.  
+~~~
+Add("1,2") > Returns 3
+Add("3,5") > Returns 8
 */
     Add(input) {
         if (input === "") { return 0 }
-        if (input.length === 1) {
-            return parseInt(input)
-        }
+        if (input.length === 1) { return parseInt(input) }
     }
 
 }
 
 
 
-var test1, test2, test3
+var test1, test2, test3, test4, test5
 const testerAdd = () => {
     toTestStringCalculator.Add("") === 0 ? test1 = "empty string returns cero test case succeeded" : test1 = "empty string returns cero test case failed";
     toTestStringCalculator.Add("1") === 1 ? test2 = "string 1 returns 1 test case succeeded" : test2 = "string 1 returns 1 test case failed";
     toTestStringCalculator.Add("3") === 3 ? test3 = "string 3 returns integer 3 test case succeeded" : test3 = "string 3 returns integer 3 test case failed";
+    toTestStringCalculator.Add("1,2") === 3 ? test4 = "string 1,2 returns 3 test case succeeded" : test4 = "string 1,2 returns 3 test case failed";
+    toTestStringCalculator.Add("3,5") === 8 ? test5 = "string 3,5 returns integer 8 test case succeeded" : test5 = "string 3,5 returns integer 8 test case failed";
     console.log(`testerAdd test cases results:
     Test1: ${test1}
     Test2: ${test2}
     Test3: ${test3}
+    Test4: ${test4}
+    Test5: ${test5}
     `)
 }
 
