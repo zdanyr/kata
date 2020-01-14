@@ -111,6 +111,11 @@ Two numbers return the sum of the numbers.
 ~~~
 Add("1,2") > Returns 3
 Add("3,5") > Returns 8
+### Step 4 
+Any amount of numbers returns the sum of those numbers.  
+~~~
+Add("1,2,3") > Returns 6
+Add("3,5,3,9") > Returns 20
 */
     Add(input) {
         let numberCommaNumber = new RegExp(`[0-9],[0-9]`)
@@ -122,28 +127,33 @@ Add("3,5") > Returns 8
             var y = parseInt(input.substring(2, 3));
             return x + y;
         }
+
+
     }
 
 }
 
 
 
-var test1, test2, test3, test4, test5
+var test1, test2, test3, test4, test5, test6, test7
 const testerAdd = () => {
     toTestStringCalculator.Add("") === 0 ? test1 = "empty string returns cero test case succeeded" : test1 = "empty string returns cero test case failed";
     toTestStringCalculator.Add("1") === 1 ? test2 = "string 1 returns 1 test case succeeded" : test2 = "string 1 returns 1 test case failed";
     toTestStringCalculator.Add("3") === 3 ? test3 = "string 3 returns integer 3 test case succeeded" : test3 = "string 3 returns integer 3 test case failed";
     toTestStringCalculator.Add("1,2") === 3 ? test4 = "string 1,2 returns 3 test case succeeded" : test4 = "string 1,2 returns 3 test case failed";
     toTestStringCalculator.Add("3,5") === 8 ? test5 = "string 3,5 returns integer 8 test case succeeded" : test5 = "string 3,5 returns integer 8 test case failed";
+    toTestStringCalculator.Add("1,2,3") === 6 ? test6 = "string 1,2,3 returns 6 test case succeeded" : test6 = "string 1,2,3 returns 6 test case failed";
+    toTestStringCalculator.Add("3,5,3,9") === 20 ? test7 = "string 3,5,3,9 returns integer 20 test case succeeded" : test7 = "string 3,5,3,9 returns integer 20 test case failed";
     console.log(`testerAdd test cases results:
     Test1: ${test1}
     Test2: ${test2}
     Test3: ${test3}
     Test4: ${test4}
     Test5: ${test5}
+    Test6: ${test6}
+    Test7: ${test7}
     `)
 }
-
 
 let toTestStringCalculator = new stringCalculator()
 testerAdd()
