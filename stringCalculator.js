@@ -96,26 +96,14 @@ Note, a delimiter of 1DD or DD1 is not valid as it has a number on the edge of i
 
 class stringCalculator {
     /*
-### Step 1 
-Create a simple string calculator with a method that takes a string and returns a number.  
+### Step 5 
+New line breaks and commas should be interchangeable between numbers.  
+Add("1,2\n3") > Returns 6
+Add("3\n5\n3,9") > Returns 20
 ~~~
-Add("") > Returns 0
-### Step 2 
-A single number returns that number.  
+The following is not ok, don't write a test but be aware... 
 ~~~
-Add("1") > Returns 1
-Add("3") > Returns 3
-~~~
-### Step 3 
-Two numbers return the sum of the numbers.  
-~~~
-Add("1,2") > Returns 3
-Add("3,5") > Returns 8
-### Step 4 
-Any amount of numbers returns the sum of those numbers.  
-~~~
-Add("1,2,3") > Returns 6
-Add("3,5,3,9") > Returns 20
+Add("1,\n")
 */
     Add(input) {
         let sum = 0
@@ -132,7 +120,7 @@ Add("3,5,3,9") > Returns 20
 
 
 
-var test1, test2, test3, test4, test5, test6, test7
+var test1, test2, test3, test4, test5, test6, test7, test8, test9
 const testerAdd = () => {
     toTestStringCalculator.Add("") === 0 ? test1 = "empty string returns cero test case succeeded" : test1 = "empty string returns cero test case failed";
     toTestStringCalculator.Add("1") === 1 ? test2 = "string 1 returns 1 test case succeeded" : test2 = "string 1 returns 1 test case failed";
@@ -141,6 +129,8 @@ const testerAdd = () => {
     toTestStringCalculator.Add("3,5") === 8 ? test5 = "string 3,5 returns integer 8 test case succeeded" : test5 = "string 3,5 returns integer 8 test case failed";
     toTestStringCalculator.Add("1,2,3") === 6 ? test6 = "string 1,2,3 returns 6 test case succeeded" : test6 = "string 1,2,3 returns 6 test case failed";
     toTestStringCalculator.Add("3,5,3,9") === 20 ? test7 = "string 3,5,3,9 returns integer 20 test case succeeded" : test7 = "string 3,5,3,9 returns integer 20 test case failed";
+    toTestStringCalculator.Add("1,2\n3") === 6 ? test8 = "string 1,2\\n3 returns 6 test case succeeded" : test8 = "string 1,2\\n3 returns 6 test case failed";
+    toTestStringCalculator.Add("3\n5\n3,9") === 20 ? test9 = "string 3\\n5\\n3,9 returns integer 20 test case succeeded" : test9 = "string 3\\n5\\n3,9 returns integer 20 test case failed";
     console.log(`testerAdd test cases results:
     Test1: ${test1}
     Test2: ${test2}
@@ -149,6 +139,8 @@ const testerAdd = () => {
     Test5: ${test5}
     Test6: ${test6}
     Test7: ${test7}
+    Test8: ${test8}
+    Test9: ${test9}
     `)
 }
 
