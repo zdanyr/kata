@@ -118,17 +118,14 @@ Add("1,2,3") > Returns 6
 Add("3,5,3,9") > Returns 20
 */
     Add(input) {
-        let numberCommaNumber = new RegExp(`[0-9],[0-9]`)
-    
+        let sum = 0
+        let inputAsArray = input.split(',')
         if (input === "") { return 0 }
-        if (input.length === 1) { return parseInt(input) }
-        if(input.match(numberCommaNumber)) {
-            var x = parseInt(input.substring(0, 1));
-            var y = parseInt(input.substring(2, 3));
-            return x + y;
+
+        for (let i = 0; i < inputAsArray.length; i++) {
+            sum = sum + parseInt(inputAsArray[i]);
         }
-
-
+        return sum;
     }
 
 }
