@@ -171,9 +171,8 @@ class ticTacToeGame {
   }
 
   validateIfValidInput(input) {
-    //Reveals Intent
-    let regex = new RegExp(`^[1-${this.n}],[1-${this.n}]$`)
-    return input.match(regex)
+    let coordinatesXY = new RegExp(`^[1-${this.n}],[1-${this.n}]$`)
+    return input.match(coordinatesXY)
   }
 
   validateIfOnePositionIsAvailable(t) { return (t === ".") }
