@@ -57,18 +57,20 @@ The system should display appropriate messages for incorrect coordinates and a d
 
 class ticTacToeGame {
 
-  n = 3; //dimension of the matrix
-  game = new Array(this.n);
+  dimension = 0; //dimension of the matrix
+  game = new Array(this.dimension);
   keepPlaying = true;
   player = 'player 1'
 
-  constructor() {
-    for (let z = 0; z < this.n; z++) {
-      this.game[z] = new Array(this.n);
+  constructor(dimension) {
+    this.dimension = parseInt(dimension)
+    console.log(this.dimension)
+    for (let z = 0; z < this.dimension; z++) {
+      this.game[z] = new Array(this.dimension);
     }
 
-    for (let x = 0; x < this.n; x++) {
-      for (let y = 0; y < this.n; y++) {
+    for (let x = 0; x < this.dimension; x++) {
+      for (let y = 0; y < this.dimension; y++) {
         this.game[x][y] = "."
       }
     }
@@ -89,20 +91,20 @@ class ticTacToeGame {
 
   takeInput(inputXOrO) {
     let message
-    let input
+    let userInput
     let validInput = false
 
     while (validInput === false) {
       inputXOrO === "X" ? this.player = 'Player 1' : this.player = 'Player 2'
       message = `${this.player} enter a coord x,y to place your ${inputXOrO} or enter 'q' to give up`
-      input = prompt(message)
+      userInput = prompt(message)
 
-      if (this.isValidInput(input)) {
-        this.manageInput(input, inputXOrO)
+      if (this.isValidInput(userInput)) {
+        this.manageInput(userInput, inputXOrO)
         break
       }
 
-      if (input === "q") {
+      if (userInput === "q") {
         this.keepPlaying = false
         console.log("Game terminated. Thank you for playing :)")
         break
@@ -131,6 +133,7 @@ class ticTacToeGame {
 
   drawingAndCheckWinDraw(inputXOrO) {
     let winOrDraw = ''
+    
     if (this.rulesConditionsToWin(inputXOrO)) {
       this.keepPlaying = false
       winOrDraw = 'win'
@@ -168,8 +171,9 @@ class ticTacToeGame {
 
   drawingGame() {
     let a = ""
-    for (let x = 0; x < this.n; x++) {
-      for (let y = 0; y < this.n; y++) {
+
+    for (let x = 0; x < this.dimension; x++) {
+      for (let y = 0; y < this.dimension; y++) {
         a = `${a}${this.game[x][y]} `
       }
       a = `${a}\n`
@@ -178,7 +182,7 @@ class ticTacToeGame {
   }
 
   isValidInput(input) {
-    let coordinatesXY = new RegExp(`^[1-${this.n}],[1-${this.n}]$`)
+    let coordinatesXY = new RegExp(`^[1-${this.dimension}],[1-${this.dimension}]$`)
     return input.match(coordinatesXY)
   }
 
@@ -197,35 +201,35 @@ class ticTacToeGame {
     //   return true
     // }
 
-    for (let x = 0; x < this.n; x++) {
-      for (let y = 0; y < this.n; y++) {
+    for (let x = 0; x < this.dimension; x++) {
+      for (let y = 0; y < this.dimension; y++) {
         if (this.game[x][y] != inputXOrO) {
           break
         }
-        if (y === (this.n - 1)) { return true }
+        if (y === (this.dimension - 1)) { return true }
       }
     }
   }
 
   allInAColumn(inputXOrO) {
 
-    for (let y = 0; y < this.n; y++) {
-      for (let x = 0; x < this.n; x++) {
+    for (let y = 0; y < this.dimension; y++) {
+      for (let x = 0; x < this.dimension; x++) {
         if (this.game[x][y] != inputXOrO) {
           break
         }
-        if (x === this.n - 1) { return true }
+        if (x === this.dimension - 1) { return true }
       }
     }
   }
 
   allInDirectDiagonal(inputXOrO) {
     let i = 0
-    for (let x = 0; x < this.n; x++) {
+    for (let x = 0; x < this.dimension; x++) {
       if (this.game[x][x] === inputXOrO) {
         i++
       }
-      if (i === this.n) { return true }
+      if (i === this.dimension) { return true }
     }
     return false
   }
@@ -233,12 +237,12 @@ class ticTacToeGame {
   allInInverseDiagonal(inputXOrO) {
     let i = 0
 
-    for (let y = 0; y < this.n; y++) {
-      for (let x = 0; x < this.n; x++) {
-        if (this.game[x][y] === this.game[y][x] && this.game[y][x] === inputXOrO && (x + y === this.n - 1)) {
+    for (let y = 0; y < this.dimension; y++) {
+      for (let x = 0; x < this.dimension; x++) {
+        if (this.game[x][y] === this.game[y][x] && this.game[y][x] === inputXOrO && (x + y === this.dimension - 1)) {
           i++
         }
-        if (i === this.n) { return true }
+        if (i === this.dimension) { return true }
       }
     }
 
@@ -250,7 +254,7 @@ class ticTacToeGame {
   }
 
   thereAreFreePositions() {
-    for (let x = 0; x < this.n; x++) {
+    for (let x = 0; x < this.dimension; x++) {
       if (this.game[x].some(this.validateIfOnePositionIsAvailable)) { return true }
     }
     return false
@@ -261,8 +265,8 @@ class ticTacToeGame {
   }
 
   resetMockTicTacToeObject = () => {
-    for (let x = 0; x < this.n; x++) {
-      for (let y = 0; y < this.n; y++) {
+    for (let x = 0; x < this.dimension; x++) {
+      for (let y = 0; y < this.dimension; y++) {
         this.game[x][y] = "."
       }
     }
@@ -477,9 +481,8 @@ const choseWhatToRun = () => {
 
 //choseWhatToRun()
 
-let ticTacToe = new ticTacToeGame()
+let ticTacToe = new ticTacToeGame("5")
 ticTacToe.playGame()
 
-//testerAllInADiagonal("O")
 
 
