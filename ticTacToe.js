@@ -77,9 +77,8 @@ class ticTacToeGame {
   playGame() {
     let i = 0
     let inputXOrO
-    console.log(`
-      Welcome to Tic Tac Toe!
-      Here's the current board:`)
+
+    this.printMessage('startGame')
     this.drawingGame()
     while (this.keepPlaying) {
       (i % 2 === 0) ? inputXOrO = "X" : inputXOrO = "O"
@@ -89,13 +88,11 @@ class ticTacToeGame {
   }
 
   takeInput(inputXOrO) {
-
     let message
     let input
     let validInput = false
 
     while (validInput === false) {
-
       inputXOrO === "X" ? this.player = 'Player 1' : this.player = 'Player 2'
       message = `${this.player} enter a coord x,y to place your ${inputXOrO} or enter 'q' to give up`
       input = prompt(message)
@@ -133,7 +130,6 @@ class ticTacToeGame {
   }
 
   drawingAndCheckWinDraw(inputXOrO) {
-    let print
     let winOrDraw = ''
     if (this.rulesConditionsToWin(inputXOrO)) {
       this.keepPlaying = false
@@ -145,19 +141,29 @@ class ticTacToeGame {
       winOrDraw = 'draw'
     }
 
-    print = this.printMessage(winOrDraw)
-    console.log(print)
+    this.printMessage(winOrDraw)
     this.drawingGame()
   }
 
   printMessage(a) {
+    if (a === 'startGame') {
+      console.log(`
+    Welcome to Tic Tac Toe!
+    Here's the current board:`)
+      return
+    }
     if (a === 'win') {
-      return `Move accepted, well done ${this.player} you've won the game!`
+      console.log(`
+    Move accepted, well done ${this.player} you've won the game!`)
+      return
     }
     if (a === 'draw') {
-      return `Draw! No winner this time.`
+      console.log(`
+    Draw! No winner this time.`)
+      return
     }
-    return `Move accepted, here's the current board:`
+    console.log(`
+    Move accepted, here's the current board:`)
   }
 
   drawingGame() {
