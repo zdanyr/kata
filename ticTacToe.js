@@ -64,7 +64,7 @@ class ticTacToeGame {
 
   constructor(dimension) {
     this.dimension = parseInt(dimension)
-    console.log(this.dimension)
+    
     for (let z = 0; z < this.dimension; z++) {
       this.game[z] = new Array(this.dimension);
     }
