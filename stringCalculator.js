@@ -107,18 +107,18 @@ Add("1,\n")
 */
     Add(input) {
         let sum = 0
-        let inputAsArray = input.split(',')
+        let replaceBreakWithComma = input.replace(/\n/g, ',')
+        let inputAsArray = replaceBreakWithComma.split(',')
         if (input === "") { return 0 }
 
         for (let i = 0; i < inputAsArray.length; i++) {
             sum = sum + parseInt(inputAsArray[i]);
         }
-        return sum;
+
+        return sum
     }
 
 }
-
-
 
 var test1, test2, test3, test4, test5, test6, test7, test8, test9
 const testerAdd = () => {
@@ -146,3 +146,5 @@ const testerAdd = () => {
 
 let toTestStringCalculator = new stringCalculator()
 testerAdd()
+
+console.log(toTestStringCalculator.Add("1,\n"))
