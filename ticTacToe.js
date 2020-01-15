@@ -60,7 +60,7 @@ class ticTacToeGame {
   n = 3; //dimension of the matrix
   game = new Array(this.n);
   keepPlaying = true;
-  player
+  player = 'player 1'
 
   constructor() {
     for (let z = 0; z < this.n; z++) {
@@ -92,28 +92,29 @@ class ticTacToeGame {
 
     let message
     let input
+    let validInput = false
 
-    inputXOrO === "X" ? this.player = 'Player 1' : this.player = 'Player 2'
+    while (validInput === false) {
+
+      inputXOrO === "X" ? this.player = 'Player 1' : this.player = 'Player 2'
       message = `${this.player} enter a coord x,y to place your ${inputXOrO} or enter 'q' to give up`
-    input = prompt(message)
+      input = prompt(message)
 
-    if (this.validateIfValidInput(input)) {
-      this.manageInput(input, inputXOrO)
-      return
-    }
+      if (this.isValidInput(input)) {
+        this.manageInput(input, inputXOrO)
+        break
+      }
 
-    if (input === "q") {
-      this.keepPlaying = false
-      console.log("Game terminated. Thank you for playing :)")
-      return
-    }
+      if (input === "q") {
+        this.keepPlaying = false
+        console.log("Game terminated. Thank you for playing :)")
+        break
+      }
 
-    console.log(`
+      console.log(`
         Invalid input format. Please try again.
         ${message}`)
-
-        //convert into a non recursive method using while or for
-    this.takeInput(inputXOrO)
+    }
   }
 
   manageInput(input, inputXOrO) {
@@ -149,11 +150,11 @@ class ticTacToeGame {
     this.drawingGame()
   }
 
-  printMessage(a){
-    if(a==='win'){
+  printMessage(a) {
+    if (a === 'win') {
       return `Move accepted, well done ${this.player} you've won the game!`
     }
-    if(a==='draw'){
+    if (a === 'draw') {
       return `Draw! No winner this time.`
     }
     return `Move accepted, here's the current board:`
@@ -170,7 +171,7 @@ class ticTacToeGame {
     console.log(a)
   }
 
-  validateIfValidInput(input) {
+  isValidInput(input) {
     let coordinatesXY = new RegExp(`^[1-${this.n}],[1-${this.n}]$`)
     return input.match(coordinatesXY)
   }
@@ -182,6 +183,13 @@ class ticTacToeGame {
   }
 
   allInARow(inputXOrO) {
+
+    // for (let z = 0; z < this.n; z++) {
+    //   if(this.game[z] !=inputXOrO) {
+    //     break
+    //   }
+    //   return true
+    // }
 
     for (let x = 0; x < this.n; x++) {
       for (let y = 0; y < this.n; y++) {
@@ -207,19 +215,18 @@ class ticTacToeGame {
 
   allInDirectDiagonal(inputXOrO) {
     let i = 0
-      for (let x = 0; x < this.n; x++) {
-
-        if (this.game[x][x] === inputXOrO) {
-          i++
-        }
-        if (i === this.n) { return true }
+    for (let x = 0; x < this.n; x++) {
+      if (this.game[x][x] === inputXOrO) {
+        i++
       }
-
+      if (i === this.n) { return true }
+    }
     return false
   }
 
   allInInverseDiagonal(inputXOrO) {
     let i = 0
+
     for (let y = 0; y < this.n; y++) {
       for (let x = 0; x < this.n; x++) {
         if (this.game[x][y] === this.game[y][x] && this.game[y][x] === inputXOrO && (x + y === this.n - 1)) {
@@ -264,10 +271,10 @@ let testT1, testT2, testT3, testT4, testT5
 
 
 const testerValidateIfValidInput = (input) => {
-  mockTicTacToeObject.validateIfValidInput("1,2") ? testT1 = '(1,2) test case succeeded' : testT1 = '1,2 test case Failed'
-  mockTicTacToeObject.validateIfValidInput("4,1") ? testT2 = '(4,1) test case Failed' : testT2 = '4,1 test case succeeded'
-  mockTicTacToeObject.validateIfValidInput("a") ? testT3 = '(a) test case Failed' : testT3 = 'a test case succeeded'
-  mockTicTacToeObject.validateIfValidInput("1 2") ? testT4 = '(1 2) test case Failed' : testT4 = '1 2 test case succeeded'
+  mockTicTacToeObject.isValidInput("1,2") ? testT1 = '(1,2) test case succeeded' : testT1 = '1,2 test case Failed'
+  mockTicTacToeObject.isValidInput("4,1") ? testT2 = '(4,1) test case Failed' : testT2 = '4,1 test case succeeded'
+  mockTicTacToeObject.isValidInput("a") ? testT3 = '(a) test case Failed' : testT3 = 'a test case succeeded'
+  mockTicTacToeObject.isValidInput("1 2") ? testT4 = '(1 2) test case Failed' : testT4 = '1 2 test case succeeded'
   console.log(`testerValidateIfValidInput - Test cases Results:
         ${testT1}
         ${testT2}
@@ -464,9 +471,9 @@ const choseWhatToRun = () => {
 
 //choseWhatToRun()
 
-// let ticTacToe = new ticTacToeGame()
-// ticTacToe.playGame()
+let ticTacToe = new ticTacToeGame()
+ticTacToe.playGame()
 
-testerAllInADiagonal("O")
+//testerAllInADiagonal("O")
 
 
