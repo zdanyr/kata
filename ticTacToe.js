@@ -207,15 +207,13 @@ class ticTacToeGame {
 
   allInDirectDiagonal(inputXOrO) {
     let i = 0
-    for (let y = 0; y < this.n; y++) {
       for (let x = 0; x < this.n; x++) {
 
-        if (x === y && this.game[x][y] === inputXOrO) {
+        if (this.game[x][x] === inputXOrO) {
           i++
         }
         if (i === this.n) { return true }
       }
-    }
 
     return false
   }
@@ -466,10 +464,9 @@ const choseWhatToRun = () => {
 
 //choseWhatToRun()
 
-let ticTacToe = new ticTacToeGame()
-ticTacToe.playGame()
+// let ticTacToe = new ticTacToeGame()
+// ticTacToe.playGame()
 
-//testerValidateIfValidInput(input)
-//testerRulesConditionsToWin("X")
+testerAllInADiagonal("O")
 
 
