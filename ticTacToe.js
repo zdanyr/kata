@@ -60,6 +60,7 @@ class ticTacToeGame {
   n = 3; //dimension of the matrix
   game = new Array(this.n);
   keepPlaying = true;
+  player
 
   constructor() {
     for (let z = 0; z < this.n; z++) {
@@ -91,11 +92,9 @@ class ticTacToeGame {
 
     let message
     let input
-    let player
 
-    //DRY
-    inputXOrO === "X" ? player = 'Player 1' : player = 'Player 2'
-      message = `${player} enter a coord x,y to place your ${inputXOrO} or enter 'q' to give up`
+    inputXOrO === "X" ? this.player = 'Player 1' : this.player = 'Player 2'
+      message = `${this.player} enter a coord x,y to place your ${inputXOrO} or enter 'q' to give up`
     input = prompt(message)
 
     if (this.validateIfValidInput(input)) {
@@ -133,25 +132,31 @@ class ticTacToeGame {
   }
 
   drawingAndCheckWinDraw(inputXOrO) {
-
+    let print
+    let winOrDraw = ''
     if (this.rulesConditionsToWin(inputXOrO)) {
       this.keepPlaying = false
-      let winner
-      inputXOrO === "X" ? winner = "player 1" : winner = "player 2"
-      console.log(`Move accepted, well done ${winner} you've won the game!`)
-      this.drawingGame()
-      return
+      winOrDraw = 'win'
     }
 
     if (this.rulesConditionsToDraw()) {
       this.keepPlaying = false
-      console.log("Draw! No winner this time.")
-      this.drawingGame()
-      return
+      winOrDraw = 'draw'
     }
 
-    console.log(`Move accepted, here's the current board:`)
+    print = this.printMessage(winOrDraw)
+    console.log(print)
     this.drawingGame()
+  }
+
+  printMessage(a){
+    if(a==='win'){
+      return `Move accepted, well done ${this.player} you've won the game!`
+    }
+    if(a==='draw'){
+      return `Draw! No winner this time.`
+    }
+    return `Move accepted, here's the current board:`
   }
 
   drawingGame() {
@@ -466,5 +471,6 @@ let ticTacToe = new ticTacToeGame()
 ticTacToe.playGame()
 
 //testerValidateIfValidInput(input)
+//testerRulesConditionsToWin("X")
 
 
