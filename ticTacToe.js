@@ -64,7 +64,7 @@ class ticTacToeGame {
 
   constructor(dimension) {
     this.dimension = parseInt(dimension)
-    
+
     for (let z = 0; z < this.dimension; z++) {
       this.game[z] = new Array(this.dimension);
     }
@@ -106,13 +106,11 @@ class ticTacToeGame {
 
       if (userInput === "q") {
         this.keepPlaying = false
-        console.log("Game terminated. Thank you for playing :)")
+        this.printMessage('gameTerminated')
         break
       }
 
-      console.log(`
-        Invalid input format. Please try again.
-        ${message}`)
+      this.printMessage('invalidInput')
     }
   }
 
@@ -133,7 +131,7 @@ class ticTacToeGame {
 
   drawingAndCheckWinDraw(inputXOrO) {
     let winOrDraw = ''
-    
+
     if (this.rulesConditionsToWin(inputXOrO)) {
       this.keepPlaying = false
       winOrDraw = 'win'
@@ -149,10 +147,21 @@ class ticTacToeGame {
   }
 
   printMessage(a) {
+    
     if (a === 'startGame') {
       console.log(`
     Welcome to Tic Tac Toe!
     Here's the current board:`)
+      return
+    }
+    if (a === 'gameTerminated') {
+      console.log(`
+    Game terminated. Thank you for playing :)`)
+      return
+    }
+    if (a === 'invalidInput') {
+      console.log(`
+    Invalid input format. Please try again.`)
       return
     }
     if (a === 'win') {
