@@ -61,6 +61,15 @@ class ticTacToeGame {
   game = new Array(this.dimension);
   keepPlaying = true;
   player = 'player 1'
+  messages = {
+    STARTGAME: 'Welcome to Tic Tac Toe! \nHere\'s the current board:',
+    NOFREESPOT: `Oh no, a piece is already at this place! Try again...`,
+    GAMETERMINATED: `Game terminated. Thank you for playing :)`,
+    INVALIDINPUT: `Invalid input format. Please try again.`,
+    WIN: `Move accepted, well done ${this.player} you've won the game!`,
+    DRAW: `Draw! No winner this time.`,
+    MOVEACCEPTED: `Move accepted, here's the current board:`,
+  }
 
   constructor(dimension) {
     this.dimension = parseInt(dimension)
@@ -148,38 +157,31 @@ class ticTacToeGame {
   printMessage(a) {
 
     if (a === 'startGame') {
-      console.log(`
-    Welcome to Tic Tac Toe!
-    Here's the current board:`)
+      console.log(this.messages.STARTGAME)
       return
     }
     if (a === 'noFreeSpot') {
-      console.log(`Oh no, a piece is already at this place! Try again...`)
+      console.log(this.messages.NOFREESPOT)
       return
     }
     if (a === 'gameTerminated') {
-      console.log(`
-    Game terminated. Thank you for playing :)`)
+      console.log(this.messages.GAMETERMINATED)
       return
     }
     if (a === 'invalidInput') {
-      console.log(`
-    Invalid input format. Please try again.`)
+      console.log(this.messages.INVALIDINPUT)
       return
     }
     if (a === 'win') {
-      console.log(`
-    Move accepted, well done ${this.player} you've won the game!`)
+      console.log(this.messages.WIN)
       return
     }
     if (a === 'draw') {
-      console.log(`
-    Draw! No winner this time.`)
+      console.log(this.messages.DRAW)
       return
     }
     if (a === 'moveAccepted') {
-      console.log(`
-    Move accepted, here's the current board:`)
+      console.log(this.messages.MOVEACCEPTED)
       return
     }
   }
@@ -489,7 +491,7 @@ const choseWhatToRun = () => {
 
 //choseWhatToRun()
 
-let ticTacToe = new ticTacToeGame("5")
+let ticTacToe = new ticTacToeGame("3")
 ticTacToe.playGame()
 
 
