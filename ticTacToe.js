@@ -57,7 +57,7 @@ The system should display appropriate messages for incorrect coordinates and a d
 
 class ticTacToeGame {
 
-  dimension = 0; //dimension of the matrix
+  dimension = 0;
   game = new Array(this.dimension);
   keepPlaying = true;
   player = 'player 1'
@@ -124,13 +124,12 @@ class ticTacToeGame {
       return
     }
 
-    console.log(`Oh no, a piece is already at this place! Try again...`)
+    this.printMessage('noFreeSpot')
     this.takeInput(inputXOrO)
-
   }
 
   drawingAndCheckWinDraw(inputXOrO) {
-    let winOrDraw = ''
+    let winOrDraw = 'moveAccepted'
 
     if (this.rulesConditionsToWin(inputXOrO)) {
       this.keepPlaying = false
@@ -147,11 +146,15 @@ class ticTacToeGame {
   }
 
   printMessage(a) {
-    
+
     if (a === 'startGame') {
       console.log(`
     Welcome to Tic Tac Toe!
     Here's the current board:`)
+      return
+    }
+    if (a === 'noFreeSpot') {
+      console.log(`Oh no, a piece is already at this place! Try again...`)
       return
     }
     if (a === 'gameTerminated') {
@@ -174,41 +177,37 @@ class ticTacToeGame {
     Draw! No winner this time.`)
       return
     }
-    console.log(`
+    if (a === 'moveAccepted') {
+      console.log(`
     Move accepted, here's the current board:`)
+      return
+    }
   }
 
   drawingGame() {
-    let a = ""
+    let value = ""
 
     for (let x = 0; x < this.dimension; x++) {
       for (let y = 0; y < this.dimension; y++) {
-        a = `${a}${this.game[x][y]} `
+        value = `${value}${this.game[x][y]} `
       }
-      a = `${a}\n`
+      value = `${value}\n`
     }
-    console.log(a)
+    console.log(value)
   }
 
   isValidInput(input) {
-    let coordinatesXY = new RegExp(`^[1-${this.dimension}],[1-${this.dimension}]$`)
-    return input.match(coordinatesXY)
+    let coordinatesXComaY = new RegExp(`^[1-${this.dimension}],[1-${this.dimension}]$`)
+    return input.match(coordinatesXComaY)
   }
 
-  validateIfOnePositionIsAvailable(t) { return (t === ".") }
+  validateIfOnePositionIsAvailable(value) { return (value === ".") }
 
   rulesConditionsToWin(inputXOrO) {
     return (this.allInARow(inputXOrO) || this.allInAColumn(inputXOrO) || this.allInADiagonal(inputXOrO))
   }
 
   allInARow(inputXOrO) {
-
-    // for (let z = 0; z < this.n; z++) {
-    //   if(this.game[z] !=inputXOrO) {
-    //     break
-    //   }
-    //   return true
-    // }
 
     for (let x = 0; x < this.dimension; x++) {
       for (let y = 0; y < this.dimension; y++) {
