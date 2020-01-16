@@ -154,33 +154,33 @@ class ticTacToeGame {
     this.drawingGame()
   }
 
-  printMessage(a) {
+  printMessage(messageToPrint) {
 
-    if (a === 'startGame') {
+    if (messageToPrint === 'startGame') {
       console.log(this.messages.STARTGAME)
       return
     }
-    if (a === 'noFreeSpot') {
+    if (messageToPrint === 'noFreeSpot') {
       console.log(this.messages.NOFREESPOT)
       return
     }
-    if (a === 'gameTerminated') {
+    if (messageToPrint === 'gameTerminated') {
       console.log(this.messages.GAMETERMINATED)
       return
     }
-    if (a === 'invalidInput') {
+    if (messageToPrint === 'invalidInput') {
       console.log(this.messages.INVALIDINPUT)
       return
     }
-    if (a === 'win') {
+    if (messageToPrint === 'win') {
       console.log(this.messages.WIN)
       return
     }
-    if (a === 'draw') {
+    if (messageToPrint === 'draw') {
       console.log(this.messages.DRAW)
       return
     }
-    if (a === 'moveAccepted') {
+    if (messageToPrint === 'moveAccepted') {
       console.log(this.messages.MOVEACCEPTED)
       return
     }
