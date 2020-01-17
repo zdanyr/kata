@@ -61,14 +61,35 @@ class ticTacToeGame {
   game = new Array(this.dimension);
   keepPlaying = true;
   player = 'player 1'
-  messages = {
-    STARTGAME: 'Welcome to Tic Tac Toe! \nHere\'s the current board:',
-    NOFREESPOT: `Oh no, a piece is already at this place! Try again...`,
-    GAMETERMINATED: `Game terminated. Thank you for playing :)`,
-    INVALIDINPUT: `Invalid input format. Please try again.`,
-    WIN: `Move accepted, well done ${this.player} you've won the game!`,
-    DRAW: `Draw! No winner this time.`,
-    MOVEACCEPTED: `Move accepted, here's the current board:`,
+  gamePhases = {
+    STARTGAME: {
+      MESSAGE: 'Welcome to Tic Tac Toe! \nHere\'s the current board:',
+      ACTION: 0,
+    },
+    NOFREESPOT: {
+      MESSAGE: `Oh no, a piece is already at this place! Try again...`,
+      ACTION: 1,
+    },
+    GAMETERMINATED: {
+      MESSAGE: `Game terminated. Thank you for playing :)`,
+      ACTION: 2,
+    },
+    INVALIDINPUT: {
+      MESSAGE: `Invalid input format. Please try again.`,
+      ACTION: 3,
+    },
+    WIN: {
+      MESSAGE: `Move accepted, well done $replace you've won the game!`,
+      ACTION: 4,
+    },
+    DRAW: {
+      MESSAGE: `Draw! No winner this time.`,
+      ACTION: 5,
+    },
+    MOVEACCEPTED: {
+      MESSAGE: `Move accepted, here's the current board:`,
+      ACTION: 6,
+    }
   }
 
   constructor(dimension) {
@@ -89,7 +110,7 @@ class ticTacToeGame {
     let i = 0
     let inputXOrO
 
-    this.printMessage('startGame')
+    this.printMessage(this.gamePhases.STARTGAME.ACTION)
     this.drawingGame()
     while (this.keepPlaying) {
       (i % 2 === 0) ? inputXOrO = "X" : inputXOrO = "O"
@@ -115,11 +136,11 @@ class ticTacToeGame {
 
       if (userInput === "q") {
         this.keepPlaying = false
-        this.printMessage('gameTerminated')
+        this.printMessage(this.gamePhases.GAMETERMINATED.ACTION)
         break
       }
 
-      this.printMessage('invalidInput')
+      this.printMessage(this.gamePhases.INVALIDINPUT.ACTION)
     }
   }
 
@@ -133,56 +154,54 @@ class ticTacToeGame {
       return
     }
 
-    this.printMessage('noFreeSpot')
+    this.printMessage(this.gamePhases.NOFREESPOT.ACTION)
     this.takeInput(inputXOrO)
   }
 
   drawingAndCheckWinDraw(inputXOrO) {
-    let winOrDraw = 'moveAccepted'
+    let winOrDraw = this.gamePhases.MOVEACCEPTED.ACTION
 
     if (this.rulesConditionsToWin(inputXOrO)) {
       this.keepPlaying = false
-      winOrDraw = 'win'
+      winOrDraw = this.gamePhases.WIN.ACTION
     }
 
     if (this.rulesConditionsToDraw()) {
       this.keepPlaying = false
-      winOrDraw = 'draw'
+      winOrDraw = this.gamePhases.DRAW.ACTION
     }
 
     this.printMessage(winOrDraw)
     this.drawingGame()
   }
 
-  printMessage(messageToPrint) {
+  printMessage(a) {
 
-    if (messageToPrint === 'startGame') {
-      console.log(this.messages.STARTGAME)
-      return
-    }
-    if (messageToPrint === 'noFreeSpot') {
-      console.log(this.messages.NOFREESPOT)
-      return
-    }
-    if (messageToPrint === 'gameTerminated') {
-      console.log(this.messages.GAMETERMINATED)
-      return
-    }
-    if (messageToPrint === 'invalidInput') {
-      console.log(this.messages.INVALIDINPUT)
-      return
-    }
-    if (messageToPrint === 'win') {
-      console.log(this.messages.WIN)
-      return
-    }
-    if (messageToPrint === 'draw') {
-      console.log(this.messages.DRAW)
-      return
-    }
-    if (messageToPrint === 'moveAccepted') {
-      console.log(this.messages.MOVEACCEPTED)
-      return
+    switch (a) {
+
+      case this.gamePhases.STARTGAME.ACTION:
+        console.log(this.gamePhases.STARTGAME.MESSAGE)
+        break
+      case this.gamePhases.NOFREESPOT.ACTION:
+        console.log(this.gamePhases.NOFREESPOT.MESSAGE)
+        break
+      case this.gamePhases.GAMETERMINATED.ACTION:
+        console.log(this.gamePhases.GAMETERMINATED.MESSAGE)
+        break
+      case this.gamePhases.INVALIDINPUT.ACTION:
+        console.log(this.gamePhases.INVALIDINPUT.MESSAGE)
+        break
+      case this.gamePhases.WIN.ACTION:
+          let print = this.gamePhases.WIN.MESSAGE.replace('$replace', this.player)
+          console.log(print)
+        break
+      case this.gamePhases.DRAW.ACTION:
+        console.log(this.gamePhases.DRAW.MESSAGE)
+        break
+      case this.gamePhases.MOVEACCEPTED.ACTION:
+        console.log(this.gamePhases.MOVEACCEPTED.MESSAGE)
+        break
+
     }
   }
 
