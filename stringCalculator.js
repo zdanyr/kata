@@ -96,11 +96,13 @@ Note, a delimiter of 1DD or DD1 is not valid as it has a number on the edge of i
 
 class stringCalculator {
     /*
-### Step 5 
-New line breaks and commas should be interchangeable between numbers.  
-Add("1,2\n3") > Returns 6
-Add("3\n5\n3,9") > Returns 20
+### Step 6 
+Support different delimiters - to change a delimiter, the beginning of the string will contain a separate line that looks like this:   
+**"//[delimiter]\n[numbers...]"**  
 ~~~
+Add("//;\n1;2") > Returns 3  
+~~~
+The first section up to the \n is optional. All existing steps should still be supported.  
 The following is not ok, don't write a test but be aware... 
 ~~~
 Add("1,\n")

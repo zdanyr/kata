@@ -61,9 +61,13 @@ class ticTacToeGame {
   game = new Array(this.dimension);
   keepPlaying = true;
   player = 'player 1'
+  inputXOrO = ''
   gamePhases = {
     STARTGAME: {
       MESSAGE: 'Welcome to Tic Tac Toe! \nHere\'s the current board:',
+    },
+    ASKINPUT: {
+      MESSAGE: `$replaceWithPlayer enter a coord x,y to place your $replaceWithInputXOrO or enter 'q' to give up`
     },
     NOFREESPOT: {
       MESSAGE: `Oh no, a piece is already at this place! Try again...`,
@@ -101,29 +105,28 @@ class ticTacToeGame {
 
   playGame() {
     let i = 0
-    let inputXOrO
 
     this.printMessage(this.gamePhases.STARTGAME)
     this.drawingGame()
     while (this.keepPlaying) {
-      (i % 2 === 0) ? inputXOrO = "X" : inputXOrO = "O"
-      this.takeInput(inputXOrO)
+      (i % 2 === 0) ? this.inputXOrO = "X" : this.inputXOrO = "O"
+      this.takeInput(this.inputXOrO)
       i++
     }
   }
 
   takeInput(inputXOrO) {
-    let message
+    let mess
     let userInput
     let validInput = false
 
     while (validInput === false) {
       inputXOrO === "X" ? this.player = 'Player 1' : this.player = 'Player 2'
-      message = `${this.player} enter a coord x,y to place your ${inputXOrO} or enter 'q' to give up`
-      userInput = prompt(message)
+      mess = this.printMessage(this.gamePhases.ASKINPUT)
+      userInput = prompt(mess)
 
       if (this.isValidInput(userInput)) {
-        this.manageInput(userInput, inputXOrO)
+        this.manageInput(userInput, this.inputXOrO)
         break
       }
 
@@ -169,14 +172,20 @@ class ticTacToeGame {
   }
 
   printMessage(gamePhase) {
+    let print = gamePhase.MESSAGE
 
     switch (gamePhase) {
       case this.gamePhases.WIN:
-        let print = gamePhase.MESSAGE.replace('$replace', this.player)
+        print = gamePhase.MESSAGE.replace('$replace', this.player)
         console.log(print)
         break
+      case this.gamePhases.ASKINPUT:
+        let partialPrint = gamePhase.MESSAGE.replace('$replaceWithPlayer', this.player)
+        print = partialPrint.replace('$replaceWithInputXOrO', this.inputXOrO)
+        //in this case the output will be printed in the prompt
+        return print
       default:
-        console.log(gamePhase.MESSAGE)
+        console.log(print)
     }
   }
 
