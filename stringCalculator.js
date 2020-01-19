@@ -103,6 +103,7 @@ Support different delimiters - to change a delimiter, the beginning of the strin
 Add("//;\n1;2") > Returns 3  
 ~~~
 The first section up to the \n is optional. All existing steps should still be supported.  
+
 The following is not ok, don't write a test but be aware... 
 ~~~
 Add("1,\n")
@@ -122,31 +123,24 @@ Add("1,\n")
 
 }
 
-var test1, test2, test3, test4, test5, test6, test7, test8, test9
+var tests = new Array()
+var test1, test2, test3, test4, test5, test6, test7, test8, test9, test10
 const testerAdd = () => {
-    toTestStringCalculator.Add("") === 0 ? test1 = "empty string returns cero test case succeeded" : test1 = "empty string returns cero test case failed";
-    toTestStringCalculator.Add("1") === 1 ? test2 = "string 1 returns 1 test case succeeded" : test2 = "string 1 returns 1 test case failed";
-    toTestStringCalculator.Add("3") === 3 ? test3 = "string 3 returns integer 3 test case succeeded" : test3 = "string 3 returns integer 3 test case failed";
-    toTestStringCalculator.Add("1,2") === 3 ? test4 = "string 1,2 returns 3 test case succeeded" : test4 = "string 1,2 returns 3 test case failed";
-    toTestStringCalculator.Add("3,5") === 8 ? test5 = "string 3,5 returns integer 8 test case succeeded" : test5 = "string 3,5 returns integer 8 test case failed";
-    toTestStringCalculator.Add("1,2,3") === 6 ? test6 = "string 1,2,3 returns 6 test case succeeded" : test6 = "string 1,2,3 returns 6 test case failed";
-    toTestStringCalculator.Add("3,5,3,9") === 20 ? test7 = "string 3,5,3,9 returns integer 20 test case succeeded" : test7 = "string 3,5,3,9 returns integer 20 test case failed";
-    toTestStringCalculator.Add("1,2\n3") === 6 ? test8 = "string 1,2\\n3 returns 6 test case succeeded" : test8 = "string 1,2\\n3 returns 6 test case failed";
-    toTestStringCalculator.Add("3\n5\n3,9") === 20 ? test9 = "string 3\\n5\\n3,9 returns integer 20 test case succeeded" : test9 = "string 3\\n5\\n3,9 returns integer 20 test case failed";
-    console.log(`testerAdd test cases results:
-    Test1: ${test1}
-    Test2: ${test2}
-    Test3: ${test3}
-    Test4: ${test4}
-    Test5: ${test5}
-    Test6: ${test6}
-    Test7: ${test7}
-    Test8: ${test8}
-    Test9: ${test9}
-    `)
+    toTestStringCalculator.Add("") === 0 ? tests[0] = "empty string returns cero test case succeeded" : tests[0] = "empty string returns cero test case failed";
+    toTestStringCalculator.Add("1") === 1 ? tests[1] = "string 1 returns 1 test case succeeded" : tests[1] = "string 1 returns 1 test case failed";
+    toTestStringCalculator.Add("3") === 3 ? tests[2] = "string 3 returns integer 3 test case succeeded" : tests[2] = "string 3 returns integer 3 test case failed";
+    toTestStringCalculator.Add("1,2") === 3 ? tests[3] = "string 1,2 returns 3 test case succeeded" : tests[3] = "string 1,2 returns 3 test case failed";
+    toTestStringCalculator.Add("3,5") === 8 ? tests[4] = "string 3,5 returns integer 8 test case succeeded" : tests[4] = "string 3,5 returns integer 8 test case failed";
+    toTestStringCalculator.Add("1,2,3") === 6 ? tests[5] = "string 1,2,3 returns 6 test case succeeded" : tests[5] = "string 1,2,3 returns 6 test case failed";
+    toTestStringCalculator.Add("3,5,3,9") === 20 ? tests[6] = "string 3,5,3,9 returns integer 20 test case succeeded" : tests[6] = "string 3,5,3,9 returns integer 20 test case failed";
+    toTestStringCalculator.Add("1,2\n3") === 6 ? tests[7] = "string 1,2\\n3 returns 6 test case succeeded" : tests[7] = "string 1,2\\n3 returns 6 test case failed";
+    toTestStringCalculator.Add("3\n5\n3,9") === 20 ? tests[8] = "string 3\\n5\\n3,9 returns integer 20 test case succeeded" : tests[8] = "string 3\\n5\\n3,9 returns integer 20 test case failed";
+    toTestStringCalculator.Add("//;\n1;2") === 3 ? tests[9] = "string //;\\n1;2 returns integer 3 test case succeeded" : tests[9] = "string //;\\n1;2 returns integer 3 test case failed";
+    
+    for(let i=0;i<tests.length;i++){
+        console.log(tests[i])
+    }
 }
 
 let toTestStringCalculator = new stringCalculator()
 testerAdd()
-
-console.log(toTestStringCalculator.Add("1,\n"))
