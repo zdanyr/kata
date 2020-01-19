@@ -64,31 +64,24 @@ class ticTacToeGame {
   gamePhases = {
     STARTGAME: {
       MESSAGE: 'Welcome to Tic Tac Toe! \nHere\'s the current board:',
-      ACTION: 0,
     },
     NOFREESPOT: {
       MESSAGE: `Oh no, a piece is already at this place! Try again...`,
-      ACTION: 1,
     },
     GAMETERMINATED: {
       MESSAGE: `Game terminated. Thank you for playing :)`,
-      ACTION: 2,
     },
     INVALIDINPUT: {
       MESSAGE: `Invalid input format. Please try again.`,
-      ACTION: 3,
     },
     WIN: {
       MESSAGE: `Move accepted, well done $replace you've won the game!`,
-      ACTION: 4,
     },
     DRAW: {
       MESSAGE: `Draw! No winner this time.`,
-      ACTION: 5,
     },
     MOVEACCEPTED: {
       MESSAGE: `Move accepted, here's the current board:`,
-      ACTION: 6,
     }
   }
 
@@ -110,7 +103,7 @@ class ticTacToeGame {
     let i = 0
     let inputXOrO
 
-    this.printMessage(this.gamePhases.STARTGAME.ACTION)
+    this.printMessage(this.gamePhases.STARTGAME)
     this.drawingGame()
     while (this.keepPlaying) {
       (i % 2 === 0) ? inputXOrO = "X" : inputXOrO = "O"
@@ -136,11 +129,11 @@ class ticTacToeGame {
 
       if (userInput === "q") {
         this.keepPlaying = false
-        this.printMessage(this.gamePhases.GAMETERMINATED.ACTION)
+        this.printMessage(this.gamePhases.GAMETERMINATED)
         break
       }
 
-      this.printMessage(this.gamePhases.INVALIDINPUT.ACTION)
+      this.printMessage(this.gamePhases.INVALIDINPUT)
     }
   }
 
@@ -154,54 +147,36 @@ class ticTacToeGame {
       return
     }
 
-    this.printMessage(this.gamePhases.NOFREESPOT.ACTION)
+    this.printMessage(this.gamePhases.NOFREESPOT)
     this.takeInput(inputXOrO)
   }
 
   drawingAndCheckWinDraw(inputXOrO) {
-    let winOrDraw = this.gamePhases.MOVEACCEPTED.ACTION
+    let winOrDraw = this.gamePhases.MOVEACCEPTED
 
     if (this.rulesConditionsToWin(inputXOrO)) {
       this.keepPlaying = false
-      winOrDraw = this.gamePhases.WIN.ACTION
+      winOrDraw = this.gamePhases.WIN
     }
 
     if (this.rulesConditionsToDraw()) {
       this.keepPlaying = false
-      winOrDraw = this.gamePhases.DRAW.ACTION
+      winOrDraw = this.gamePhases.DRAW
     }
 
     this.printMessage(winOrDraw)
     this.drawingGame()
   }
 
-  printMessage(a) {
+  printMessage(gamePhase) {
 
-    switch (a) {
-
-      case this.gamePhases.STARTGAME.ACTION:
-        console.log(this.gamePhases.STARTGAME.MESSAGE)
+    switch (gamePhase) {
+      case this.gamePhases.WIN:
+        let print = gamePhase.MESSAGE.replace('$replace', this.player)
+        console.log(print)
         break
-      case this.gamePhases.NOFREESPOT.ACTION:
-        console.log(this.gamePhases.NOFREESPOT.MESSAGE)
-        break
-      case this.gamePhases.GAMETERMINATED.ACTION:
-        console.log(this.gamePhases.GAMETERMINATED.MESSAGE)
-        break
-      case this.gamePhases.INVALIDINPUT.ACTION:
-        console.log(this.gamePhases.INVALIDINPUT.MESSAGE)
-        break
-      case this.gamePhases.WIN.ACTION:
-          let print = this.gamePhases.WIN.MESSAGE.replace('$replace', this.player)
-          console.log(print)
-        break
-      case this.gamePhases.DRAW.ACTION:
-        console.log(this.gamePhases.DRAW.MESSAGE)
-        break
-      case this.gamePhases.MOVEACCEPTED.ACTION:
-        console.log(this.gamePhases.MOVEACCEPTED.MESSAGE)
-        break
-
+      default:
+        console.log(gamePhase.MESSAGE)
     }
   }
 
