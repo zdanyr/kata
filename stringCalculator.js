@@ -96,27 +96,21 @@ Note, a delimiter of 1DD or DD1 is not valid as it has a number on the edge of i
 
 class stringCalculator {
     /*
-### Step 6 
-Support different delimiters - to change a delimiter, the beginning of the string will contain a 
-separate line that looks like this:   
-**"//[delimiter]\n[numbers...]"**  
+### Step 7 
+Calling add with a negative number will throw an exception "Negatives not allowed" and the negative number that was passed.  
 ~~~
-Add("//;\n1;2") > Returns 3  
+Add("-1,2,-3") > Throws exception with Negatives not allowed: -1, -3  
 ~~~
-The first section up to the \n is optional. All existing steps should still be supported.  
-
-The following is not ok, don't write a test but be aware... 
-~~~
-Add("1,\n")
 */
     Add(input) {
-        let step2Rex = new RegExp(`^[1-9]+$`)
+        let step2Rex = new RegExp(`^[1-9]+$`) //Eg. 123
+        let step3Rex = new RegExp(`^[1-9]+(,[1-9]+)*$`) //Eg. 1,2,3
+        let step5Rex = new RegExp(`^[1-9]+(,[1-9]+)*(\\n[1-9]+)*(,[1-9]+)*$`) //Eg. 3\n5\n3,9 or 1,2\n3
         let step6Rex = new RegExp(`^\/\/.\\n`) //Eg. //;\n1;2
-        let step3Rex = new RegExp(`^[1-9]+[,[1-9]+]*$`) //Eg. 1,2,3
+        let step7Rex = new RegExp(`^-{1}[1-9]+`) //Eg. -1,2,-3
         let sum = 0
         let inputAsArray = ''
-        //let replaceBreakWithComma = input.replace(/\n/g, ',')
-        //let inputAsArray = replaceBreakWithComma.split(',')
+
 
         if (input === "") { return 0 }
 
@@ -128,11 +122,30 @@ Add("1,\n")
             inputAsArray = input.split(',')
         }
 
+        if (input.match(step5Rex)) {
+            let replaceBreakWithComma = input.replace(/\n/g, ',')
+            inputAsArray = replaceBreakWithComma.split(',')
+        }
+
         if (input.match(step6Rex)) {
-            let separator = input.substr(2, 1)
+            let delimiter = input.substr(2, 1)
             let positionOfSlashN = input.indexOf("\n")
             let inputToWorkWith = input.substr(positionOfSlashN)
-            inputAsArray = inputToWorkWith.split(separator)
+            inputAsArray = inputToWorkWith.split(delimiter)
+        }
+
+        if (input.match(step7Rex)) {  //Eg. -1,2,-3
+            let negativeNumbers = ''
+            inputAsArray = input.split(',')
+
+            for (let i = 0; i < inputAsArray.length; i++) {
+                if (inputAsArray[i] < 0) { 
+                    negativeNumbers = `${negativeNumbers} ${inputAsArray[i]}` 
+                }
+            }
+            negativeNumbers = negativeNumbers.replace(/^\s+/g, '')
+            negativeNumbers = negativeNumbers.replace(/ /gi, ", ")
+            return `Negatives not allowed: ${negativeNumbers}`
         }
 
         for (let i = 0; i < inputAsArray.length; i++) {
@@ -154,10 +167,11 @@ const testerAdd = () => {
     toTestStringCalculator.Add("3,5") === 8 ? tests[4] = "Step 3 string 3,5 returns integer 8 test case succeeded" : tests[4] = "Step 3 string 3,5 returns integer 8 test case failed";
     toTestStringCalculator.Add("1,2,3") === 6 ? tests[5] = "Step 4 string 1,2,3 returns 6 test case succeeded" : tests[5] = "Step 4 string 1,2,3 returns 6 test case failed";
     toTestStringCalculator.Add("3,5,3,9") === 20 ? tests[6] = "Step 4 string 3,5,3,9 returns integer 20 test case succeeded" : tests[6] = "Step 4 string 3,5,3,9 returns integer 20 test case failed";
-    // toTestStringCalculator.Add("1,2\n3") === 6 ? tests[7] = "string 1,2\\n3 returns 6 test case succeeded" : tests[7] = "string 1,2\\n3 returns 6 test case failed";
-    // toTestStringCalculator.Add("3\n5\n3,9") === 20 ? tests[8] = "string 3\\n5\\n3,9 returns integer 20 test case succeeded" : tests[8] = "string 3\\n5\\n3,9 returns integer 20 test case failed";
-    // toTestStringCalculator.Add("//;\n1;2") === 3 ? tests[9] = "string //;\\n1;2 returns integer 3 test case succeeded" : tests[9] = "string //;\\n1;2 returns integer 3 test case failed";
-    // toTestStringCalculator.Add("//-\n1-2") === 3 ? tests[10] = "string //-\\n1-2 returns integer 3 test case succeeded" : tests[10] = "string //-\\n1-2 returns integer 3 test case failed";
+    toTestStringCalculator.Add("1,2\n3") === 6 ? tests[7] = "Step 5 string 1,2\\n3 returns 6 test case succeeded" : tests[7] = "Step 5 string 1,2\\n3 returns 6 test case failed";
+    toTestStringCalculator.Add("3\n5\n3,9") === 20 ? tests[8] = "Step 5 string 3\\n5\\n3,9 returns integer 20 test case succeeded" : tests[8] = "Step 5 string 3\\n5\\n3,9 returns integer 20 test case failed";
+    toTestStringCalculator.Add("//;\n1;2") === 3 ? tests[9] = "Step 6 string //;\\n1;2 returns integer 3 test case succeeded" : tests[9] = "Step 6 string //;\\n1;2 returns integer 3 test case failed";
+    toTestStringCalculator.Add("//-\n1-44") === 45 ? tests[10] = "Step 6 string //-\\n1-2 returns integer 45 test case succeeded" : tests[10] = "Step 6 string //-\\n1-2 returns integer 45 test case failed";
+    toTestStringCalculator.Add("-1,2,-3") === 'Negatives not allowed: -1, -3' ? tests[11] = "Step 7 Negatives not allowed: -1, -3 test cases succeeded" : tests[10] = "Step 7 Negatives not allowed: -1, -3 test cases failed";
 
     for (let i = 0; i < tests.length; i++) {
         console.log(tests[i])
@@ -167,4 +181,4 @@ const testerAdd = () => {
 let toTestStringCalculator = new stringCalculator()
 testerAdd()
 
-//console.log(`toTestStringCalculator.Add("1,2"): ${toTestStringCalculator.Add("1,2")}`)
+//console.log(`toTestStringCalculator.Add("-1,2,-3"): ${toTestStringCalculator.Add("-1,2,-3")}`)
