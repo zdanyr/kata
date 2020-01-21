@@ -90,7 +90,7 @@ class ticTacToeGame {
   }
 
   constructor(dimension) {
-    this.dimension = parseInt(dimension)
+    this.dimension = dimension
 
     for (let z = 0; z < this.dimension; z++) {
       this.game[z] = new Array(this.dimension);
@@ -494,7 +494,7 @@ const choseWhatToRun = () => {
 
 //choseWhatToRun()
 
-let ticTacToe = new ticTacToeGame("3")
+let ticTacToe = new ticTacToeGame(4)
 ticTacToe.playGame()
 
 

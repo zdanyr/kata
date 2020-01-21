@@ -96,16 +96,15 @@ Note, a delimiter of 1DD or DD1 is not valid as it has a number on the edge of i
 
 class stringCalculator {
     /*
-### Step 7 
-Calling add with a negative number will throw an exception "Negatives not allowed" and the negative number that was passed.  
+### Step 8 
+Numbers greater or equal to 1000 should be ignored.  
 ~~~
-Add("-1,2,-3") > Throws exception with Negatives not allowed: -1, -3  
-~~~
+Add("1000,1001,2") > Returns 2 
 */
     Add(input) {
-        let step2Rex = new RegExp(`^[1-9]+$`) //Eg. 123
-        let step3Rex = new RegExp(`^[1-9]+(,[1-9]+)*$`) //Eg. 1,2,3
-        let step5Rex = new RegExp(`^[1-9]+(,[1-9]+)*(\\n[1-9]+)*(,[1-9]+)*$`) //Eg. 3\n5\n3,9 or 1,2\n3
+        let step2Rex = new RegExp(`^[0-9]+$`) //Eg. 123
+        let step3Rex = new RegExp(`^[0-9]+(,[0-9]+)*$`) //Eg. 1,2,3
+        let step5Rex = new RegExp(`^[0-9]+(,[0-9]+)*(\\n[0-9]+)*(,[0-9]+)*$`) //Eg. 3\n5\n3,9 or 1,2\n3
         let step6Rex = new RegExp(`^\/\/.\\n`) //Eg. //;\n1;2
         let step7Rex = new RegExp(`^-{1}[1-9]+`) //Eg. -1,2,-3
         let sum = 0
@@ -119,8 +118,21 @@ Add("-1,2,-3") > Throws exception with Negatives not allowed: -1, -3
         }
 
         if (input.match(step3Rex)) {
+            let remove = new Array
             inputAsArray = input.split(',')
+
+            for (let i = 0; i < inputAsArray.length; i++) {
+                if (inputAsArray[i] >= 1000) {
+                    remove[i] = inputAsArray[i]
+                }
+            }
+            for (let i = 0; i < remove.length; i++) {
+                inputAsArray.splice(inputAsArray.indexOf(remove[i]), 1);
+            }
+            //console.log(`inputAsArray: ${inputAsArray}`)
+
         }
+
 
         if (input.match(step5Rex)) {
             let replaceBreakWithComma = input.replace(/\n/g, ',')
@@ -139,8 +151,8 @@ Add("-1,2,-3") > Throws exception with Negatives not allowed: -1, -3
             inputAsArray = input.split(',')
 
             for (let i = 0; i < inputAsArray.length; i++) {
-                if (inputAsArray[i] < 0) { 
-                    negativeNumbers = `${negativeNumbers} ${inputAsArray[i]}` 
+                if (inputAsArray[i] < 0) {
+                    negativeNumbers = `${negativeNumbers} ${inputAsArray[i]}`
                 }
             }
             negativeNumbers = negativeNumbers.replace(/^\s+/g, '')
@@ -172,6 +184,7 @@ const testerAdd = () => {
     toTestStringCalculator.Add("//;\n1;2") === 3 ? tests[9] = "Step 6 string //;\\n1;2 returns integer 3 test case succeeded" : tests[9] = "Step 6 string //;\\n1;2 returns integer 3 test case failed";
     toTestStringCalculator.Add("//-\n1-44") === 45 ? tests[10] = "Step 6 string //-\\n1-2 returns integer 45 test case succeeded" : tests[10] = "Step 6 string //-\\n1-2 returns integer 45 test case failed";
     toTestStringCalculator.Add("-1,2,-3") === 'Negatives not allowed: -1, -3' ? tests[11] = "Step 7 Negatives not allowed: -1, -3 test cases succeeded" : tests[10] = "Step 7 Negatives not allowed: -1, -3 test cases failed";
+    toTestStringCalculator.Add("1000,1001,2") === 2 ? tests[11] = "Step 8 numbers grater than 1000 are ignored test cases succeeded" : tests[11] = "Step 8 numbers grater than 1000 are ignored test cases failed";
 
     for (let i = 0; i < tests.length; i++) {
         console.log(tests[i])
@@ -181,4 +194,4 @@ const testerAdd = () => {
 let toTestStringCalculator = new stringCalculator()
 testerAdd()
 
-//console.log(`toTestStringCalculator.Add("-1,2,-3"): ${toTestStringCalculator.Add("-1,2,-3")}`)
+//console.log(`toTestStringCalculator.Add("1000,1001,2"): ${toTestStringCalculator.Add("1000,1001,2")}`)
