@@ -100,7 +100,7 @@ Note, a delimiter of 1DD or DD1 is not valid as it has a number on the edge of i
 
 class stringCalculator {
 
-    isANumber = new RegExp(`^[0-9]+$`) //Eg. 123
+    isOneNumberFormat = new RegExp(`^[0-9]+$`) //Eg. 123
     isCommaSeparatorNumber = new RegExp(`^[0-9]+(,[0-9]+)*$`) //Eg. 1,2,3
     isCommaOrBreakLineSeparator = new RegExp(`^[0-9]+(,[0-9]+)*(\\n[0-9]+)*(,[0-9]+)*$`) //Eg. 3\n5\n3,9 or 1,2\n3
     isUserInputSeparator = new RegExp(`^\/\/.\\n`) //Eg. //;\n1;2
@@ -116,53 +116,55 @@ Numbers greater or equal to 1000 should be ignored.
 Add("1000,1001,2") > Returns 2 
 */
     Add(userInput) {
-    
-        this.input = userInput
-        this.inputAsArray = this.input.split(',')
 
-        if (this.input === "") { return 0 }
+        //this.input = userInput
+        //this.inputAsArray = this.input.split(',')
 
-        if (this.input.match(this.isANumber)) {
-            return parseInt(this.input)
+        if (this.isInputEmpty(userInput)) {
+            return this.returnZero()
         }
 
-        if (this.input.match(this.isCommaSeparatorNumber)) {
-            this.commaSeparator(this.input,this.inputAsArray)
-
+        if (this.isOneNumber(userInput)) {
+            return this.returnSameInputAsNumber(userInput)
         }
 
-        
+        // if (this.input.match(this.isCommaSeparatorNumber)) {
+        //     this.commaSeparator(this.input, this.inputAsArray)
+
+        // }
 
 
-        if (this.input.match(this.isCommaOrBreakLineSeparator)) {
-            let replaceBreakWithComma = this.input.replace(/\n/g, ',')
-            this.inputAsArray = replaceBreakWithComma.split(',')
-        }
 
-        if (this.input.match(this.isUserInputSeparator)) {
-            let delimiter = input.substr(2, 1)
-            let positionOfSlashN = input.indexOf("\n")
-            let inputToWorkWith = input.substr(positionOfSlashN)
-            this.inputAsArray = inputToWorkWith.split(delimiter)
-        }
 
-        if (this.input.match(this.hasNegativeNumbers)) {  //Eg. -1,2,-3
-            let negativeNumbers = ''
-            this.inputAsArray = input.split(',')
+        // if (this.input.match(this.isCommaOrBreakLineSeparator)) {
+        //     let replaceBreakWithComma = this.input.replace(/\n/g, ',')
+        //     this.inputAsArray = replaceBreakWithComma.split(',')
+        // }
 
-            for (let i = 0; i < this.inputAsArray.length; i++) {
-                if (this.inputAsArray[i] < 0) {
-                    negativeNumbers = `${negativeNumbers} ${this.inputAsArray[i]}`
-                }
-            }
-            negativeNumbers = negativeNumbers.replace(/^\s+/g, '')
-            negativeNumbers = negativeNumbers.replace(/ /gi, ", ")
-            return `Negatives not allowed: ${negativeNumbers}`
-        }
+        // if (this.input.match(this.isUserInputSeparator)) {
+        //     let delimiter = input.substr(2, 1)
+        //     let positionOfSlashN = input.indexOf("\n")
+        //     let inputToWorkWith = input.substr(positionOfSlashN)
+        //     this.inputAsArray = inputToWorkWith.split(delimiter)
+        // }
 
-       
+        // if (this.input.match(this.hasNegativeNumbers)) {  //Eg. -1,2,-3
+        //     let negativeNumbers = ''
+        //     this.inputAsArray = input.split(',')
 
-        
+        //     for (let i = 0; i < this.inputAsArray.length; i++) {
+        //         if (this.inputAsArray[i] < 0) {
+        //             negativeNumbers = `${negativeNumbers} ${this.inputAsArray[i]}`
+        //         }
+        //     }
+        //     negativeNumbers = negativeNumbers.replace(/^\s+/g, '')
+        //     negativeNumbers = negativeNumbers.replace(/ /gi, ", ")
+        //     return `Negatives not allowed: ${negativeNumbers}`
+        // }
+
+
+
+
 
         for (let i = 0; i < this.inputAsArray.length; i++) {
             this.sum = this.sum + parseInt(this.inputAsArray[i]);
@@ -171,7 +173,7 @@ Add("1000,1001,2") > Returns 2
         return this.sum
     }
 
-    commaSeparator(userInput,inputAsArray){
+    commaSeparator(userInput, inputAsArray) {
         let remove = new Array
 
         for (let i = 0; i < inputAsArray.length; i++) {
@@ -187,6 +189,22 @@ Add("1000,1001,2") > Returns 2
         //console.log(`inputAsArray: ${inputAsArray}`)
     }
 
+    isInputEmpty(userInput) {
+        return userInput === ""
+    }
+
+    returnZero() {
+        return 0
+    }
+
+    isOneNumber(userInput) {
+        return userInput.match(this.isOneNumberFormat)
+    }
+
+    returnSameInputAsNumber(userInput) {
+        return parseInt(userInput)
+    }
+
 }
 
 
@@ -194,7 +212,8 @@ var tests = new Array()
 const testerAdd = () => {
     toTestStringCalculator.Add("") === 0 ? tests.push("Step 1 empty string returns cero test case succeeded") : tests.push("Step 1 empty string returns cero test case failed");
     toTestStringCalculator.Add("1") === 1 ? tests.push("Step 2 string 1 returns 1 test case succeeded") : tests.push("Step 2 string 1 returns 1 test case failed");
-    // toTestStringCalculator.Add("3") === 3 ? tests.push("Step 2 string 3 returns integer 3 test case succeeded") : tests.push("Step 2 string 3 returns integer 3 test case failed");
+    toTestStringCalculator.Add("3") === 3 ? tests.push("Step 2 string 3 returns integer 3 test case succeeded") : tests.push("Step 2 string 3 returns integer 3 test case failed");
+    toTestStringCalculator.Add("10") === 10 ? tests.push("Step 2 string 10 returns integer 10 test case succeeded") : tests.push("Step 2 string 10 returns integer 10 test case failed");
     // toTestStringCalculator.Add("1,2") === 3 ? tests.push("Step 3 string 1,2 returns 3 test case succeeded") : tests.push("Step 3 string 1,2 returns 3 test case failed");
     // toTestStringCalculator.Add("3,5") === 8 ? tests.push("Step 3 string 3,5 returns integer 8 test case succeeded") : tests.push("Step 3 string 3,5 returns integer 8 test case failed");
     // toTestStringCalculator.Add("1,2,3") === 6 ? tests.push("Step 4 string 1,2,3 returns 6 test case succeeded") : tests.push("Step 4 string 1,2,3 returns 6 test case failed");
@@ -214,4 +233,4 @@ const testerAdd = () => {
 let toTestStringCalculator = new stringCalculator()
 testerAdd()
 
-console.log(` toTestStringCalculator.Add("3,5"): ${ toTestStringCalculator.Add("3,5")}`)
+//console.log(` toTestStringCalculator.Add("3,5"): ${toTestStringCalculator.Add("3,5")}`)
