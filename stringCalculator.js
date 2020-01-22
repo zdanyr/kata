@@ -93,14 +93,18 @@ Note, a delimiter of 1DD or DD1 is not valid as it has a number on the edge of i
 - Multiple delimiter of any length  
 */
 
+//TODO: 
+//1- add 2-3 test cases per case
+//2- rename variables
+//3- use methods same level of abstractions
 
 class stringCalculator {
 
-    step2Rex = new RegExp(`^[0-9]+$`) //Eg. 123
-    step3Rex = new RegExp(`^[0-9]+(,[0-9]+)*$`) //Eg. 1,2,3
-    step5Rex = new RegExp(`^[0-9]+(,[0-9]+)*(\\n[0-9]+)*(,[0-9]+)*$`) //Eg. 3\n5\n3,9 or 1,2\n3
-    step6Rex = new RegExp(`^\/\/.\\n`) //Eg. //;\n1;2
-    step7Rex = new RegExp(`^-{1}[1-9]+`) //Eg. -1,2,-3
+    isANumber = new RegExp(`^[0-9]+$`) //Eg. 123
+    isCommaSeparatorNumber = new RegExp(`^[0-9]+(,[0-9]+)*$`) //Eg. 1,2,3
+    isCommaOrBreakLineSeparator = new RegExp(`^[0-9]+(,[0-9]+)*(\\n[0-9]+)*(,[0-9]+)*$`) //Eg. 3\n5\n3,9 or 1,2\n3
+    isUserInputSeparator = new RegExp(`^\/\/.\\n`) //Eg. //;\n1;2
+    hasNegativeNumbers = new RegExp(`^-{1}[1-9]+`) //Eg. -1,2,-3
     sum = 0
     inputAsArray = ''
     input = ''
@@ -118,43 +122,43 @@ Add("1000,1001,2") > Returns 2
 
         if (this.input === "") { return 0 }
 
-        if (this.input.match(this.step2Rex)) {
+        if (this.input.match(this.isANumber)) {
             return parseInt(this.input)
         }
 
-        if (this.input.match(this.step3Rex)) {
-            this.step3RexFunction(this.input,this.inputAsArray)
+        if (this.input.match(this.isCommaSeparatorNumber)) {
+            this.commaSeparator(this.input,this.inputAsArray)
 
         }
 
         
 
 
-        // if (input.match(step5Rex)) {
-        //     let replaceBreakWithComma = input.replace(/\n/g, ',')
-        //     inputAsArray = replaceBreakWithComma.split(',')
-        // }
+        if (this.input.match(this.isCommaOrBreakLineSeparator)) {
+            let replaceBreakWithComma = this.input.replace(/\n/g, ',')
+            this.inputAsArray = replaceBreakWithComma.split(',')
+        }
 
-        // if (input.match(step6Rex)) {
-        //     let delimiter = input.substr(2, 1)
-        //     let positionOfSlashN = input.indexOf("\n")
-        //     let inputToWorkWith = input.substr(positionOfSlashN)
-        //     inputAsArray = inputToWorkWith.split(delimiter)
-        // }
+        if (this.input.match(this.isUserInputSeparator)) {
+            let delimiter = input.substr(2, 1)
+            let positionOfSlashN = input.indexOf("\n")
+            let inputToWorkWith = input.substr(positionOfSlashN)
+            this.inputAsArray = inputToWorkWith.split(delimiter)
+        }
 
-        // if (input.match(step7Rex)) {  //Eg. -1,2,-3
-        //     let negativeNumbers = ''
-        //     inputAsArray = input.split(',')
+        if (this.input.match(this.hasNegativeNumbers)) {  //Eg. -1,2,-3
+            let negativeNumbers = ''
+            this.inputAsArray = input.split(',')
 
-        //     for (let i = 0; i < inputAsArray.length; i++) {
-        //         if (inputAsArray[i] < 0) {
-        //             negativeNumbers = `${negativeNumbers} ${inputAsArray[i]}`
-        //         }
-        //     }
-        //     negativeNumbers = negativeNumbers.replace(/^\s+/g, '')
-        //     negativeNumbers = negativeNumbers.replace(/ /gi, ", ")
-        //     return `Negatives not allowed: ${negativeNumbers}`
-        // }
+            for (let i = 0; i < this.inputAsArray.length; i++) {
+                if (this.inputAsArray[i] < 0) {
+                    negativeNumbers = `${negativeNumbers} ${this.inputAsArray[i]}`
+                }
+            }
+            negativeNumbers = negativeNumbers.replace(/^\s+/g, '')
+            negativeNumbers = negativeNumbers.replace(/ /gi, ", ")
+            return `Negatives not allowed: ${negativeNumbers}`
+        }
 
        
 
@@ -167,7 +171,7 @@ Add("1000,1001,2") > Returns 2
         return this.sum
     }
 
-    step3RexFunction(userInput,inputAsArray){
+    commaSeparator(userInput,inputAsArray){
         let remove = new Array
 
         for (let i = 0; i < inputAsArray.length; i++) {
@@ -188,19 +192,19 @@ Add("1000,1001,2") > Returns 2
 
 var tests = new Array()
 const testerAdd = () => {
-    toTestStringCalculator.Add("") === 0 ? tests[0] = "Step 1 empty string returns cero test case succeeded" : tests[0] = "Step 1 empty string returns cero test case failed";
-    toTestStringCalculator.Add("1") === 1 ? tests[1] = "Step 2 string 1 returns 1 test case succeeded" : tests[1] = "Step 2 string 1 returns 1 test case failed";
-    toTestStringCalculator.Add("3") === 3 ? tests[2] = "Step 2 string 3 returns integer 3 test case succeeded" : tests[2] = "Step 2 string 3 returns integer 3 test case failed";
-    toTestStringCalculator.Add("1,2") === 3 ? tests[3] = "Step 3 string 1,2 returns 3 test case succeeded" : tests[3] = "Step 3 string 1,2 returns 3 test case failed";
-    toTestStringCalculator.Add("3,5") === 8 ? tests[4] = "Step 3 string 3,5 returns integer 8 test case succeeded" : tests[4] = "Step 3 string 3,5 returns integer 8 test case failed";
-    // toTestStringCalculator.Add("1,2,3") === 6 ? tests[5] = "Step 4 string 1,2,3 returns 6 test case succeeded" : tests[5] = "Step 4 string 1,2,3 returns 6 test case failed";
-    // toTestStringCalculator.Add("3,5,3,9") === 20 ? tests[6] = "Step 4 string 3,5,3,9 returns integer 20 test case succeeded" : tests[6] = "Step 4 string 3,5,3,9 returns integer 20 test case failed";
-    // toTestStringCalculator.Add("1,2\n3") === 6 ? tests[7] = "Step 5 string 1,2\\n3 returns 6 test case succeeded" : tests[7] = "Step 5 string 1,2\\n3 returns 6 test case failed";
-    // toTestStringCalculator.Add("3\n5\n3,9") === 20 ? tests[8] = "Step 5 string 3\\n5\\n3,9 returns integer 20 test case succeeded" : tests[8] = "Step 5 string 3\\n5\\n3,9 returns integer 20 test case failed";
-    // toTestStringCalculator.Add("//;\n1;2") === 3 ? tests[9] = "Step 6 string //;\\n1;2 returns integer 3 test case succeeded" : tests[9] = "Step 6 string //;\\n1;2 returns integer 3 test case failed";
-    // toTestStringCalculator.Add("//-\n1-44") === 45 ? tests[10] = "Step 6 string //-\\n1-2 returns integer 45 test case succeeded" : tests[10] = "Step 6 string //-\\n1-2 returns integer 45 test case failed";
-    // toTestStringCalculator.Add("-1,2,-3") === 'Negatives not allowed: -1, -3' ? tests[11] = "Step 7 Negatives not allowed: -1, -3 test cases succeeded" : tests[10] = "Step 7 Negatives not allowed: -1, -3 test cases failed";
-    // toTestStringCalculator.Add("1000,1001,2") === 2 ? tests[11] = "Step 8 numbers grater than 1000 are ignored test cases succeeded" : tests[11] = "Step 8 numbers grater than 1000 are ignored test cases failed";
+    toTestStringCalculator.Add("") === 0 ? tests.push("Step 1 empty string returns cero test case succeeded") : tests.push("Step 1 empty string returns cero test case failed");
+    toTestStringCalculator.Add("1") === 1 ? tests.push("Step 2 string 1 returns 1 test case succeeded") : tests.push("Step 2 string 1 returns 1 test case failed");
+    // toTestStringCalculator.Add("3") === 3 ? tests.push("Step 2 string 3 returns integer 3 test case succeeded") : tests.push("Step 2 string 3 returns integer 3 test case failed");
+    // toTestStringCalculator.Add("1,2") === 3 ? tests.push("Step 3 string 1,2 returns 3 test case succeeded") : tests.push("Step 3 string 1,2 returns 3 test case failed");
+    // toTestStringCalculator.Add("3,5") === 8 ? tests.push("Step 3 string 3,5 returns integer 8 test case succeeded") : tests.push("Step 3 string 3,5 returns integer 8 test case failed");
+    // toTestStringCalculator.Add("1,2,3") === 6 ? tests.push("Step 4 string 1,2,3 returns 6 test case succeeded") : tests.push("Step 4 string 1,2,3 returns 6 test case failed");
+    // toTestStringCalculator.Add("3,5,3,9") === 20 ? tests.push("Step 4 string 3,5,3,9 returns integer 20 test case succeeded") : tests.push("Step 4 string 3,5,3,9 returns integer 20 test case failed");
+    // toTestStringCalculator.Add("1,2\n3") === 6 ? tests.push("Step 5 string 1,2\\n3 returns 6 test case succeeded") : tests.push("Step 5 string 1,2\\n3 returns 6 test case failed");
+    // toTestStringCalculator.Add("3\n5\n3,9") === 20 ? tests.push("Step 5 string 3\\n5\\n3,9 returns integer 20 test case succeeded") : tests.push("Step 5 string 3\\n5\\n3,9 returns integer 20 test case failed");
+    // toTestStringCalculator.Add("//;\n1;2") === 3 ? tests.push("Step 6 string //;\\n1;2 returns integer 3 test case succeeded") : tests.push("Step 6 string //;\\n1;2 returns integer 3 test case failed");
+    // toTestStringCalculator.Add("//-\n1-44") === 45 ? tests.push("Step 6 string //-\\n1-2 returns integer 45 test case succeeded") : tests.push("Step 6 string //-\\n1-2 returns integer 45 test case failed");
+    // toTestStringCalculator.Add("-1,2,-3") === 'Negatives not allowed: -1, -3' ? tests.push("Step 7 Negatives not allowed: -1, -3 test cases succeeded") : tests.push("Step 7 Negatives not allowed: -1, -3 test cases failed");
+    // toTestStringCalculator.Add("1000,1001,2") === 2 ? tests.push("Step 8 numbers grater than 1000 are ignored test cases succeeded") : tests.push("Step 8 numbers grater than 1000 are ignored test cases failed");
 
     for (let i = 0; i < tests.length; i++) {
         console.log(tests[i])
