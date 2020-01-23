@@ -105,9 +105,6 @@ class stringCalculator {
     isCommaOrBreakLineSeparatorFormat = new RegExp(`^[0-9]+(,[0-9]+)*(\\n[0-9]+)*(,[0-9]+)*$`) //Eg. 3\n5\n3,9 or 1,2\n3
     isUserInputSeparatorFormat = new RegExp(`^\/\/.\\n`) //Eg. //;\n1;2
     hasNegativeNumbers = new RegExp(`^-{1}[1-9]+`) //Eg. -1,2,-3
-    //sum = 0
-    inputAsArray = ''
-    input = ''
 
     Add(userInput) {
 
