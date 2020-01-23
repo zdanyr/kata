@@ -104,7 +104,7 @@ class stringCalculator {
     isCommaSeparatorNumberFormat = new RegExp(`^[0-9]+(,[0-9]+)*$`) //Eg. 1,2,3
     isCommaOrBreakLineSeparatorFormat = new RegExp(`^[0-9]+(,[0-9]+)*(\\n[0-9]+)*(,[0-9]+)*$`) //Eg. 3\n5\n3,9 or 1,2\n3
     isUserInputSeparatorFormat = new RegExp(`^\/\/.\\n`) //Eg. //;\n1;2
-    hasNegativeNumbers = new RegExp(`^-{1}[1-9]+`) //Eg. -1,2,-3
+    hasNegativeNumbers = new RegExp(`^-{1}[0-9]+`) //Eg. -1,2,-3
 
     Add(userInput) {
 
@@ -117,17 +117,20 @@ class stringCalculator {
         }
 
         if (this.isCommaSeparatorNumber(userInput)) {
-            return (this.sumNumbersInArray(this.convertCommaSeparatorInputAsArray(userInput)))
+            return (this.sumNumbersInArray(this.convertInputWithAnySeparatorIntoArray(userInput,',')))
         }
 
         if (this.isCommaOrBreakLineSeparator(userInput)) {
-            return this.sumNumbersInArray(this.convertCommaSeparatorInputAsArray(this.replaceBreakLineWithComma(userInput)))
+            return this.sumNumbersInArray(this.convertInputWithAnySeparatorIntoArray(this.replaceBreakLineWithComma(userInput),','))
 
         }
 
+        
+
+        // if (this.isUserInputSeparator(userInput)) {
 
 
-        // if (this.input.match(this.isUserInputSeparator)) {
+
         //     let delimiter = input.substr(2, 1)
         //     let positionOfSlashN = input.indexOf("\n")
         //     let inputToWorkWith = input.substr(positionOfSlashN)
@@ -151,6 +154,11 @@ class stringCalculator {
 
 
     }
+
+    isUserInputSeparator(userInput){
+        return userInput.match(this.isUserInputSeparatorFormat)
+    }
+
     //rename
     commaSeparator(userInput, inputAsArray) {
         let remove = new Array
@@ -188,8 +196,8 @@ class stringCalculator {
         return userInput.match(this.isCommaSeparatorNumberFormat)
     }
 
-    convertCommaSeparatorInputAsArray(userInput) {
-        return userInput.split(',')
+    convertInputWithAnySeparatorIntoArray(userInput, separator) {
+        return userInput.split(separator)
     }
 
     sumNumbersInArray(inputAsArray) {
@@ -221,9 +229,10 @@ const testerAdd = () => {
     toTestStringCalculator.Add("1,2,3") === 6 ? tests.push("Step 4 string 1,2,3 returns 6 test case succeeded") : tests.push(`Step 4 string 1,2,3 returns 6 - actual: ${toTestStringCalculator.Add("1,2,3")}`);
     toTestStringCalculator.Add("3,5,3,9") === 20 ? tests.push("Step 4 string 3,5,3,9 returns integer 20 test case succeeded") : tests.push(`Step 4 string 3,5,3,9 returns integer 20 - actual: ${toTestStringCalculator.Add("3,5,3,9")}`);
     toTestStringCalculator.Add("1,2\n3") === 6 ? tests.push("Step 5 string 1,2\\n3 returns 6 test case succeeded") : tests.push(`Step 5 string 1,2\\n3 returns 6 - actual: ${toTestStringCalculator.Add("1,2\\n3")}`);
-    toTestStringCalculator.Add("3\n5\n3,9") === 20 ? tests.push("Step 5 string 3\\n5\\n3,9 returns integer 20 test case succeeded") : tests.push(`Step 5 string 3\\n5\\n3,9 returns integer 20 - actual: ${toTestStringCalculator.Add("3\\n5\\n3,9")}`);
-    // toTestStringCalculator.Add("//;\n1;2") === 3 ? tests.push("Step 6 string //;\\n1;2 returns integer 3 test case succeeded") : tests.push(`Step 6 string //;\\n1;2 returns integer 3 - actual: ${toTestStringCalculator.Add("//;\\n1;2")}`);
-    // toTestStringCalculator.Add("//-\n1-44") === 45 ? tests.push("Step 6 string //-\\n1-2 returns integer 45 test case succeeded") : tests.push(`Step 6 string //-\\n1-2 returns integer 45 - actual: ${toTestStringCalculator.Add("//-\\n1-2")}`);
+    toTestStringCalculator.Add("3\n5\n30,9") === 47 ? tests.push("Step 5 string 3\\n5\\n30,9 returns integer 47 test case succeeded") : tests.push(`Step 5 string 3\\n5\\n30,9 returns integer 20 - actual: ${toTestStringCalculator.Add("3\\n5\\n30,9")}`);
+    toTestStringCalculator.Add("//;\n1;20") === 21 ? tests.push("Step 6 string //;\\n1;20 returns integer 21 test case succeeded") : tests.push(`Step 6 string //;\\n1;20 returns integer 21 - actual: ${toTestStringCalculator.Add("//;\\n1;20")}`);
+    toTestStringCalculator.Add("//-\n1-44") === 45 ? tests.push("Step 6 string //-\\n1-2 returns integer 45 test case succeeded") : tests.push(`Step 6 string //-\\n1-2 returns integer 45 - actual: ${toTestStringCalculator.Add("//-\\n1-2")}`);
+    toTestStringCalculator.Add("//-\n1-44-100") === 145 ? tests.push("Step 6 string //-\\n1-2-100 returns integer 145 test case succeeded") : tests.push(`Step 6 string //-\\n1-2-100 returns integer 145 - actual: ${toTestStringCalculator.Add("//-\\n1-2-100")}`);
     // toTestStringCalculator.Add("-1,2,-3") === 'Negatives not allowed: -1, -3' ? tests.push("Step 7 Negatives not allowed: -1, -3 test cases succeeded") : tests.push(`Step 7 Negatives not allowed: -1, -3 - actual: ${toTestStringCalculator.Add("-1,2,-3")}`);
     // toTestStringCalculator.Add("1000,1001,2") === 2 ? tests.push("Step 8 numbers grater than 1000 are ignored test cases succeeded") : tests.push(`Step 8 numbers grater than 1000 are ignored - actual: ${toTestStringCalculator.Add("1000,1001,2")}`);
 
