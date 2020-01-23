@@ -117,17 +117,15 @@ class stringCalculator {
         }
 
         if (this.isCommaSeparatorNumber(userInput)) {
-            return (this.sumNumbersInArray(this.convertInputAsArray(userInput)))
+            return (this.sumNumbersInArray(this.convertCommaSeparatorInputAsArray(userInput)))
         }
 
-        // if (this.isCommaOrBreakLineSeparator(userInput)) {
-        //     this.replaceBreakLine(userInput)
-        //     this.inputAsArray = replaceBreakWithComma.split(',')
-        // }
+        if (this.isCommaOrBreakLineSeparator(userInput)) {
+            return this.sumNumbersInArray(this.convertCommaSeparatorInputAsArray(this.replaceBreakLineWithComma(userInput)))
 
-        // replaceBreakLine(userInput){
-        //     return this.input.replace(/\n/g, ',')
-        // }
+        }
+
+
 
         // if (this.input.match(this.isUserInputSeparator)) {
         //     let delimiter = input.substr(2, 1)
@@ -190,7 +188,7 @@ class stringCalculator {
         return userInput.match(this.isCommaSeparatorNumberFormat)
     }
 
-    convertInputAsArray(userInput) {
+    convertCommaSeparatorInputAsArray(userInput) {
         return userInput.split(',')
     }
 
@@ -206,6 +204,9 @@ class stringCalculator {
         return userInput.match(this.isCommaOrBreakLineSeparatorFormat)
     }
 
+    replaceBreakLineWithComma(userInput) {
+        return userInput.replace(/\n/g, ',')
+    }
 }
 
 
