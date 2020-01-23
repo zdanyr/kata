@@ -117,17 +117,10 @@ class stringCalculator {
         }
 
         if (this.isCommaSeparatorNumber(userInput)) {
-            const convertInputAsArray = this.convertInputAsArray(userInput)
-            const sumOfElementsInTheArray = this.sumNumbersInArray(convertInputAsArray)
-            return sumOfElementsInTheArray
+            return this.convertAsArrayAndSumOfElements(userInput)
         }
 
-
-
-
-
-
-        // if (this.input.match(this.isCommaOrBreakLineSeparator)) {
+        // if (this.isCommaOrBreakLineSeparator(userInput)) {
         //     let replaceBreakWithComma = this.input.replace(/\n/g, ',')
         //     this.inputAsArray = replaceBreakWithComma.split(',')
         // }
@@ -203,6 +196,15 @@ class stringCalculator {
             sum = sum + parseInt(inputAsArray[position]);
         }
         return sum
+    }
+
+    isCommaOrBreakLineSeparator(userInput) {
+        return userInput.match(this.isCommaOrBreakLineSeparatorFormat)
+    }
+
+    convertAsArrayAndSumOfElements(userInput) {
+        let convertInputAsArray = this.convertInputAsArray(userInput)
+        return this.sumNumbersInArray(convertInputAsArray)
     }
 
 }
