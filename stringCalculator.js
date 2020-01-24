@@ -117,25 +117,23 @@ class stringCalculator {
         }
 
         if (this.isCommaSeparatorNumber(userInput)) {
-            return (this.sumNumbersInArray(this.convertInputWithAnySeparatorIntoArray(userInput,',')))
+            return (this.sumNumbersInArray(this.convertInputWithAnySeparatorIntoArray(userInput, ',')))
         }
 
         if (this.isCommaOrBreakLineSeparator(userInput)) {
-            return this.sumNumbersInArray(this.convertInputWithAnySeparatorIntoArray(this.replaceBreakLineWithComma(userInput),','))
+            return this.sumNumbersInArray(this.convertInputWithAnySeparatorIntoArray(this.replaceBreakLineWithComma(userInput), ','))
 
         }
 
-        
-
-        // if (this.isUserInputSeparator(userInput)) {
 
 
+        if (this.isUserInputSeparator(userInput)) {
 
-        //     let delimiter = input.substr(2, 1)
-        //     let positionOfSlashN = input.indexOf("\n")
-        //     let inputToWorkWith = input.substr(positionOfSlashN)
-        //     this.inputAsArray = inputToWorkWith.split(delimiter)
-        // }
+            return this.sumNumbersInArray(this.convertInputWithAnySeparatorIntoArray(this.splitInputAfterBreakLine(userInput), this.findDelimiter(userInput)))
+
+        }
+
+
 
         // if (this.input.match(this.hasNegativeNumbers)) {  //Eg. -1,2,-3
         //     let negativeNumbers = ''
@@ -155,7 +153,18 @@ class stringCalculator {
 
     }
 
-    isUserInputSeparator(userInput){
+
+    splitInputAfterBreakLine(userInput) {
+
+        let positionOfSlashN = userInput.indexOf("\n")
+        return userInput.substr(positionOfSlashN)
+    }
+
+    findDelimiter(userInput) {
+        return userInput.substr(2, 1)
+    }
+
+    isUserInputSeparator(userInput) {
         return userInput.match(this.isUserInputSeparatorFormat)
     }
 
