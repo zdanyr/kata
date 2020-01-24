@@ -105,6 +105,7 @@ class stringCalculator {
     isCommaOrBreakLineSeparatorFormat = new RegExp(`^[0-9]+(,[0-9]+)*(\\n[0-9]+)*(,[0-9]+)*$`) //Eg. 3\n5\n3,9 or 1,2\n3
     isCustomSeparatorFormat = new RegExp(`^\/\/.\\n`) //Eg. //;\n1;2;7  //-\n1-2
     hasNegativeNumbers = new RegExp(`^-{1}[0-9]+`) //Eg. -1,2,-3
+    commaAsSeparator = ','
 
     Add(userInput) {
 
@@ -117,17 +118,19 @@ class stringCalculator {
         }
 
         if (this.isCommaSeparatorNumber(userInput)) {
-            return (this.sumNumbersInArray(this.convertInputWithAnySeparatorIntoArray(userInput, ',')))
+            return this.getSumOfElementsOfUserInputConvertedInArray(userInput, this.commaAsSeparator)
         }
 
         if (this.isCommaOrBreakLineSeparator(userInput)) {
-            var InputWithCommaSeparator = this.replaceBreakLineWithComma(userInput)
-            return this.getSumOfElementsOfUserInputConvertedInArray(InputWithCommaSeparator, ',')
+            let InputWithCommaSeparator = this.replaceBreakLineWithComma(userInput)
+            return this.getSumOfElementsOfUserInputConvertedInArray(InputWithCommaSeparator, this.commaAsSeparator)
 
         }
 
         if (this.isCustomSeparator(userInput)) {
-            return this.sumNumbersInArray(this.convertInputWithAnySeparatorIntoArray(this.splitInputAfterBreakLine(userInput), this.findDelimiter(userInput)))
+            let separator = this.findDelimiter(userInput)
+            let inputToSum = this.splitInputAfterBreakLine(userInput)
+            return this.getSumOfElementsOfUserInputConvertedInArray(inputToSum, separator)
 
         }
 
