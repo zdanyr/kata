@@ -104,7 +104,7 @@ class stringCalculator {
     isCommaSeparatorNumberFormat = new RegExp(`^[0-9]+(,[0-9]+)*$`) //Eg. 1,2,3
     isCommaOrBreakLineSeparatorFormat = new RegExp(`^[0-9]+(,[0-9]+)*(\\n[0-9]+)*(,[0-9]+)*$`) //Eg. 3\n5\n3,9 or 1,2\n3
     isCustomSeparatorFormat = new RegExp(`^\/\/.\\n`) //Eg. //;\n1;2;7  //-\n1-2
-    hasNegativeNumbers = new RegExp(`^-{1}[0-9]+`) //Eg. -1,2,-3
+    hasNegativeNumbersFormat = new RegExp(`^-{1}[0-9]+`) //Eg. -1,2,-3
     commaAsSeparator = ','
 
     Add(userInput) {
@@ -134,36 +134,43 @@ class stringCalculator {
 
         }
 
-        
 
 
 
-        // if (this.input.match(this.hasNegativeNumbers)) {  //Eg. -1,2,-3
-        //     let negativeNumbers = ''
-        //     this.inputAsArray = input.split(',')
 
-        //     for (let i = 0; i < this.inputAsArray.length; i++) {
-        //         if (this.inputAsArray[i] < 0) {
-        //             negativeNumbers = `${negativeNumbers} ${this.inputAsArray[i]}`
-        //         }
-        //     }
-        //     negativeNumbers = negativeNumbers.replace(/^\s+/g, '')
-        //     negativeNumbers = negativeNumbers.replace(/ /gi, ", ")
-        //     return `Negatives not allowed: ${negativeNumbers}`
-        // }
+        if (this.hasNegativeNumbers(userInput)) {  //Eg. -1,2,-3
+            return this.handleNegativeNumbers(userInput)
+        }
 
 
 
     }
 
-    getSumOfElementsOfUserInputConvertedInArray(userInput, separator){
+    handleNegativeNumbers(userInput) {
+        let negativeNumbers = ''
+        let inputAsArray = this.convertInputWithAnySeparatorIntoArray(userInput,this.commaAsSeparator)
+
+        for (let i = 0; i < inputAsArray.length; i++) {
+            if (inputAsArray[i] < 0) {
+                negativeNumbers = `${negativeNumbers} ${inputAsArray[i]}`
+            }
+        }
+        negativeNumbers = negativeNumbers.replace(/^\s+/g, '')
+        negativeNumbers = negativeNumbers.replace(/ /gi, ", ")
+        return `Negatives not allowed: ${negativeNumbers}`
+    }
+
+    hasNegativeNumbers(userInput) {
+        return userInput.match(this.hasNegativeNumbersFormat)
+    }
+
+    getSumOfElementsOfUserInputConvertedInArray(userInput, separator) {
         var inputAsArray = this.convertInputWithAnySeparatorIntoArray(userInput, separator)
         return this.sumNumbersInArray(inputAsArray)
     }
 
 
     splitInputAfterBreakLine(userInput) {
-
         let positionOfSlashN = userInput.indexOf("\n")
         return userInput.substr(positionOfSlashN)
     }
@@ -250,7 +257,7 @@ const testerAdd = () => {
     toTestStringCalculator.Add("//;\n1;20") === 21 ? tests.push("Step 6 string //;\\n1;20 returns integer 21 test case succeeded") : tests.push(`Step 6 string //;\\n1;20 returns integer 21 - actual: ${toTestStringCalculator.Add("//;\\n1;20")}`);
     toTestStringCalculator.Add("//-\n1-44") === 45 ? tests.push("Step 6 string //-\\n1-2 returns integer 45 test case succeeded") : tests.push(`Step 6 string //-\\n1-2 returns integer 45 - actual: ${toTestStringCalculator.Add("//-\\n1-2")}`);
     toTestStringCalculator.Add("//-\n1-44-100") === 145 ? tests.push("Step 6 string //-\\n1-2-100 returns integer 145 test case succeeded") : tests.push(`Step 6 string //-\\n1-2-100 returns integer 145 - actual: ${toTestStringCalculator.Add("//-\\n1-2-100")}`);
-    // toTestStringCalculator.Add("-1,2,-3") === 'Negatives not allowed: -1, -3' ? tests.push("Step 7 Negatives not allowed: -1, -3 test cases succeeded") : tests.push(`Step 7 Negatives not allowed: -1, -3 - actual: ${toTestStringCalculator.Add("-1,2,-3")}`);
+    toTestStringCalculator.Add("-1,2,-3") === 'Negatives not allowed: -1, -3' ? tests.push("Step 7 Negatives not allowed: -1, -3 test cases succeeded") : tests.push(`Step 7 Negatives not allowed: -1, -3 - actual: ${toTestStringCalculator.Add("-1,2,-3")}`);
     // toTestStringCalculator.Add("1000,1001,2") === 2 ? tests.push("Step 8 numbers grater than 1000 are ignored test cases succeeded") : tests.push(`Step 8 numbers grater than 1000 are ignored - actual: ${toTestStringCalculator.Add("1000,1001,2")}`);
 
     for (let i = 0; i < tests.length; i++) {
