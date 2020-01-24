@@ -97,6 +97,7 @@ Note, a delimiter of 1DD or DD1 is not valid as it has a number on the edge of i
 //1- add 2-3 test cases per case
 //2- rename variables
 //3- use methods same level of abstractions
+//how do i would do it without regular expressions?
 
 class stringCalculator {
 
@@ -184,21 +185,21 @@ class stringCalculator {
     }
 
     //rename
-    commaSeparator(userInput, inputAsArray) {
-        let remove = new Array
+    // commaSeparator(userInput, inputAsArray) {
+    //     let remove = new Array
 
-        for (let i = 0; i < inputAsArray.length; i++) {
-            if (inputAsArray[i] >= 1000) {
-                remove[i] = inputAsArray[i]
-            }
-        }
-        for (let i = 0; i < remove.length; i++) {
-            inputAsArray.splice(inputAsArray.indexOf(remove[i]), 1);
-        }
+    //     for (let i = 0; i < inputAsArray.length; i++) {
+    //         if (inputAsArray[i] >= 1000) {
+    //             remove[i] = inputAsArray[i]
+    //         }
+    //     }
+    //     for (let i = 0; i < remove.length; i++) {
+    //         inputAsArray.splice(inputAsArray.indexOf(remove[i]), 1);
+    //     }
 
-        this.inputAsArray = inputAsArray
-        //console.log(`inputAsArray: ${inputAsArray}`)
-    }
+    //     this.inputAsArray = inputAsArray
+    //     //console.log(`inputAsArray: ${inputAsArray}`)
+    // }
 
     isInputEmpty(userInput) {
         return userInput === ""
@@ -268,4 +269,3 @@ const testerAdd = () => {
 let toTestStringCalculator = new stringCalculator()
 testerAdd()
 
-//console.log(` toTestStringCalculator.Add("3,5"): ${toTestStringCalculator.Add("3,5")}`)
