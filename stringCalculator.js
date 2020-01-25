@@ -119,20 +119,20 @@ class stringCalculator {
             return this.returnInputAsNumber(userInput)
         }
 
-        if (this.isCommaDelimiterNumber(userInput)) {
-            return this.getSumOfElementsOfUserInputConvertedInArray(userInput, this.commaAsDelimiter)
+        if (this.isCommaDelimiter(userInput)) {
+            return this.getSumOfElements(userInput, this.commaAsDelimiter)
         }
 
         if (this.isCommaOrBreakLineSeparator(userInput)) {
             let InputWithCommaDelimiter = this.replaceBreakLineWithComma(userInput)
-            return this.getSumOfElementsOfUserInputConvertedInArray(InputWithCommaDelimiter, this.commaAsDelimiter)
+            return this.getSumOfElements(InputWithCommaDelimiter, this.commaAsDelimiter)
 
         }
 
         if (this.isCustomDelimiter(userInput)) {
             let userCustomDelimiter = this.findDelimiter(userInput)
             let inputToSum = this.splitInputAfterBreakLine(userInput)
-            return this.getSumOfElementsOfUserInputConvertedInArray(inputToSum, userCustomDelimiter)
+            return this.getSumOfElements(inputToSum, userCustomDelimiter)
 
         }
 
@@ -162,7 +162,7 @@ class stringCalculator {
         return `Negatives not allowed: ${negativeNumbers}`
     }
 
-    getSumOfElementsOfUserInputConvertedInArray(userInput, delimiter) {
+    getSumOfElements(userInput, delimiter) {
         this.inputAsArray = this.convertInputWithCustomSeparatorIntoArray(userInput, delimiter)
         return this.sumNumbersInArray(this.inputAsArray)
     }
@@ -213,7 +213,7 @@ class stringCalculator {
         return parseInt(userInput)
     }
 
-    isCommaDelimiterNumber(userInput) {
+    isCommaDelimiter(userInput) {
         return userInput.match(this.isCommaSeparatorNumberFormat)
     }
 
@@ -256,7 +256,7 @@ const testerAdd = () => {
     toTestStringCalculator.Add("//-\n1-44-100") === 145 ? tests.push("Step 6 string //-\\n1-2-100 returns integer 145 test case succeeded") : tests.push(`Step 6 string //-\\n1-2-100 returns integer 145 - actual: ${toTestStringCalculator.Add("//-\\n1-2-100")}`);
     toTestStringCalculator.Add("-1,2,-3") === 'Negatives not allowed: -1, -3' ? tests.push("Step 7 Negatives not allowed: -1, -3 test cases succeeded") : tests.push(`Step 7 Negatives not allowed: -1, -3 - actual: ${toTestStringCalculator.Add("-1,2,-3")}`);
     toTestStringCalculator.Add("1,-20,-30") === 'Negatives not allowed: -20, -30' ? tests.push("Step 7 Negatives not allowed: -20, -30 test cases succeeded") : tests.push(`Step 7 Negatives not allowed: -20, -30 - actual: ${toTestStringCalculator.Add("1,-20,-30")}`);
-    //toTestStringCalculator.Add("1000,1001,2") === 2 ? tests.push("Step 8 numbers grater than 1000 are ignored test cases succeeded") : tests.push(`Step 8 numbers grater than 1000 are ignored - actual: ${toTestStringCalculator.Add("1000,1001,2")}`);
+    toTestStringCalculator.Add("1000,1001,2") === 2 ? tests.push("Step 8 numbers grater than 1000 are ignored test cases succeeded") : tests.push(`Step 8 numbers grater than 1000 are ignored - actual: ${toTestStringCalculator.Add("1000,1001,2")}`);
 
     for (let i = 0; i < tests.length; i++) {
         console.log(tests[i])
