@@ -120,11 +120,14 @@ class stringCalculator {
             return this.returnZero()
         }
 
-        // if(this.hasValueGraterThan1000(userInput)){
-        //     console.log(`userInput: ${userInput}`)
-        //     this.convertInputWithCustomSeparatorIntoArray(this.removeValuesGraterThan1000(), this.commaAsDelimiter)
-        //     return this.getSumOfElements()
-        // }
+        if (this.hasNegativeNumbers(userInput)) {  
+            return this.handleNegativeNumbers(userInput)
+        }
+
+        if (this.hasValueGraterThan1000(userInput)) {
+            this.removeValuesGraterThan1000()
+            return this.getSumOfElements()
+        }
 
         if (this.isCommaOrBreakLineSeparator(userInput)) {
             let InputWithCommaDelimiter = this.replaceBreakLineWithComma(userInput)
@@ -140,12 +143,32 @@ class stringCalculator {
             return this.getSumOfElements()
 
         }
+    }
 
-        if (this.hasNegativeNumbers(userInput)) {  //Eg. -1,2,-3
-            return this.handleNegativeNumbers(userInput)
+    hasValueGraterThan1000(userInput) {
+        this.convertInputWithCustomSeparatorIntoArray(userInput, this.commaAsDelimiter)
+        return this.inputAsArray.some(this.HasSomeValueGraterThan1000)
+    }
+
+    HasSomeValueGraterThan1000(value) {
+        return value >= 1000
+    }
+
+    removeValuesGraterThan1000() {
+        let valuesToRemove = new Array
+        let valuesToRemoveWithoutEmptyValues = new Array
+
+        for (let i = 0; i < this.inputAsArray.length; i++) {
+            if (this.inputAsArray[i] >= 1000) {
+                valuesToRemove[i] = this.inputAsArray[i]
+            }
         }
+        valuesToRemoveWithoutEmptyValues = valuesToRemove.filter(rem => rem != '')
 
-        
+        for (let i = 0; i < valuesToRemoveWithoutEmptyValues.length; i++) {
+            this.inputAsArray.splice(this.inputAsArray.indexOf(valuesToRemoveWithoutEmptyValues[i]), 1);
+        }
+        return this.inputAsArray
     }
 
     hasNegativeNumbers(userInput) {
@@ -187,30 +210,6 @@ class stringCalculator {
         return userInput.match(this.isCustomSeparatorFormat)
     }
 
-    hasValueGraterThan1000(userInput) {
-        this.inputAsArray = this.convertInputWithCustomSeparatorIntoArray(userInput, this.commaAsDelimiter)
-        return this.inputAsArray.some(this.IsValueGraterThan1000)
-    }
-
-    IsValueGraterThan1000(value) {
-        return value >= 1000
-    }
-
-    removeValuesGraterThan1000() {
-        let remove = new Array
-
-        for (let i = 0; i < this.inputAsArray.length; i++) {
-            if (this.inputAsArray[i] >= 1000) {
-                remove[i] = this.inputAsArray[i]
-            }
-        }
-        for (let i = 0; i < remove.length; i++) {
-            this.inputAsArray.splice(this.inputAsArray.indexOf(remove[i]), 1);
-        }
-        console.log(`inputAsArray: ${this.inputAsArray}`)
-        return this.inputAsArray 
-    }
-
     isInputEmpty(userInput) {
         return userInput === ""
     }
@@ -221,7 +220,6 @@ class stringCalculator {
 
     convertInputWithCustomSeparatorIntoArray(userInput, delimiter) {
         this.inputAsArray = userInput.split(delimiter)
-        //return userInput.split(delimiter)
     }
 
     sumNumbersInArray(inputAsArray) {
@@ -259,7 +257,9 @@ const testerAdd = () => {
     toTestStringCalculator.Add("//-\n1-44-100") === 145 ? tests.push("Step 6 string //-\\n1-2-100 returns integer 145 test case succeeded") : tests.push(`Step 6 string //-\\n1-2-100 returns integer 145 - actual: ${toTestStringCalculator.Add("//-\\n1-2-100")}`);
     toTestStringCalculator.Add("-1,2,-3") === 'Negatives not allowed: -1, -3' ? tests.push("Step 7 Negatives not allowed: -1, -3 test cases succeeded") : tests.push(`Step 7 Negatives not allowed: -1, -3 - actual: ${toTestStringCalculator.Add("-1,2,-3")}`);
     toTestStringCalculator.Add("1,-20,-30") === 'Negatives not allowed: -20, -30' ? tests.push("Step 7 Negatives not allowed: -20, -30 test cases succeeded") : tests.push(`Step 7 Negatives not allowed: -20, -30 - actual: ${toTestStringCalculator.Add("1,-20,-30")}`);
-    //toTestStringCalculator.Add("1000,1001,2") === 2 ? tests.push("Step 8 numbers grater than 1000 are ignored test cases succeeded") : tests.push(`Step 8 numbers grater than 1000 are ignored - actual: ${toTestStringCalculator.Add("1000,1001,2")}`);
+    toTestStringCalculator.Add("1000,1001,2") === 2 ? tests.push("Step 8 numbers grater than 1000 are ignored test cases succeeded") : tests.push(`Step 8 numbers grater than 1000 are ignored - actual: ${toTestStringCalculator.Add("1000,1001,2")}`);
+    toTestStringCalculator.Add("1000,1001,2,2000,1,5000") === 3 ? tests.push("Step 8 numbers grater than 1000 are ignored test cases succeeded") : tests.push(`Step 8 numbers grater than 1000 are ignored - actual: ${toTestStringCalculator.Add("1000,1001,2,2000,1,5000")}`);
+    toTestStringCalculator.Add("2,2000,10") === 12 ? tests.push("Step 8 numbers grater than 1000 are ignored test cases succeeded") : tests.push(`Step 8 numbers grater than 1000 are ignored - actual: ${toTestStringCalculator.Add("2,2000,10")}`);
 
     for (let i = 0; i < tests.length; i++) {
         console.log(tests[i])
