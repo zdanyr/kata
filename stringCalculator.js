@@ -146,7 +146,7 @@ class stringCalculator {
         }
 
         if(this.isCustomAnyLengthDelimiter(userInput)){
-            
+            this.findCustomDelimiterAnyLength(userInput)
         }
     }
 
@@ -210,6 +210,12 @@ class stringCalculator {
         return userInput.substr(2, 1)
     }
 
+    findCustomDelimiterAnyLength(userInput){
+        let openBracket = userInput.indexOf('[')
+        let closeBracket =  userInput.indexOf(']')
+        return userInput.substr(openBracket+1,(closeBracket-openBracket-1))
+    }
+
     isCustomDelimiter(userInput) {
         return userInput.match(this.isCustomSeparatorFormat)
     }
@@ -269,8 +275,8 @@ const testerAdd = () => {
     // toTestStringCalculator.Add("1000,1001,2,2000,1,5000") === 3 ? tests.push("Step 8 numbers grater than 1000 are ignored test cases succeeded") : tests.push(`Step 8 numbers grater than 1000 are ignored - actual: ${toTestStringCalculator.Add("1000,1001,2,2000,1,5000")}`);
     // toTestStringCalculator.Add("2,2000,10") === 12 ? tests.push("Step 8 numbers grater than 1000 are ignored test cases succeeded") : tests.push(`Step 8 numbers grater than 1000 are ignored - actual: ${toTestStringCalculator.Add("2,2000,10")}`);
     toTestStringCalculator.Add("//[*]\\n1*2") === 3 ? tests.push("Step 9 custom delimiter can have any size test cases succeeded") : tests.push(`Step 9 custom delimiter can have any size - actual: ${toTestStringCalculator.Add("//[*]\\n1*2")}`);
-//    toTestStringCalculator.Add("//[***]\\n1***2***3") === 6 ? tests.push("Step 9 custom delimiter can have any size test cases succeeded") : tests.push(`Step 9 custom delimiter can have any size - actual: ${toTestStringCalculator.Add("//[***]\\n1***2***3")}`);
-//     toTestStringCalculator.Add("//[**--*]\\n1**--*20**--*3") === 24 ? tests.push("Step 9 custom delimiter can have any size test cases succeeded") : tests.push(`Step 9 custom delimiter can have any size - actual: ${toTestStringCalculator.Add("//[**--*]\\n1**--*20**--*3")}`);
+   toTestStringCalculator.Add("//[***]\\n1***2***3") === 6 ? tests.push("Step 9 custom delimiter can have any size test cases succeeded") : tests.push(`Step 9 custom delimiter can have any size - actual: ${toTestStringCalculator.Add("//[***]\\n1***2***3")}`);
+    toTestStringCalculator.Add("//[!*--*]\\n1!*--*20!*--*3") === 24 ? tests.push("Step 9 custom delimiter can have any size test cases succeeded") : tests.push(`Step 9 custom delimiter can have any size - actual: ${toTestStringCalculator.Add("//[!*--*]\\n1!*--*20!*--*3")}`);
 
    
 
