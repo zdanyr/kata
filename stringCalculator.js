@@ -117,6 +117,7 @@ class stringCalculator {
     commaAsDelimiter = ','
     inputAsArray = new Array
     inputBeforeBreakLineAsArray = new Array
+    customDelimiter = new Array
 
     Add(userInput) {
 
@@ -151,20 +152,17 @@ class stringCalculator {
             if (this.isManyCustomSeparators(userInput)) { // [a][b][c][d]\n1a2a3b3c4d5
                 let inputBeforeBreakLine = this.splitInputReturnBeforeBreakLine(userInput) //[a][b][c][d]
 
-                //define delimiters
                 this.inputBeforeBreakLineAsArray = inputBeforeBreakLine.split('')
-                let customDelimiter = new Array
-                for (let i = 0; i < this.inputBeforeBreakLineAsArray.length; i++) {
-                    customDelimiter[i] = this.findCustomDelimiterUserInputAsArray(this.inputBeforeBreakLineAsArray)
-                    this.replaceCustomDelimiterWithComma(this.inputBeforeBreakLineAsArray, customDelimiter[i])
-                }
+
+                this.findAllDelimitersFromInput()
+
                 this.inputAsArray = this.splitInputReturnAfterBreakLine(userInput)
-                for (let i = 0; i < customDelimiter.length; i++) {  //     1a2a3b3c4d5   ///replace the special characters \^$.|?*+()[{
-                    this.inputAsArray = this.removeCustomDelimiterFromInput(this.inputAsArray, customDelimiter[i])
-                }
-                for(let i = 0;i<customDelimiter.length;i++){
-                    this.inputAsArray = this.removeBackSlashDelimiterFromInput(this.inputAsArray)
-                }
+
+                this.removeAllCustomDelimitersFromInput()
+                
+                this.handleSpecialCharacters()
+
+                
                 return this.getSumOfElements()
             }
 
@@ -177,7 +175,26 @@ class stringCalculator {
 
     }
 
-    replaceCustomDelimiterWithComma(userInputArray, customDelimiter) {
+    handleSpecialCharacters(){
+        for (let i = 0; i < this.customDelimiter.length; i++) {
+            this.inputAsArray = this.removeBackSlashDelimiterFromInput(this.inputAsArray)
+        }
+    }
+
+    removeAllCustomDelimitersFromInput(){
+        for (let i = 0; i < this.customDelimiter.length; i++) {  //     1a2a3b3c4d5   ///replace the special characters \^$.|?*+()[{
+            this.inputAsArray = this.removeCustomDelimiterFromInput(this.inputAsArray, this.customDelimiter[i])
+        }
+    }
+
+    findAllDelimitersFromInput() {
+        for (let i = 0; i < this.inputBeforeBreakLineAsArray.length; i++) {
+            this.customDelimiter[i] = this.findCustomDelimiterUserInputAsArray(this.inputBeforeBreakLineAsArray)
+            this.replaceCustomDelimiterWithEmptySpace(this.inputBeforeBreakLineAsArray, this.customDelimiter[i])
+        }
+    }
+
+    replaceCustomDelimiterWithEmptySpace(userInputArray, customDelimiter) {
         let position = userInputArray.indexOf(customDelimiter)
         this.inputBeforeBreakLineAsArray.splice(0, position + 2, ''); //removes custom delimiter
     }
