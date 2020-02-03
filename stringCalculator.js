@@ -135,15 +135,12 @@ class stringCalculator {
         }
 
         if (this.isCommaOrBreakLineSeparator(userInput)) {
-            let InputWithCommaDelimiter = this.replaceBreakLineWithComma(userInput)
-            this.convertInputWithCustomSeparatorIntoArray(InputWithCommaDelimiter, this.commaAsDelimiter)
+            this.handleCommaOrBreakLineSeparator(userInput)
             return this.getSumOfElements()
         }
 
         if (this.isCustomDelimiter(userInput)) {
-            let userCustomDelimiter = this.findDelimiter(userInput)
-            let inputToSum = this.splitInputReturnAfterBreakLine(userInput)
-            this.convertInputWithCustomSeparatorIntoArray(inputToSum, userCustomDelimiter)
+            this.handleCustomDelimiter(userInput)
             return this.getSumOfElements()
         }
 
@@ -159,6 +156,17 @@ class stringCalculator {
             this.convertInputWithCustomSeparatorIntoArray(inputToSum, userCustomDelimiter)
             return this.getSumOfElements()
         }
+    }
+
+    handleCommaOrBreakLineSeparator(userInput){
+        let InputWithCommaDelimiter = this.replaceBreakLineWithComma(userInput)
+        this.convertInputWithCustomSeparatorIntoArray(InputWithCommaDelimiter, this.commaAsDelimiter)
+    }
+
+    handleCustomDelimiter(userInput){
+        let userCustomDelimiter = this.findDelimiter(userInput)
+        let inputToSum = this.splitInputReturnAfterBreakLine(userInput)
+        this.convertInputWithCustomSeparatorIntoArray(inputToSum, userCustomDelimiter)
     }
 
     handleManyCustomDelimitersWithLengthOne(userInput){
