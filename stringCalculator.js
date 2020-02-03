@@ -149,7 +149,7 @@ class stringCalculator {
 
         if (this.isCustomAnyLengthDelimiter(userInput)) {
 
-            if (this.isManyCustomSeparators(userInput)) { // [a][b][c][d]\n1a2a3b3c4d5
+            if (this.isManyCustomDelimitersWithLengthOne(userInput)) { // [a][b][c][d]\n1a2a3b3c4d5
                 let inputBeforeBreakLine = this.splitInputReturnBeforeBreakLine(userInput) //[a][b][c][d]
 
                 this.inputBeforeBreakLineAsArray = inputBeforeBreakLine.split('')
@@ -162,7 +162,6 @@ class stringCalculator {
                 
                 this.handleSpecialCharacters()
 
-                
                 return this.getSumOfElements()
             }
 
@@ -182,7 +181,7 @@ class stringCalculator {
     }
 
     removeAllCustomDelimitersFromInput(){
-        for (let i = 0; i < this.customDelimiter.length; i++) {  //     1a2a3b3c4d5   ///replace the special characters \^$.|?*+()[{
+        for (let i = 0; i < this.customDelimiter.length; i++) {  
             this.inputAsArray = this.removeCustomDelimiterFromInput(this.inputAsArray, this.customDelimiter[i])
         }
     }
@@ -196,7 +195,7 @@ class stringCalculator {
 
     replaceCustomDelimiterWithEmptySpace(userInputArray, customDelimiter) {
         let position = userInputArray.indexOf(customDelimiter)
-        this.inputBeforeBreakLineAsArray.splice(0, position + 2, ''); //removes custom delimiter
+        this.inputBeforeBreakLineAsArray.splice(0, position + 2, ''); 
     }
 
     hasValueGraterThan1000(userInput) {
@@ -283,7 +282,7 @@ class stringCalculator {
         return userInput.match(this.isCustomSeparatorAnyLengthFormat)
     }
 
-    isManyCustomSeparators(userInput) {
+    isManyCustomDelimitersWithLengthOne(userInput) {
         return userInput.match(this.isManyCustomSeparatorsFormat)
     }
 
@@ -303,19 +302,19 @@ class stringCalculator {
         return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
     }
 
+    foo(){}
+
     removeCustomDelimiterFromInput(userInputWithManyDelimiters, usingDelimiter) {
         let inputWithoutSpecialCharacters = this.escapeRegExp(userInputWithManyDelimiters)
         let delimiterWithoutSpecialCharacters = this.escapeRegExp(usingDelimiter)
-        let b = new RegExp(delimiterWithoutSpecialCharacters, 'gi');
-        this.inputAsArray = inputWithoutSpecialCharacters.replace(b, '')
-        // let c = new RegExp(/\\/, 'gi')
-        // this.inputAsArray = inputWithoutSpecialCharacters.replace(c, '')
+        let delimiterWithoutSpecialCharactersAsREx = new RegExp(delimiterWithoutSpecialCharacters, 'gi');
+        this.inputAsArray = inputWithoutSpecialCharacters.replace(delimiterWithoutSpecialCharactersAsREx, '')
         return this.inputAsArray
     }
 
     removeBackSlashDelimiterFromInput(inputWithoutSpecialCharacters) {
-        let c = new RegExp(/\\/, 'gi')
-        this.inputAsArray = inputWithoutSpecialCharacters.replace(c, '')
+        let doubleBackSlash = new RegExp(/\\/, 'gi')
+        this.inputAsArray = inputWithoutSpecialCharacters.replace(doubleBackSlash, '')
         return this.inputAsArray
     }
 
