@@ -141,8 +141,8 @@ class stringCalculator {
             return this.getSumOfElements()
         }
 
-        if (this.isManyCustomDelimitersAnyLength(userInput)) { // [a][b][c][d]\n1a2a3b3c4d5
-            this.handleManyCustomDelimitersAnyLength(userInput)
+        if (this.isOneOrManyCustomDelimitersAnyLength(userInput)) { // [a][b][c][d]\n1a2a3b3c4d5
+            this.handleOneOrManyCustomDelimitersAnyLength(userInput)
             this.inputAsArray = this.inputAsArray.split(',')
             return this.getSumOfElements()
         }
@@ -159,7 +159,7 @@ class stringCalculator {
         this.convertInputWithCustomSeparatorIntoArray(inputToSum, userCustomDelimiter)
     }
 
-    handleManyCustomDelimitersAnyLength(userInput) {
+    handleOneOrManyCustomDelimitersAnyLength(userInput) {
         this.handleInputBeforeBreakLine(userInput)
         this.handleInputAfterBreakLine(userInput)
     }
@@ -173,18 +173,11 @@ class stringCalculator {
     handleInputAfterBreakLine(userInput) {
         this.inputAsArray = this.splitInputReturnAfterBreakLine(userInput)
         this.removeAllCustomDelimitersFromInput()
-        this.handleSpecialCharacters()
-    }
-
-    handleSpecialCharacters() {
-        for (let i = 0; i < this.customDelimiter.length; i++) {
-            this.inputAsArray = this.removeBackSlashDelimiterFromInput(this.inputAsArray)
-        }
     }
 
     removeAllCustomDelimitersFromInput() {
         for (let i = 0; i < this.customDelimiter.length; i++) {
-           this.inputAsArray = this.removeCustomDelimiterFromInput(this.inputAsArray, this.customDelimiter[i])
+            this.inputAsArray = this.removeCustomDelimiterFromInput(this.inputAsArray, this.customDelimiter[i])
         }
     }
 
@@ -269,15 +262,15 @@ class stringCalculator {
     findCustomDelimiter(inputBeforeBreakAsArray) {
         let openBracket = inputBeforeBreakAsArray.indexOf('[')
         let closeBracket = inputBeforeBreakAsArray.indexOf(']')
-        let a = inputBeforeBreakAsArray.slice(openBracket + 1, (closeBracket))
-        return a.join('')
+        let customDelimiter = inputBeforeBreakAsArray.slice(openBracket + 1, (closeBracket))
+        return customDelimiter.join('')
     }
 
     isCustomDelimiter(userInput) {
         return userInput.match(this.isCustomSeparatorFormat)
     }
 
-    isManyCustomDelimitersAnyLength(userInput) {
+    isOneOrManyCustomDelimitersAnyLength(userInput) {
         return userInput.match(this.isManyCustomSeparatorsAnyLengthFormat)
     }
 
@@ -300,14 +293,9 @@ class stringCalculator {
     foo() { }
 
     removeCustomDelimiterFromInput(userInputWithManyDelimiters, usingDelimiter) {
-        if (usingDelimiter.length === 1) {
-            let inputWithoutSpecialCharacters = this.escapeRegExp(userInputWithManyDelimiters)
-            let delimiterWithoutSpecialCharacters = this.escapeRegExp(usingDelimiter)
-            let delimiterWithoutSpecialCharactersAsREx = new RegExp(delimiterWithoutSpecialCharacters, 'gi');
-            this.inputAsArray = inputWithoutSpecialCharacters.replace(delimiterWithoutSpecialCharactersAsREx, ',')
-        } else {
-            this.inputAsArray = userInputWithManyDelimiters.replace(usingDelimiter, ',')
-        }
+        let delimiterWithoutSpecialCharacters = this.escapeRegExp(usingDelimiter)
+        let delimiterWithoutSpecialCharactersAsREx = new RegExp(delimiterWithoutSpecialCharacters, 'gi');
+        this.inputAsArray = userInputWithManyDelimiters.replace(delimiterWithoutSpecialCharactersAsREx, ',')
         return this.inputAsArray
     }
 
@@ -364,7 +352,7 @@ const testerAdd = () => {
     toTestStringCalculator.Add("//[a][b][c][d]\n1a2a3b3c4d5") === 18 ? tests.push("Step 10 many delimiters test cases succeeded - //[a][b][c][d]\\n1a2a3b3c4d5") : tests.push(`Step 10 many delimiters //[a][b][c][d]\\n1a2a3b3c4d5- actual: ${toTestStringCalculator.Add("//[a][b][c][d]\n1a2a3b3c4d5")}`);
     toTestStringCalculator.Add("//[***][#][%]\n10***2#3%4") === 19 ? tests.push("Step 11 many delimiters test cases succeeded - //[***][#][%]\\n10***2#3%4") : tests.push(`Step 11 many delimiters //[***][#][%]\\n10***2#3%4- actual: ${toTestStringCalculator.Add("//[***][#][%]\n10***2#3%4")}`);
     toTestStringCalculator.Add("//[///][*][#][%]\n1***2#3%4///5") === 15 ? tests.push("Step 11 many delimiters test cases succeeded - //[///][*][#][%]\\n1***2#3%4///5") : tests.push(`Step 11 many delimiters //[///][*][#][%]\\n1***2#3%4///5- actual: ${toTestStringCalculator.Add("//[///][*][#][%]\n1***2#3%4///5")}`);
-
+   
     for (let i = 0; i < tests.length; i++) {
         console.log(tests[i])
     }
