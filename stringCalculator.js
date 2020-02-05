@@ -351,7 +351,7 @@ const testerAdd = () => {
     toTestStringCalculator.Add("//[*][%]\n1*2%3") === 6 ? tests.push("Step 10 many delimiters test cases succeeded - //[*][%]\\n1*2%3") : tests.push(`Step 10 many delimiters //[*][%]\\n1*2%3 - actual: ${toTestStringCalculator.Add("//[*][%]\\n1*2%3")}`);
     toTestStringCalculator.Add("//[a][b][c][d]\n1a2a3b3c4d5") === 18 ? tests.push("Step 10 many delimiters test cases succeeded - //[a][b][c][d]\\n1a2a3b3c4d5") : tests.push(`Step 10 many delimiters //[a][b][c][d]\\n1a2a3b3c4d5- actual: ${toTestStringCalculator.Add("//[a][b][c][d]\n1a2a3b3c4d5")}`);
     toTestStringCalculator.Add("//[***][#][%]\n10***2#3%4") === 19 ? tests.push("Step 11 many delimiters test cases succeeded - //[***][#][%]\\n10***2#3%4") : tests.push(`Step 11 many delimiters //[***][#][%]\\n10***2#3%4- actual: ${toTestStringCalculator.Add("//[***][#][%]\n10***2#3%4")}`);
-    toTestStringCalculator.Add("//[///][*][#][%]\n1***2#3%4///5") === 15 ? tests.push("Step 11 many delimiters test cases succeeded - //[///][*][#][%]\\n1***2#3%4///5") : tests.push(`Step 11 many delimiters //[///][*][#][%]\\n1***2#3%4///5- actual: ${toTestStringCalculator.Add("//[///][*][#][%]\n1***2#3%4///5")}`);
+    toTestStringCalculator.Add("//[///][*][#][%]\n1///2#3%4///5") === 15 ? tests.push("Step 11 many delimiters test cases succeeded - //[///][*][#][%]\\n1///2#3%4///5") : tests.push(`Step 11 many delimiters //[///][*][#][%]\\n1///2#3%4///5- actual: ${toTestStringCalculator.Add("//[///][*][#][%]\n1///2#3%4///5")}`);
    
     for (let i = 0; i < tests.length; i++) {
         console.log(tests[i])
