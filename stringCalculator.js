@@ -109,8 +109,7 @@ class stringCalculator {
 
     isCommaOrBreakLineSeparatorFormat = `^[0-9]+(,[0-9]+)*(\n[0-9]+)*(,[0-9]+)*$` //Eg.123 or 1,2,3 or 3\n5\n3,9 or 1,2\n3
     isCustomSeparatorFormat = /^\/\/.\n/ //Eg. //;\n1;2;7  //-\n1-2   
-    isCustomSeparatorAnyLengthFormat = /^\/\/\[.+\]\n/ //Eg. //[***]\n1***2***3   //[!*--*]\n1!*--*20!*--*3
-    isManyCustomSeparatorsFormat = /^\/\/(\[.+\])+\n/ //Eg. //[a][b][c][d]\n1a2a3b3c4d5
+    isManyCustomSeparatorsAnyLengthFormat = /^\/\/(\[.+\])+\n/ //Eg. //[a][b][c][d]\n1a2a3b3c4d5
     hasNegativeNumbersFormat = `^-{1}[0-9]+` //Eg. -1,2,-3
     commaAsDelimiter = ','
     inputAsArray = new Array
@@ -142,8 +141,9 @@ class stringCalculator {
             return this.getSumOfElements()
         }
 
-        if (this.isManyCustomDelimitersWithLengthOne(userInput)) { // [a][b][c][d]\n1a2a3b3c4d5
-            this.handleManyCustomDelimitersWithLengthOne(userInput)
+        if (this.isManyCustomDelimitersAnyLength(userInput)) { // [a][b][c][d]\n1a2a3b3c4d5
+            this.handleManyCustomDelimitersAnyLength(userInput)
+            this.inputAsArray = this.inputAsArray.split(',')
             return this.getSumOfElements()
         }
     }
@@ -159,7 +159,7 @@ class stringCalculator {
         this.convertInputWithCustomSeparatorIntoArray(inputToSum, userCustomDelimiter)
     }
 
-    handleManyCustomDelimitersWithLengthOne(userInput) {
+    handleManyCustomDelimitersAnyLength(userInput) {
         this.handleInputBeforeBreakLine(userInput)
         this.handleInputAfterBreakLine(userInput)
     }
@@ -184,8 +184,7 @@ class stringCalculator {
 
     removeAllCustomDelimitersFromInput() {
         for (let i = 0; i < this.customDelimiter.length; i++) {
-            console.log(`this.removeCustomDelimiterFromInput(this.inputAsArray, this.customDelimiter[i]): ${this.removeCustomDelimiterFromInput(this.inputAsArray, this.customDelimiter[i])}`)
-            this.inputAsArray = this.removeCustomDelimiterFromInput(this.inputAsArray, this.customDelimiter[i])
+           this.inputAsArray = this.removeCustomDelimiterFromInput(this.inputAsArray, this.customDelimiter[i])
         }
     }
 
@@ -278,12 +277,8 @@ class stringCalculator {
         return userInput.match(this.isCustomSeparatorFormat)
     }
 
-    isCustomAnyLengthDelimiter(userInput) {
-        return userInput.match(this.isCustomSeparatorAnyLengthFormat)
-    }
-
-    isManyCustomDelimitersWithLengthOne(userInput) {
-        return userInput.match(this.isManyCustomSeparatorsFormat)
+    isManyCustomDelimitersAnyLength(userInput) {
+        return userInput.match(this.isManyCustomSeparatorsAnyLengthFormat)
     }
 
     isInputEmpty(userInput) {
@@ -309,9 +304,9 @@ class stringCalculator {
             let inputWithoutSpecialCharacters = this.escapeRegExp(userInputWithManyDelimiters)
             let delimiterWithoutSpecialCharacters = this.escapeRegExp(usingDelimiter)
             let delimiterWithoutSpecialCharactersAsREx = new RegExp(delimiterWithoutSpecialCharacters, 'gi');
-            this.inputAsArray = inputWithoutSpecialCharacters.replace(delimiterWithoutSpecialCharactersAsREx, '')
-        }else{
-            this.inputAsArray = userInputWithManyDelimiters.replace(usingDelimiter, '')
+            this.inputAsArray = inputWithoutSpecialCharacters.replace(delimiterWithoutSpecialCharactersAsREx, ',')
+        } else {
+            this.inputAsArray = userInputWithManyDelimiters.replace(usingDelimiter, ',')
         }
         return this.inputAsArray
     }
@@ -342,33 +337,33 @@ class stringCalculator {
 
 var tests = new Array()
 const testerAdd = () => {
-    // toTestStringCalculator.Add("") === 0 ? tests.push("Step 1 empty string returns cero test case succeeded") : tests.push(`Step 1 empty string expected: cero - actual: ${toTestStringCalculator.Add("")}`);
-    // toTestStringCalculator.Add("1") === 1 ? tests.push("Step 2 string 1 returns 1 test case succeeded") : tests.push(`Step 2 string 1 returns 1 - actual: ${toTestStringCalculator.Add("1")}`);
-    // toTestStringCalculator.Add("3") === 3 ? tests.push("Step 2 string 3 returns integer 3 test case succeeded") : tests.push(`Step 2 string 3 returns integer 3 - actual: ${toTestStringCalculator.Add("3")}`);
-    // toTestStringCalculator.Add("10") === 10 ? tests.push("Step 2 string 10 returns integer 10 test case succeeded") : tests.push(`Step 2 string 10 returns integer 10 - actual: ${toTestStringCalculator.Add("10")}`);
-    // toTestStringCalculator.Add("1,2") === 3 ? tests.push("Step 3 string 1,2 returns 3 test case succeeded") : tests.push(`Step 3 string 1,2 returns 3 - actual: ${toTestStringCalculator.Add("1,2")}`);
-    // toTestStringCalculator.Add("3,50") === 53 ? tests.push("Step 3 string 3,50 returns integer 53 test case succeeded") : tests.push(`Step 3 string 3,50 returns integer 53 - actual: ${toTestStringCalculator.Add("3,50")}`);
-    // toTestStringCalculator.Add("1,2,3") === 6 ? tests.push("Step 4 string 1,2,3 returns 6 test case succeeded") : tests.push(`Step 4 string 1,2,3 returns 6 - actual: ${toTestStringCalculator.Add("1,2,3")}`);
-    // toTestStringCalculator.Add("3,5,3,9") === 20 ? tests.push("Step 4 string 3,5,3,9 returns integer 20 test case succeeded") : tests.push(`Step 4 string 3,5,3,9 returns integer 20 - actual: ${toTestStringCalculator.Add("3,5,3,9")}`);
-    // toTestStringCalculator.Add("1,2\n3") === 6 ? tests.push("Step 5 string 1,2\\n3 returns 6 test case succeeded") : tests.push(`Step 5 string 1,2\\n3 returns 6 - actual: ${toTestStringCalculator.Add("1,2\n3")}`);
-    // toTestStringCalculator.Add("3\n5\n30,9") === 47 ? tests.push("Step 5 string 3\\n5\\n30,9 returns integer 47 test case succeeded") : tests.push(`Step 5 string 3\\n5\\n30,9 returns integer 20 - actual: ${toTestStringCalculator.Add("3\n5\n30,9")}`);
-    // toTestStringCalculator.Add("//;\n1;20") === 21 ? tests.push("Step 6 string //;\\n1;20 returns integer 21 test case succeeded") : tests.push(`Step 6 string //;\\n1;20 returns integer 21 - actual: ${toTestStringCalculator.Add("//;\n1;20")}`);
-    // toTestStringCalculator.Add("//-\n1-44") === 45 ? tests.push("Step 6 string //-\\n1-2 returns integer 45 test case succeeded") : tests.push(`Step 6 string //-\\n1-2 returns integer 45 - actual: ${toTestStringCalculator.Add("//-\n1-2")}`);
-    // toTestStringCalculator.Add("//-\n1-44-100") === 145 ? tests.push("Step 6 string //-\\n1-2-100 returns integer 145 test case succeeded") : tests.push(`Step 6 string //-\\n1-2-100 returns integer 145 - actual: ${toTestStringCalculator.Add("//-\n1-2-100")}`);
-    // toTestStringCalculator.Add("-1,2,-3") === 'Negatives not allowed: -1, -3' ? tests.push("Step 7 Negatives not allowed: -1, -3 test cases succeeded") : tests.push(`Step 7 Negatives not allowed: -1, -3 - actual: ${toTestStringCalculator.Add("-1,2,-3")}`);
-    // toTestStringCalculator.Add("1,-20,-30,1") === 'Negatives not allowed: -20, -30' ? tests.push("Step 7 Negatives not allowed: -20, -30 test cases succeeded") : tests.push(`Step 7 Negatives not allowed: -20, -30 - actual: ${toTestStringCalculator.Add("1,-20,-30,1")}`);
-    // toTestStringCalculator.Add("1000,1001,2") === 2 ? tests.push("Step 8 numbers grater than 1000 are ignored test cases succeeded") : tests.push(`Step 8 numbers grater than 1000 are ignored - actual: ${toTestStringCalculator.Add("1000,1001,2")}`);
-    // toTestStringCalculator.Add("1000,1001,2,2000,1,5000") === 3 ? tests.push("Step 8 numbers grater than 1000 are ignored test cases succeeded") : tests.push(`Step 8 numbers grater than 1000 are ignored - actual: ${toTestStringCalculator.Add("1000,1001,2,2000,1,5000")}`);
-    // toTestStringCalculator.Add("2,2000,10") === 12 ? tests.push("Step 8 numbers grater than 1000 are ignored test cases succeeded") : tests.push(`Step 8 numbers grater than 1000 are ignored - actual: ${toTestStringCalculator.Add("2,2000,10")}`);
-    // toTestStringCalculator.Add("//[*]\n1*2") === 3 ? tests.push("Step 9 custom delimiter can have any size test cases succeeded - //[*]\\n1*2") : tests.push(`Step 9 custom delimiter can have any size //[*]\\n1*2 - actual: ${toTestStringCalculator.Add("//[*]\n1*2")}`);
-    // toTestStringCalculator.Add("//[+]\n1+2") === 3 ? tests.push("Step 9 custom delimiter can have any size test cases succeeded - //[+]\\n1+2") : tests.push(`Step 9 custom delimiter can have any size //[+]\\n1+2 - actual: ${toTestStringCalculator.Add("//[+]\n1+2")}`);
-    // toTestStringCalculator.Add("//[*]\n1*2") === 3 ? tests.push("Step 9 custom delimiter can have any size test cases succeeded - //[*]\\n1*2") : tests.push(`Step 9 custom delimiter can have any size //[*]\\n1*2 - actual: failed`);
-    // toTestStringCalculator.Add("//[***]\n1***2***3") === 6 ? tests.push("Step 9 custom delimiter can have any size test cases succeeded - //[***]\\n1***2***3") : tests.push(`Step 9 custom delimiter can have any size //[***]\\n1***2***3 - actual: ${toTestStringCalculator.Add("//[***]\n1***2***3")}`);
+    toTestStringCalculator.Add("") === 0 ? tests.push("Step 1 empty string returns cero test case succeeded") : tests.push(`Step 1 empty string expected: cero - actual: ${toTestStringCalculator.Add("")}`);
+    toTestStringCalculator.Add("1") === 1 ? tests.push("Step 2 string 1 returns 1 test case succeeded") : tests.push(`Step 2 string 1 returns 1 - actual: ${toTestStringCalculator.Add("1")}`);
+    toTestStringCalculator.Add("3") === 3 ? tests.push("Step 2 string 3 returns integer 3 test case succeeded") : tests.push(`Step 2 string 3 returns integer 3 - actual: ${toTestStringCalculator.Add("3")}`);
+    toTestStringCalculator.Add("10") === 10 ? tests.push("Step 2 string 10 returns integer 10 test case succeeded") : tests.push(`Step 2 string 10 returns integer 10 - actual: ${toTestStringCalculator.Add("10")}`);
+    toTestStringCalculator.Add("1,2") === 3 ? tests.push("Step 3 string 1,2 returns 3 test case succeeded") : tests.push(`Step 3 string 1,2 returns 3 - actual: ${toTestStringCalculator.Add("1,2")}`);
+    toTestStringCalculator.Add("3,50") === 53 ? tests.push("Step 3 string 3,50 returns integer 53 test case succeeded") : tests.push(`Step 3 string 3,50 returns integer 53 - actual: ${toTestStringCalculator.Add("3,50")}`);
+    toTestStringCalculator.Add("1,2,3") === 6 ? tests.push("Step 4 string 1,2,3 returns 6 test case succeeded") : tests.push(`Step 4 string 1,2,3 returns 6 - actual: ${toTestStringCalculator.Add("1,2,3")}`);
+    toTestStringCalculator.Add("3,5,3,9") === 20 ? tests.push("Step 4 string 3,5,3,9 returns integer 20 test case succeeded") : tests.push(`Step 4 string 3,5,3,9 returns integer 20 - actual: ${toTestStringCalculator.Add("3,5,3,9")}`);
+    toTestStringCalculator.Add("1,2\n3") === 6 ? tests.push("Step 5 string 1,2\\n3 returns 6 test case succeeded") : tests.push(`Step 5 string 1,2\\n3 returns 6 - actual: ${toTestStringCalculator.Add("1,2\n3")}`);
+    toTestStringCalculator.Add("3\n5\n30,9") === 47 ? tests.push("Step 5 string 3\\n5\\n30,9 returns integer 47 test case succeeded") : tests.push(`Step 5 string 3\\n5\\n30,9 returns integer 20 - actual: ${toTestStringCalculator.Add("3\n5\n30,9")}`);
+    toTestStringCalculator.Add("//;\n1;20") === 21 ? tests.push("Step 6 string //;\\n1;20 returns integer 21 test case succeeded") : tests.push(`Step 6 string //;\\n1;20 returns integer 21 - actual: ${toTestStringCalculator.Add("//;\n1;20")}`);
+    toTestStringCalculator.Add("//-\n1-44") === 45 ? tests.push("Step 6 string //-\\n1-2 returns integer 45 test case succeeded") : tests.push(`Step 6 string //-\\n1-2 returns integer 45 - actual: ${toTestStringCalculator.Add("//-\n1-2")}`);
+    toTestStringCalculator.Add("//-\n1-44-100") === 145 ? tests.push("Step 6 string //-\\n1-2-100 returns integer 145 test case succeeded") : tests.push(`Step 6 string //-\\n1-2-100 returns integer 145 - actual: ${toTestStringCalculator.Add("//-\n1-2-100")}`);
+    toTestStringCalculator.Add("-1,2,-3") === 'Negatives not allowed: -1, -3' ? tests.push("Step 7 Negatives not allowed: -1, -3 test cases succeeded") : tests.push(`Step 7 Negatives not allowed: -1, -3 - actual: ${toTestStringCalculator.Add("-1,2,-3")}`);
+    toTestStringCalculator.Add("1,-20,-30,1") === 'Negatives not allowed: -20, -30' ? tests.push("Step 7 Negatives not allowed: -20, -30 test cases succeeded") : tests.push(`Step 7 Negatives not allowed: -20, -30 - actual: ${toTestStringCalculator.Add("1,-20,-30,1")}`);
+    toTestStringCalculator.Add("1000,1001,2") === 2 ? tests.push("Step 8 numbers grater than 1000 are ignored test cases succeeded") : tests.push(`Step 8 numbers grater than 1000 are ignored - actual: ${toTestStringCalculator.Add("1000,1001,2")}`);
+    toTestStringCalculator.Add("1000,1001,2,2000,1,5000") === 3 ? tests.push("Step 8 numbers grater than 1000 are ignored test cases succeeded") : tests.push(`Step 8 numbers grater than 1000 are ignored - actual: ${toTestStringCalculator.Add("1000,1001,2,2000,1,5000")}`);
+    toTestStringCalculator.Add("2,2000,10") === 12 ? tests.push("Step 8 numbers grater than 1000 are ignored test cases succeeded") : tests.push(`Step 8 numbers grater than 1000 are ignored - actual: ${toTestStringCalculator.Add("2,2000,10")}`);
+    toTestStringCalculator.Add("//[*]\n1*2") === 3 ? tests.push("Step 9 custom delimiter can have any size test cases succeeded - //[*]\\n1*2") : tests.push(`Step 9 custom delimiter can have any size //[*]\\n1*2 - actual: ${toTestStringCalculator.Add("//[*]\n1*2")}`);
+    toTestStringCalculator.Add("//[+]\n1+2") === 3 ? tests.push("Step 9 custom delimiter can have any size test cases succeeded - //[+]\\n1+2") : tests.push(`Step 9 custom delimiter can have any size //[+]\\n1+2 - actual: ${toTestStringCalculator.Add("//[+]\n1+2")}`);
+    toTestStringCalculator.Add("//[*]\n1*2") === 3 ? tests.push("Step 9 custom delimiter can have any size test cases succeeded - //[*]\\n1*2") : tests.push(`Step 9 custom delimiter can have any size //[*]\\n1*2 - actual: failed`);
+    toTestStringCalculator.Add("//[***]\n1***2***3") === 6 ? tests.push("Step 9 custom delimiter can have any size test cases succeeded - //[***]\\n1***2***3") : tests.push(`Step 9 custom delimiter can have any size //[***]\\n1***2***3 - actual: ${toTestStringCalculator.Add("//[***]\n1***2***3")}`);
     toTestStringCalculator.Add("//[!*--*]\n1!*--*20!*--*3") === 24 ? tests.push("Step 9 custom delimiter can have any size test cases succeeded - //[!*--*]\\n1!*--*20!*--*3") : tests.push(`Step 9 custom delimiter can have any size //[!*--*]\\n1!*--*20!*--*3 - actual: failed`); // ${toTestStringCalculator.Add("//[!*--*]\\n1!*--*20!*--*3")}
-    // toTestStringCalculator.Add("//[*][%]\n1*2%3") === 6 ? tests.push("Step 10 many delimiters test cases succeeded - //[*][%]\\n1*2%3") : tests.push(`Step 10 many delimiters //[*][%]\\n1*2%3 - actual: ${toTestStringCalculator.Add("//[*][%]\\n1*2%3")}`);
-    // toTestStringCalculator.Add("//[a][b][c][d]\n1a2a3b3c4d5") === 18 ? tests.push("Step 10 many delimiters test cases succeeded - //[a][b][c][d]\\n1a2a3b3c4d5") : tests.push(`Step 10 many delimiters //[a][b][c][d]\\n1a2a3b3c4d5- actual: ${toTestStringCalculator.Add("//[a][b][c][d]\n1a2a3b3c4d5")}`);
-    // toTestStringCalculator.Add("//[***][#][%]\n1***2#3%4") === 10 ? tests.push("Step 11 many delimiters test cases succeeded - //[***][#][%]\\n1***2#3%4") : tests.push(`Step 11 many delimiters //[***][#][%]\\n1***2#3%4- actual: ${toTestStringCalculator.Add("//[***][#][%]\n1***2#3%4")}`);
-    // toTestStringCalculator.Add("//[///][*][#][%]\n1***2#3%4///5") === 15 ? tests.push("Step 11 many delimiters test cases succeeded - //[///][*][#][%]\\n1***2#3%4///5") : tests.push(`Step 11 many delimiters //[///][*][#][%]\\n1***2#3%4///5- actual: ${toTestStringCalculator.Add("//[///][*][#][%]\n1***2#3%4///5")}`);
+    toTestStringCalculator.Add("//[*][%]\n1*2%3") === 6 ? tests.push("Step 10 many delimiters test cases succeeded - //[*][%]\\n1*2%3") : tests.push(`Step 10 many delimiters //[*][%]\\n1*2%3 - actual: ${toTestStringCalculator.Add("//[*][%]\\n1*2%3")}`);
+    toTestStringCalculator.Add("//[a][b][c][d]\n1a2a3b3c4d5") === 18 ? tests.push("Step 10 many delimiters test cases succeeded - //[a][b][c][d]\\n1a2a3b3c4d5") : tests.push(`Step 10 many delimiters //[a][b][c][d]\\n1a2a3b3c4d5- actual: ${toTestStringCalculator.Add("//[a][b][c][d]\n1a2a3b3c4d5")}`);
+    toTestStringCalculator.Add("//[***][#][%]\n10***2#3%4") === 19 ? tests.push("Step 11 many delimiters test cases succeeded - //[***][#][%]\\n10***2#3%4") : tests.push(`Step 11 many delimiters //[***][#][%]\\n10***2#3%4- actual: ${toTestStringCalculator.Add("//[***][#][%]\n10***2#3%4")}`);
+    toTestStringCalculator.Add("//[///][*][#][%]\n1***2#3%4///5") === 15 ? tests.push("Step 11 many delimiters test cases succeeded - //[///][*][#][%]\\n1***2#3%4///5") : tests.push(`Step 11 many delimiters //[///][*][#][%]\\n1***2#3%4///5- actual: ${toTestStringCalculator.Add("//[///][*][#][%]\n1***2#3%4///5")}`);
 
     for (let i = 0; i < tests.length; i++) {
         console.log(tests[i])
