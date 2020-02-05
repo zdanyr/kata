@@ -93,20 +93,6 @@ Note, a delimiter of 1DD or DD1 is not valid as it has a number on the edge of i
 - Multiple delimiter of any length  
 */
 
-//TODO: 
-//1- use tests rather than console.log
-//2- use debugger
-//3- read clean code javascript
-//how do i would do it without regular expressions?
-
-/*
-### Step 12 
-Handle delimiters that have numbers as part of them, where the number cannot be on the edge of a delimiter.  
-~~~
-Add("//[*1*][%]\n1*1*2%3") > Returns 6  
-~~~
-Note, a delimiter of 1DD or DD1 is not valid as it has a number on the edge of it. D1D is a valid delimiter. 
-*/
 class stringCalculator {
 
     isCommaOrBreakLineSeparatorFormat = `^[0-9]+(,[0-9]+)*(\n[0-9]+)*(,[0-9]+)*$` //Eg.123 or 1,2,3 or 3\n5\n3,9 or 1,2\n3
@@ -356,7 +342,7 @@ const testerAdd = () => {
     toTestStringCalculator.Add("//[///][*][#][%]\n1///2#3%4///5") === 15 ? tests.push("Step 11 many delimiters test cases succeeded - //[///][*][#][%]\\n1///2#3%4///5") : tests.push(`Step 11 many delimiters //[///][*][#][%]\\n1///2#3%4///5- actual: ${toTestStringCalculator.Add("//[///][*][#][%]\n1///2#3%4///5")}`);
     toTestStringCalculator.Add("//[*1*][%]\n1*1*2%3") === 6 ? tests.push("Step 12 delimiters with numbers test cases succeeded - //[*1*][%]\n1*1*2%3") : tests.push(`Step 12 delimiters with numbers //[*1*][%]\n1*1*2%3 - actual: ${toTestStringCalculator.Add("//[*1*][%]\n1*1*2%3")}`);
     toTestStringCalculator.Add("//[/1*][%]\n1/1*2%3") === 6 ? tests.push("Step 12 delimiters with numbers test cases succeeded - //[/1*][%]\n1/1*2%3") : tests.push(`Step 12 delimiters with numbers //[/1*][%]\n1/1*2%3 - actual: ${toTestStringCalculator.Add("//[/1*][%]\n1/1*2%3")}`);
-    toTestStringCalculator.Add("//[*1*][%%]\n1*1*2%%3") === 6 ? tests.push("Step 12 delimiters with numbers test cases succeeded - //[*1*][%%]\n1*1*2%%3") : tests.push(`Step 12 delimiters with numbers //[*1*][%%]\n1*1*2%%3 - actual: ${toTestStringCalculator.Add("//[*1*][%%]\n1*1*2%%3")}`);
+    toTestStringCalculator.Add("//[**1*][%%]\n1**1*2%%3") === 6 ? tests.push("Step 12 delimiters with numbers test cases succeeded - //[**1*][%%]\n1**1*2%%3") : tests.push(`Step 12 delimiters with numbers //[**1*][%%]\n1**1*2%%3 - actual: ${toTestStringCalculator.Add("//[**1*][%%]\n1**1*2%%3")}`);
    
 
     for (let i = 0; i < tests.length; i++) {
