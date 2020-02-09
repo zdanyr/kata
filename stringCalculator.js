@@ -184,11 +184,7 @@ class stringCalculator {
 
     hasValueGraterThan1000(userInput) {
         this.convertInputWithCustomSeparatorIntoArray(userInput, this.commaAsDelimiter)
-        return this.inputAsArray.some(this.HasSomeValueGraterThan1000)
-    }
-
-    HasSomeValueGraterThan1000(value) {
-        return value >= 1000
+        return this.inputAsArray.some(x => x >= 1000)
     }
 
     removeValuesGraterThan1000() {
@@ -278,8 +274,6 @@ class stringCalculator {
         return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
     }
 
-    foo() { }
-
     removeCustomDelimiterFromInput(userInputWithManyDelimiters, usingDelimiter) {
         let delimiterWithoutSpecialCharacters = this.escapeRegExp(usingDelimiter)
         let delimiterWithoutSpecialCharactersAsREx = new RegExp(delimiterWithoutSpecialCharacters, 'gi');
@@ -343,7 +337,7 @@ const testerAdd = () => {
     toTestStringCalculator.Add("//[*1*][%]\n1*1*2%3") === 6 ? tests.push("Step 12 delimiters with numbers test cases succeeded - //[*1*][%]\n1*1*2%3") : tests.push(`Step 12 delimiters with numbers //[*1*][%]\n1*1*2%3 - actual: ${toTestStringCalculator.Add("//[*1*][%]\n1*1*2%3")}`);
     toTestStringCalculator.Add("//[/1*][%]\n1/1*2%3") === 6 ? tests.push("Step 12 delimiters with numbers test cases succeeded - //[/1*][%]\n1/1*2%3") : tests.push(`Step 12 delimiters with numbers //[/1*][%]\n1/1*2%3 - actual: ${toTestStringCalculator.Add("//[/1*][%]\n1/1*2%3")}`);
     toTestStringCalculator.Add("//[**1*][%%]\n1**1*2%%3") === 6 ? tests.push("Step 12 delimiters with numbers test cases succeeded - //[**1*][%%]\n1**1*2%%3") : tests.push(`Step 12 delimiters with numbers //[**1*][%%]\n1**1*2%%3 - actual: ${toTestStringCalculator.Add("//[**1*][%%]\n1**1*2%%3")}`);
-   
+
 
     for (let i = 0; i < tests.length; i++) {
         console.log(tests[i])
